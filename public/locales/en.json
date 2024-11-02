@@ -65,5 +65,8 @@
   "Index": "Index",
   "Schedule": "Schedule",
   "Message": "Message",
-  "My": "My"
+  "My": "My",
+  "I agree": "I agree",
+  "Login Tip": "Verifying user identity, please wait",
+  "Logout Tip": "Logging out, please wait"
 }

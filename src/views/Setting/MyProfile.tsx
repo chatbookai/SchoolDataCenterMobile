@@ -38,7 +38,7 @@ const ContentWrapper = styled('main')(({ theme }) => ({
   }
 }))
 
-const MyProfile = ({  }: any) => {
+const MyProfile = ({ handleLogout }: any) => {
 
   // ** Hook
   const { t, i18n } = useTranslation()
@@ -372,7 +372,7 @@ const MyProfile = ({  }: any) => {
                               <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>null}>
                                 <Icon icon='material-symbols:logout' fontSize={34} />
                               </IconButton>
-                              <Box sx={{ ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>null}
+                              <Box sx={{ ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleLogout()}
                                 >
                                 <Typography sx={{
                                   color: 'text.primary',
@@ -383,17 +383,6 @@ const MyProfile = ({  }: any) => {
                                 >
                                   {t('Logout')}
                                 </Typography>
-                                <Box sx={{ display: 'flex'}}>
-                                  <Typography variant='body2' sx={{
-                                    color: `secondary.primary`,
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                    flex: 1
-                                  }}>
-                                    {authConfig.AppVersion}
-                                  </Typography>
-                                </Box>
                               </Box>
                             </Box>
                           </Card>

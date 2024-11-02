@@ -65,5 +65,8 @@
   "Index": "首页",
   "Schedule": "课表",
   "Message": "消息",
-  "My": "我的"
+  "My": "我的",
+  "I agree": "我同意",
+  "Login Tip": "用户身份校验中，请稍等",
+  "Logout Tip": "正在退出,请稍等"
 }

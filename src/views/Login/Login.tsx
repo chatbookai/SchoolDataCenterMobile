@@ -211,7 +211,7 @@ const Login = ({ setCurrentTab }: any) => {
                   justifyContent: 'center'
                 }}
               >
-                <CustomAvatar src={authConfig.AppLogo} sx={{ m: 6, width: 60, height: 60 }} />
+                <CustomAvatar src={authConfig.AppLogo} sx={{ m: 8, width: 60, height: 60 }} />
               </Box>
               <Box
                 sx={{
@@ -243,7 +243,7 @@ const Login = ({ setCurrentTab }: any) => {
                       <TextField
                         size='small'
                         autoFocus
-                        label='用户名'
+                        label={t('Username')}
                         value={value}
                         onBlur={onBlur}
                         onChange={onChange}
@@ -256,7 +256,7 @@ const Login = ({ setCurrentTab }: any) => {
                 </FormControl>
                 <FormControl fullWidth sx={{ mt: 1 }}>
                   <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                    密码
+                    {t('Password')}
                   </InputLabel>
                   <Controller
                     name='password'
@@ -267,7 +267,7 @@ const Login = ({ setCurrentTab }: any) => {
                         size='small'
                         value={value}
                         onBlur={onBlur}
-                        label='密码'
+                        label={t('Password')}
                         onChange={onChange}
                         id='auth-login-v2-password'
                         error={Boolean(errors.password)}
@@ -303,9 +303,9 @@ const Login = ({ setCurrentTab }: any) => {
                           control={<Checkbox checked={value} onChange={onChange} />}
                           label={
                             <Fragment>
-                              <span>我同意 </span>
-                              <Button variant='text' onClick={()=>handleClickTermsOfUseButton()} sx={{ml: 1}}>使用协议</Button>
-                              <Button variant='text' onClick={()=>handleClickPrivacyPolicyButton()} sx={{mx: 1}}>隐私政策</Button>
+                              <span>{t('I agree')} </span>
+                              <Button variant='text' onClick={()=>handleClickTermsOfUseButton()} sx={{ml: 1}}>{t('Privacy Policy')}</Button>
+                              <Button variant='text' onClick={()=>handleClickPrivacyPolicyButton()} sx={{mx: 1}}>{t('Terms of Use')}</Button>
                             </Fragment>
                           }
                         />
@@ -315,7 +315,7 @@ const Login = ({ setCurrentTab }: any) => {
                   </FormControl>
                 </Box>
                 <Button fullWidth size='medium' type='submit' variant='contained' sx={{ mb: 7 }}>
-                  登录
+                {t('Login')}
                 </Button>
               </form>
             </BoxWrapper>

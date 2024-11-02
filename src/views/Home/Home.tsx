@@ -12,14 +12,17 @@ import Footer from '../Layout/Footer'
 import MyProfile from '../Setting/MyProfile'
 import Index from '../Index/Index'
 import Login from '../Login/Login'
+import { useTranslation } from 'react-i18next'
+import authConfig from '../../configs/auth'
 
 const Home = () => {
+  const { t } = useTranslation()
   const auth = useAuth()
-  const logout = auth.logout
   const refresh = auth.refresh
   const user:any = auth.user
 
   const [currentTab, setCurrentTab] = useState<string>('Loading')
+  const [loadingText, setLoadingText] = useState<string>(t('Login Tip') as string)
 
   useEffect(() => {
 
@@ -56,6 +59,14 @@ const Home = () => {
 
   }, []);
 
+  const handleLogout = () => {
+    setLoadingText(t('Logout Tip') as string)
+    window.localStorage.removeItem('userData')
+    window.localStorage.removeItem('GO_SYSTEM')
+    window.localStorage.removeItem(authConfig.storageTokenKeyName)
+    setCurrentTab("Login")
+  }
+
   console.log("currentTab - 60", currentTab)
 
   return (
@@ -69,12 +80,12 @@ const Home = () => {
                     height: '60px !important',
                   }}
                 />
-                <Typography sx={{mt: 10}}>{'用户身份校验中，请稍等'}</Typography>
+                <Typography sx={{mt: 10}}>{loadingText}</Typography>
             </Box>
         </Grid>
       )}
       {currentTab == "Login" && (<Login setCurrentTab={setCurrentTab} />)}
-      {currentTab == "MyProfile" && (<MyProfile logout={logout} />)}
+      {currentTab == "MyProfile" && (<MyProfile handleLogout={handleLogout} />)}
       {currentTab == "Index" && (<Index />)}
       {currentTab != "Loading" && currentTab != "Login" && (<Footer Hidden={false} setCurrentTab={setCurrentTab} currentTab={currentTab} />)}
 
