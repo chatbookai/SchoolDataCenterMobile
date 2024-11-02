@@ -11,21 +11,21 @@ export function isMobile(): boolean {
     const screenWidth = window.innerWidth;
     const userAgent = window.navigator.userAgent;
     if (screenWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
-      
+
       return true;
     }
   }
-  
+
   return false;
 }
 
 export function windowWidth(): number {
   if (typeof window !== 'undefined') {
     const screenWidth = window.innerWidth;
-    
+
     return screenWidth;
   }
-  
+
   return -1;
 }
 
@@ -48,4 +48,20 @@ export function DecryptDataAES256GCM(encrypted: string, iv: string, tag: string,
   return decrypted;
 }
 
+export function getUserLanguage() {
+  if(typeof window !== 'undefined')  {
+      const UserLanguage = window.localStorage.getItem("UserLanguage") || "zh-CN"
 
+      return UserLanguage
+  }
+  else {
+
+      return "en"
+  }
+};
+
+export function setUserLanguage(Language: string) {
+  window.localStorage.setItem("UserLanguage", Language)
+
+  return true
+};

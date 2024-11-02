@@ -22,6 +22,11 @@ import TermsofUse from './TermsofUse'
 import PrivacyPolicy from './PrivacyPolicy'
 import Link from 'next/link'
 
+import { useTranslation } from 'react-i18next'
+
+import { getUserLanguage, setUserLanguage  } from 'src/configs/functions'
+
+
 const ContentWrapper = styled('main')(({ theme }) => ({
   flexGrow: 1,
   width: '100%',
@@ -36,6 +41,7 @@ const ContentWrapper = styled('main')(({ theme }) => ({
 const MyProfile = ({  }: any) => {
 
   // ** Hook
+  const { t, i18n } = useTranslation()
   const { settings, saveSettings } = useSettings()
 
   const contentHeightFixed = {}
@@ -48,7 +54,15 @@ const MyProfile = ({  }: any) => {
   const [RightButtonText, setRightButtonText] = useState<string>('')
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
 
+  const [languageValue, setLanguageValue] = useState<string>(getUserLanguage())
   const [themeValue, setThemeValue] = useState<string>(settings.mode)
+
+  const LanguageArray = [
+    {name:'English', value:'en'},
+    {name:'Chinese', value:'zh-CN'},
+    {name:'Korean', value:'Kr'},
+    {name:'Russia', value:'Ru'}
+  ]
 
   const themeArray = [
     {name:'Dark', value:'dark'},
@@ -63,7 +77,7 @@ const MyProfile = ({  }: any) => {
     setRightButtonText('QR')
     setRightButtonIcon('')
   }
-  
+
   const LeftIconOnClick = () => {
     switch(pageModel) {
       case 'MyProfile':
@@ -86,17 +100,18 @@ const MyProfile = ({  }: any) => {
         break
     }
   }
-  
+
   const RightButtonOnClick = () => {
     switch(pageModel) {
         case 'Contacts':
           break
       }
   }
-    
+
   const [refreshWalletData, setRefreshWalletData] = useState<number>(0)
 
   useEffect(() => {
+    i18n.changeLanguage(getUserLanguage())
     setHeaderHidden(false)
     setRightButtonIcon('')
   }, []);
@@ -119,6 +134,15 @@ const MyProfile = ({  }: any) => {
     setRightButtonIcon('')
   }
 
+  const handleClickLanguageButton = () => {
+    setCounter(counter + 1)
+    setPageModel('Language')
+    setLeftIcon('mdi:arrow-left-thin')
+    setTitle(t('Language') as string)
+    setRightButtonText(t('') as string)
+    setRightButtonIcon('')
+  }
+
   const handleClickThemeButton = () => {
     setCounter(counter + 1)
     setPageModel('Theme')
@@ -126,6 +150,13 @@ const MyProfile = ({  }: any) => {
     setTitle('Theme')
     setRightButtonText('')
     setRightButtonIcon('')
+  }
+
+  const handleSelectLanguage = (Language: 'en' | 'zh-CN' | 'Ru' | 'Kr') => {
+    setLanguageValue(Language)
+    setTitle(Language)
+    i18n.changeLanguage(Language)
+    setUserLanguage(Language)
   }
 
   const handleSelectTheme = (Theme: string) => {
@@ -163,8 +194,10 @@ const MyProfile = ({  }: any) => {
         sx={{
           flex: 1,
           overflowY: 'auto',
-          marginTop: '48px', // Adjust according to the height of the AppBar
+          overflowX: 'hidden',
+          marginTop: '35px', // Adjust according to the height of the AppBar
           marginBottom: '56px', // Adjust according to the height of the Footer
+          paddingTop: 'env(safe-area-inset-top)'
         }}
       >
         <ContentWrapper
@@ -176,8 +209,8 @@ const MyProfile = ({  }: any) => {
                 })
             }}
             >
-            
-            {pageModel == 'MyProfile' && ( 
+
+            {pageModel == 'MyProfile' && (
               <Grid container spacing={2}>
                 <Grid item xs={12} sx={{height: 'calc(100%)'}}>
                     <Grid container spacing={2}>
@@ -189,24 +222,24 @@ const MyProfile = ({  }: any) => {
                                 </IconButton>
                                 <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickGeneralButton()}
                                     >
-                                    <Typography sx={{ 
+                                    <Typography sx={{
                                       color: 'text.primary',
                                       overflow: 'hidden',
                                       textOverflow: 'ellipsis',
                                       whiteSpace: 'nowrap',
                                     }}
                                     >
-                                    {'General'}
+                                    {t('General')}
                                     </Typography>
                                     <Box sx={{ display: 'flex'}}>
-                                    <Typography variant='body2' sx={{ 
-                                        color: `secondary.primary`, 
+                                    <Typography variant='body2' sx={{
+                                        color: `secondary.primary`,
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis',
                                         whiteSpace: 'nowrap',
                                         flex: 1
                                     }}>
-                                        {'Edit language, currency and theme'}
+                                        {t('Edit language, currency and theme')}
                                     </Typography>
                                     </Box>
                                 </Box>
@@ -226,24 +259,24 @@ const MyProfile = ({  }: any) => {
                               </IconButton>
                               <Box sx={{ cursor: 'pointer', ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickSecurityPrivacyButton()}
                                 >
-                                <Typography sx={{ 
+                                <Typography sx={{
                                   color: 'text.primary',
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
                                   whiteSpace: 'nowrap',
                                 }}
                                 >
-                                  {'Security & Privacy'}
+                                  {t('Security & Privacy')}
                                 </Typography>
                                 <Box sx={{ display: 'flex'}}>
-                                  <Typography variant='body2' sx={{ 
-                                    color: `secondary.primary`, 
+                                  <Typography variant='body2' sx={{
+                                    color: `secondary.primary`,
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
                                     whiteSpace: 'nowrap',
                                     flex: 1
                                   }}>
-                                    {'Management applications, etc'}
+                                    {t('Management applications, etc')}
                                   </Typography>
                                 </Box>
                               </Box>
@@ -259,65 +292,22 @@ const MyProfile = ({  }: any) => {
                           <Card>
                             <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
                               <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>null}>
-                                <Icon icon='material-symbols:support-agent' fontSize={34} />
-                              </IconButton>
-                              <Box sx={{ ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>null}
-                                >
-                                <Typography sx={{ 
-                                  color: 'text.primary',
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  whiteSpace: 'nowrap',
-                                }}
-                                >
-                                  {'Support'}
-                                </Typography>
-                                <Box sx={{ display: 'flex'}}>
-                                  <Typography variant='body2' sx={{ 
-                                    color: `secondary.primary`, 
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                    flex: 1
-                                  }}>
-                                    {'Contact our customer support'}
-                                  </Typography>
-                                  <Link href={authConfig.Github} target='_blank'>
-                                    <Typography variant='body2' sx={{ 
-                                      color: `secondary.primary`, 
-                                      overflow: 'hidden',
-                                      textOverflow: 'ellipsis',
-                                      whiteSpace: 'nowrap',
-                                      flex: 1
-                                    }}>
-                                      {'Github'}
-                                    </Typography>
-                                  </Link>
-                                </Box>
-                              </Box>
-                            </Box>
-                          </Card>
-                        </Grid>
-                        <Grid item xs={12} sx={{ py: 1 }}>
-                          <Card>
-                            <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
-                              <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>null}>
                                 <Icon icon='material-symbols:help-outline' fontSize={34} />
                               </IconButton>
                               <Box sx={{ ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>null}
                                 >
-                                <Typography sx={{ 
+                                <Typography sx={{
                                   color: 'text.primary',
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
                                   whiteSpace: 'nowrap',
                                 }}
                                 >
-                                  {'Version'}
+                                  {t('Version')}
                                 </Typography>
                                 <Box sx={{ display: 'flex'}}>
-                                  <Typography variant='body2' sx={{ 
-                                    color: `secondary.primary`, 
+                                  <Typography variant='body2' sx={{
+                                    color: `secondary.primary`,
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
                                     whiteSpace: 'nowrap',
@@ -334,22 +324,22 @@ const MyProfile = ({  }: any) => {
                           <Card>
                             <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
                               <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>null}>
-                                <Icon icon='material-symbols:help-outline' fontSize={34} />
+                                <Icon icon='material-symbols:logout' fontSize={34} />
                               </IconButton>
                               <Box sx={{ ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>null}
                                 >
-                                <Typography sx={{ 
+                                <Typography sx={{
                                   color: 'text.primary',
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
                                   whiteSpace: 'nowrap',
                                 }}
                                 >
-                                  {'退出'}
+                                  {t('Logout')}
                                 </Typography>
                                 <Box sx={{ display: 'flex'}}>
-                                  <Typography variant='body2' sx={{ 
-                                    color: `secondary.primary`, 
+                                  <Typography variant='body2' sx={{
+                                    color: `secondary.primary`,
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
                                     whiteSpace: 'nowrap',
@@ -367,36 +357,73 @@ const MyProfile = ({  }: any) => {
               </Grid>
             )}
 
-            {pageModel == 'General' && ( 
+            {pageModel == 'General' && (
               <Grid container spacing={2}>
                 <Grid item xs={12} sx={{height: 'calc(100%)'}}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sx={{ py: 1 }}>
                           <Card>
                             <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                                <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
+                                    <Icon icon='clarity:language-line' fontSize={38} />
+                                </IconButton>
+                                <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickLanguageButton()}
+                                    >
+                                    <Typography sx={{
+                                    color: 'text.primary',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    }}
+                                    >
+                                    {t('Language') as string}
+                                    </Typography>
+                                    <Box sx={{ display: 'flex'}}>
+                                    <Typography variant='body2' sx={{
+                                        color: `secondary.primary`,
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        whiteSpace: 'nowrap',
+                                        flex: 1
+                                    }}>
+                                        {t('Language') as string}
+                                    </Typography>
+                                    </Box>
+                                </Box>
+                                <Box textAlign="right">
+                                    <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
+                                        <Icon icon='mdi:chevron-right' fontSize={30} />
+                                    </IconButton>
+                                </Box>
+                            </Box>
+                          </Card>
+                        </Grid>
+                        <Grid item xs={12} sx={{ py: 1 }}>
+                          <Card>
+                            <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
                               <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>handleClickThemeButton()}>
                                 <Icon icon='line-md:light-dark' fontSize={34} />
                               </IconButton>
-                              <Box sx={{ cursor: 'pointer', ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickThemeButton()}
+                              <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickThemeButton()}
                                 >
-                                <Typography sx={{ 
+                                <Typography sx={{
                                   color: 'text.primary',
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
                                   whiteSpace: 'nowrap',
                                 }}
                                 >
-                                  {'Theme'}
+                                  {t('Theme')}
                                 </Typography>
                                 <Box sx={{ display: 'flex'}}>
-                                  <Typography variant='body2' sx={{ 
-                                    color: `secondary.primary`, 
+                                  <Typography variant='body2' sx={{
+                                    color: `secondary.primary`,
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
                                     whiteSpace: 'nowrap',
                                     flex: 1
                                   }}>
-                                    {'Theme'}
+                                    {t('Theme')}
                                   </Typography>
                                 </Box>
                               </Box>
@@ -413,7 +440,7 @@ const MyProfile = ({  }: any) => {
               </Grid>
             )}
 
-            {pageModel == 'SecurityPrivacy' && ( 
+            {pageModel == 'SecurityPrivacy' && (
               <Grid container spacing={2}>
                 <Grid item xs={12} sx={{height: 'calc(100%)'}}>
                     <Grid container spacing={2}>
@@ -425,24 +452,24 @@ const MyProfile = ({  }: any) => {
                                 </IconButton>
                                 <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickTermsOfUseButton()}
                                     >
-                                    <Typography sx={{ 
+                                    <Typography sx={{
                                     color: 'text.primary',
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
                                     whiteSpace: 'nowrap',
                                     }}
                                     >
-                                    {'Terms of Use'}
+                                    {t('Terms of Use')}
                                     </Typography>
                                     <Box sx={{ display: 'flex'}}>
-                                    <Typography variant='body2' sx={{ 
-                                        color: `secondary.primary`, 
+                                    <Typography variant='body2' sx={{
+                                        color: `secondary.primary`,
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis',
                                         whiteSpace: 'nowrap',
                                         flex: 1
                                     }}>
-                                        {'Terms of Use'}
+                                        {t('Terms of Use')}
                                     </Typography>
                                     </Box>
                                 </Box>
@@ -462,24 +489,24 @@ const MyProfile = ({  }: any) => {
                                 </IconButton>
                                 <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickPrivacyPolicyButton()}
                                     >
-                                    <Typography sx={{ 
+                                    <Typography sx={{
                                     color: 'text.primary',
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
                                     whiteSpace: 'nowrap',
                                     }}
                                     >
-                                    {'Privacy Policy'}
+                                    {t('Privacy Policy')}
                                     </Typography>
                                     <Box sx={{ display: 'flex'}}>
-                                    <Typography variant='body2' sx={{ 
-                                        color: `secondary.primary`, 
+                                    <Typography variant='body2' sx={{
+                                        color: `secondary.primary`,
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis',
                                         whiteSpace: 'nowrap',
                                         flex: 1
                                     }}>
-                                        {'Privacy Policy'}
+                                        {t('Privacy Policy')}
                                     </Typography>
                                     </Box>
                                 </Box>
@@ -496,10 +523,39 @@ const MyProfile = ({  }: any) => {
               </Grid>
             )}
 
+            {pageModel == 'Language' && (
+                <Grid container spacing={2}>
+
+                    <RadioGroup row value={'value'}  sx={{width: '100%', mt: 1}} onClick={(e: any)=>e.target.value && handleSelectLanguage(e.target.value)}>
+                        {LanguageArray.map((Language: any, index: number) => {
+
+                            return (
+                                <Grid item xs={12} sx={{ py: 1 }} key={index}>
+                                    <Card sx={{ml: 2}}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                                            <Box sx={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', width: '100%', ml: 2 }} onClick={()=>handleSelectLanguage(Language.value)}>
+                                                <Typography sx={{ color: 'text.primary', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', }} >
+                                                    {Language.name}
+                                                </Typography>
+                                            </Box>
+                                            <Box textAlign="right" sx={{m: 0, p: 0}}>
+                                                <FormControlLabel value={Language.value} control={<Radio sx={{justifyContent: 'center', ml: 3, mr: 0}} checked={languageValue == Language.value}/>} label="" />
+                                            </Box>
+                                        </Box>
+                                    </Card>
+                                </Grid>
+                            )
+
+                        })}
+                    </RadioGroup>
+
+                </Grid>
+            )}
+
             {pageModel == 'Theme' && (
                 <Grid container spacing={2}>
 
-                    <RadioGroup row value={'value'}  sx={{width: '100%'}} onClick={(e: any)=>e.target.value && handleSelectTheme(e.target.value)}>
+                    <RadioGroup row value={'value'}  sx={{width: '100%', mt: 1}} onClick={(e: any)=>e.target.value && handleSelectTheme(e.target.value)}>
                         {themeArray.map((Theme: any, index: number) => {
 
                             return (
@@ -508,7 +564,7 @@ const MyProfile = ({  }: any) => {
                                         <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
                                             <Box sx={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', width: '100%', ml: 2 }}  onClick={()=>handleSelectTheme(Theme.value)}>
                                                 <Typography sx={{ color: 'text.primary', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', }} >
-                                                    {Theme.name}
+                                                    {t(Theme.name)}
                                                 </Typography>
                                             </Box>
                                             <Box textAlign="right" sx={{m: 0, p: 0}}>
@@ -525,16 +581,16 @@ const MyProfile = ({  }: any) => {
                 </Grid>
             )}
 
-            {pageModel == 'PrivacyPolicy' && ( 
-              <Grid container spacing={6}>
+            {pageModel == 'PrivacyPolicy' && (
+              <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <PrivacyPolicy />
                 </Grid>
               </Grid>
             )}
 
-            {pageModel == 'TermsOfUse' && ( 
-              <Grid container spacing={6}>
+            {pageModel == 'TermsOfUse' && (
+              <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TermsofUse />
                 </Grid>
