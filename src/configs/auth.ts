@@ -16,7 +16,7 @@ if(hostname == 'localhost' || hostname == '127.0.0.1')   {
   indexMenuspath = "auth/menus.php"
 }
 
-APP_URL = "http://110.90.174.66:8083/api/"
+APP_URL = "https://fdzz.dandian.net/api/"
 
 const config = {
   AppName: AppName,
