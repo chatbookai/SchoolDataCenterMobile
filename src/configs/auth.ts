@@ -16,6 +16,8 @@ if(hostname == 'localhost' || hostname == '127.0.0.1')   {
   indexMenuspath = "auth/menus.php"
 }
 
+APP_URL = "http://110.90.174.66:8083/api/"
+
 const config = {
   AppName: AppName,
   AppLogo: AppLogo,
