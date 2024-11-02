@@ -33,6 +33,7 @@ import AddOrEditTableLanguage from 'src/types/forms/AddOrEditTableLanguage';
 import Header from '../Layout/Header'
 import TermsofUse from '../Setting/TermsofUse'
 import PrivacyPolicy from '../Setting/PrivacyPolicy'
+import CustomAvatar from 'src/@core/components/mui/avatar'
 
 setLocale(AddOrEditTableLanguage);
 
@@ -44,6 +45,8 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
+import authConfig from '../../configs/auth'
+import { useTranslation } from 'react-i18next'
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -87,6 +90,7 @@ interface FormData {
 }
 
 const Login = ({ setCurrentTab }: any) => {
+  const { t } = useTranslation()
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const auth = useAuth()
@@ -184,13 +188,14 @@ const Login = ({ setCurrentTab }: any) => {
       <Box className='content-right'
         sx={{
           height: '100%',
-          backgroundColor: 'background.paper'
+          backgroundColor: 'background.paper',
         }}
       >
         <RightWrapper sx={{}}>
           <Box
             sx={{
               p: 12,
+              pt: 30,
               height: '100%',
               display: 'flex',
               alignItems: 'center',
@@ -199,6 +204,15 @@ const Login = ({ setCurrentTab }: any) => {
             }}
           >
             <BoxWrapper>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <CustomAvatar src={authConfig.AppLogo} sx={{ m: 6, width: 60, height: 60 }} />
+              </Box>
               <Box
                 sx={{
                   display: 'flex',
@@ -220,7 +234,7 @@ const Login = ({ setCurrentTab }: any) => {
                 </Typography>
               </Box>
               <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-                <FormControl fullWidth sx={{ mb: 4, mt: 12 }}>
+                <FormControl fullWidth sx={{ mb: 4, mt: 10 }}>
                   <Controller
                     name='username'
                     control={control}
@@ -310,16 +324,16 @@ const Login = ({ setCurrentTab }: any) => {
       </Box>
     )}
     {pageModel == 'PrivacyPolicy' && (
-      <Grid container spacing={6}>
-        <Grid item xs={12}>
+      <Grid container spacing={6} sx={{px:5, paddingTop: 'env(safe-area-inset-top)'}}>
+        <Grid item xs={12} mt={15} mb={5}>
           <PrivacyPolicy />
         </Grid>
       </Grid>
     )}
 
     {pageModel == 'TermsOfUse' && (
-      <Grid container spacing={6}>
-        <Grid item xs={12}>
+      <Grid container spacing={6} sx={{px:5, paddingTop: 'env(safe-area-inset-top)'}}>
+        <Grid item xs={12} mt={15} mb={5}>
           <TermsofUse />
         </Grid>
       </Grid>
