@@ -21,6 +21,7 @@ const config = {
   AppLogo: AppLogo,
   Github: 'https://github.com/chatbookai/SchoolDataCenter',
   AppVersion: '20241010',
+  defaultLanguage: 'zh-CN',
 
   meEndpoint: APP_URL+'jwt.php?action=refresh',
   loginEndpoint: APP_URL+'jwt.php?action=login',

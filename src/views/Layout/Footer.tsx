@@ -9,10 +9,11 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 
 import authConfig from 'src/configs/auth'
+import { useTranslation } from 'react-i18next'
 
 const Footer = (props: any) => {
-  // ** Props
-  const { footer, setCurrentTab, disabledFooter } = props
+  const { t } = useTranslation()
+  const { footer, setCurrentTab } = props
 
   const [value, setValue] = useState(0);
 
@@ -31,7 +32,7 @@ const Footer = (props: any) => {
           justifyContent: 'center',
           bottom: 0,
           position: 'fixed',
-          overflow: 'visible', 
+          overflow: 'visible',
         }}
       >
         <BottomNavigation
@@ -60,15 +61,14 @@ const Footer = (props: any) => {
           }}
           sx={{width: '100%'}}
         >
-          <BottomNavigationAction label={"首页"} disabled={disabledFooter} icon={<Icon icon='material-symbols:home-work-outline' />} />
-          <BottomNavigationAction label={"课表"} disabled={disabledFooter} icon={<Icon icon='uil:schedule' />} />
+          <BottomNavigationAction label={t("Index") as string} icon={<Icon icon='material-symbols:home-work-outline' />} />
+          <BottomNavigationAction label={t("Schedule") as string} icon={<Icon icon='uil:schedule' />} />
           <BottomNavigationAction
-            label={"应用"}
-            disabled={disabledFooter}
+            label={t("Apps") as string}
             icon={
               <img
                 src={authConfig.AppLogo}
-                alt='应用'
+                alt={t('Apps') as string}
                 style={{
                   width: '3.5rem', // 控制图片的宽度
                   height: '3.5rem', // 控制图片的高度
@@ -77,12 +77,12 @@ const Footer = (props: any) => {
               />
             }
             sx={{
-              position: 'relative', 
+              position: 'relative',
               bottom: '1rem',
             }}
           />
-          <BottomNavigationAction label={"消息"} disabled={disabledFooter} icon={<Icon icon='mdi:message-processing-outline' />} />
-          <BottomNavigationAction label={"我的"} disabled={disabledFooter} icon={<Icon icon='mdi:account-box-outline' />} />
+          <BottomNavigationAction label={t("Message") as string} icon={<Icon icon='mdi:message-processing-outline' />} />
+          <BottomNavigationAction label={t("My") as string} icon={<Icon icon='mdi:account-box-outline' />} />
         </BottomNavigation>
       </Box>
   )

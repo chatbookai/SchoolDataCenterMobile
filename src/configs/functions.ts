@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import authConfig from 'src/configs/auth'
 
 export function GetIV() {
     const iv = crypto.randomBytes(16);
@@ -56,7 +57,7 @@ export function getUserLanguage() {
   }
   else {
 
-      return "en"
+      return authConfig.defaultLanguage
   }
 };
 

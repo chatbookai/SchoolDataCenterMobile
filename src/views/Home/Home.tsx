@@ -20,51 +20,50 @@ const Home = () => {
   const user:any = auth.user
 
   const [currentTab, setCurrentTab] = useState<string>('Loading')
-  const [disabledFooter, setDisabledFooter] = useState<boolean>(true)
 
   useEffect(() => {
+
     const refreshUserToken = async () => {
       try {
         if (user) {
           refresh(user)
-          if(currentTab == "Login" || currentTab == "Loading")  {
-            setCurrentTab("Index")
-            setDisabledFooter(false)
-          }
         }
         console.log("当前用户状态: ", user)
-      } 
+      }
       catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-    
     refreshUserToken();
 
-    const delay3SCheckUser = async () => {
+    const loadingFirstTime = async () => {
       setTimeout(() => {
-        if (!user) {
+        if (user) {
+          setCurrentTab("Index")
+        }
+        else {
           setCurrentTab("Login")
         }
-      }, 1000);
+      }, 2000);
     }
+    loadingFirstTime();
 
-    delay3SCheckUser();
-
-    const intervalId = setInterval(refreshUserToken, 30000);
+    const intervalId = setInterval(refreshUserToken, 6000);
 
     return () => {
       clearInterval(intervalId);
     }
 
-  }, []); 
+  }, []);
+
+  console.log("currentTab - 60", currentTab)
 
   return (
     <Fragment>
       {currentTab == "Loading" && (
         <Grid item xs={12} sm={12} container justifyContent="space-around">
             <Box sx={{ mt: 60, mb: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                <CircularProgress 
+                <CircularProgress
                   sx={{
                     width: '60px !important',
                     height: '60px !important',
@@ -74,10 +73,11 @@ const Home = () => {
             </Box>
         </Grid>
       )}
-      {currentTab == "Login" && (<Login setCurrentTab={setCurrentTab} setDisabledFooter={setDisabledFooter} />)}
+      {currentTab == "Login" && (<Login setCurrentTab={setCurrentTab} />)}
       {currentTab == "MyProfile" && (<MyProfile logout={logout} />)}
       {currentTab == "Index" && (<Index />)}
-      <Footer Hidden={false} setCurrentTab={setCurrentTab} currentTab={currentTab} disabledFooter={disabledFooter} setDisabledFooter={setDisabledFooter} />
+      {currentTab != "Loading" && currentTab != "Login" && (<Footer Hidden={false} setCurrentTab={setCurrentTab} currentTab={currentTab} />)}
+
     </Fragment>
   )
 }

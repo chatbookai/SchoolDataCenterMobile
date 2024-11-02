@@ -86,7 +86,7 @@ interface FormData {
   termsofUse: boolean
 }
 
-const Login = ({ setCurrentTab, setDisabledFooter }: any) => {
+const Login = ({ setCurrentTab }: any) => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const auth = useAuth()
@@ -110,7 +110,7 @@ const Login = ({ setCurrentTab, setDisabledFooter }: any) => {
     function base58Encode(data: string) {
       const bytes = Buffer.from(data, 'utf8');
       const encoded = bs58.encode(bytes);
-            
+
       return encoded;
     }
 
@@ -149,7 +149,6 @@ const Login = ({ setCurrentTab, setDisabledFooter }: any) => {
 
   const handleGoIndex = () => {
     setCurrentTab('Index')
-    setDisabledFooter(false)
   }
 
   const handleGoLogin = () => {
@@ -160,7 +159,7 @@ const Login = ({ setCurrentTab, setDisabledFooter }: any) => {
     setRightButtonIcon('')
     setHeaderHidden(true)
   }
-  
+
   const LeftIconOnClick = () => {
     switch(pageModel) {
       case 'PrivacyPolicy':
@@ -169,7 +168,7 @@ const Login = ({ setCurrentTab, setDisabledFooter }: any) => {
         break
     }
   }
-  
+
   const RightButtonOnClick = () => {
     switch(pageModel) {
         case 'Contacts':
@@ -310,7 +309,7 @@ const Login = ({ setCurrentTab, setDisabledFooter }: any) => {
         </RightWrapper>
       </Box>
     )}
-    {pageModel == 'PrivacyPolicy' && ( 
+    {pageModel == 'PrivacyPolicy' && (
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <PrivacyPolicy />
@@ -318,14 +317,14 @@ const Login = ({ setCurrentTab, setDisabledFooter }: any) => {
       </Grid>
     )}
 
-    {pageModel == 'TermsOfUse' && ( 
+    {pageModel == 'TermsOfUse' && (
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <TermsofUse />
         </Grid>
       </Grid>
     )}
-    
+
     </>
   )
 }

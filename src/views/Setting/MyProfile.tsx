@@ -15,12 +15,12 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Icon from '../../@core/components/icon'
 import authConfig from '../../configs/auth'
 import { useSettings } from '../../@core/hooks/useSettings'
+import Link from 'next/link'
 
 import { styled } from '@mui/material/styles'
 import Header from '../Layout/Header'
 import TermsofUse from './TermsofUse'
 import PrivacyPolicy from './PrivacyPolicy'
-import Link from 'next/link'
 
 import { useTranslation } from 'react-i18next'
 
@@ -50,7 +50,7 @@ const MyProfile = ({  }: any) => {
   const [pageModel, setPageModel] = useState<string>('MyProfile')
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
-  const [Title, setTitle] = useState<string>('我的资料')
+  const [Title, setTitle] = useState<string>(t('My Profile') as string)
   const [RightButtonText, setRightButtonText] = useState<string>('')
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
 
@@ -284,6 +284,52 @@ const MyProfile = ({  }: any) => {
                                 <IconButton sx={{ p: 0 }} onClick={()=>handleClickSecurityPrivacyButton()}>
                                     <Icon icon='mdi:chevron-right' fontSize={30} />
                                 </IconButton>
+                              </Box>
+                            </Box>
+                          </Card>
+                        </Grid>
+                        <Grid item xs={12} sx={{ py: 1 }}>
+                          <Card>
+                            <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                              <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>null}>
+                                <Icon icon='material-symbols:support-agent' fontSize={34} />
+                              </IconButton>
+                              <Box sx={{ ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>null}
+                                >
+                                <Typography sx={{
+                                  color: 'text.primary',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap',
+                                }}
+                                >
+                                  {t('Support') as string}
+                                </Typography>
+                                <Box sx={{ display: 'flex'}}>
+                                  <Link href={`https://discord.com`} target='_blank' style={{ textDecoration: 'none' }}>
+                                    <Typography variant='body2' sx={{
+                                      color: `secondary.primary`,
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      whiteSpace: 'nowrap',
+                                      flex: 1
+                                    }}>
+                                      {t('Discord') as string}
+                                    </Typography>
+                                  </Link>
+                                  <Link href={`https://twitter.com`} target='_blank' style={{ textDecoration: 'none' }}>
+                                    <Typography variant='body2' sx={{
+                                      color: `secondary.primary`,
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      whiteSpace: 'nowrap',
+                                      ml: 2,
+                                      flex: 1
+                                    }}>
+                                      {t('Twitter') as string}
+                                    </Typography>
+                                  </Link>
+                                </Box>
                               </Box>
                             </Box>
                           </Card>
