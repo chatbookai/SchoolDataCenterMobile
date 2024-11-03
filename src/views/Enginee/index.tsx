@@ -1008,8 +1008,11 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
   //console.log("addEditActionId-addEditActionId-addEditActionId",store, addEditActionName)
   const renderMobileEndAvatar = (item: any) => {
     if (item.MobileEndNewsLeftImage) {
+
       return <CustomAvatar src={authConfig.backEndApiHost+item.MobileEndNewsLeftImage} sx={{ mr: 3, width: 42, height: 42 }} />
-    } else {
+    }
+    else {
+
       return (
         <CustomAvatar
           skin='light'
@@ -1220,6 +1223,8 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
 
                 const colorRightValue = (item['MobileEndSecondLineRightColor'] !== null && item['MobileEndSecondLineRightColor'] !== undefined) ? item['MobileEndSecondLineRightColor'] : 'secondary';
 
+                const columnActions = store && store.columns && store.columns[0] && store.columns[0]['actions'] && store.columns[0]['actions'].map((Item: any)=>Item.action)
+
                 return (
                   <Grid item xs={12} sx={{ py: 0 }} key={index}>
                     <Card>
@@ -1264,30 +1269,22 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
                             </Box>
                           </Box>
                           <Box sx={{ display: 'flex', alignItems: 'center'}}>
-                            {(!forbiddenEditRow.includes(item.Id)) && item.EditUrl ?
-                            <IconButton size='small' onClick={() =>
-                            {
-                              setMobileEditPageId(item.PageId)
-                              togglePageActionDrawer('edit_default', item.Id, CSRF_TOKEN_MAP[item['Id']])
-                            }
-                            }>
-                              <Icon icon={item.EditIcon} fontSize={20} />
-                            </IconButton>
-                            :
-                            null
-                            }
-                            {(!forbiddenDeleteRow.includes(item.Id)) ?
-                            <IconButton size='small' onClick={() =>
-                            {
-                              //setMobileEditPageId(item.PageId)
-                              togglePageActionDrawer('delete_array', item.Id, CSRF_TOKEN_MAP[item['Id']])
-                            }
-                            }>
-                              <Icon icon='mdi:delete-outline' fontSize={20} />
-                            </IconButton>
-                            :
-                            null
-                            }
+                            {columnActions.includes('edit_default') && (!forbiddenEditRow.includes(item.Id)) && item.EditUrl && (
+                              <IconButton size='small' onClick={() => {
+                                                                  setMobileEditPageId(item.PageId)
+                                                                  togglePageActionDrawer('edit_default', item.Id, CSRF_TOKEN_MAP[item['Id']])
+                                                                }}>
+                                <Icon icon={item.EditIcon} fontSize={20} />
+                              </IconButton>
+                            )}
+                            {columnActions.includes('delete_array') && (!forbiddenDeleteRow.includes(item.Id)) && (
+                              <IconButton size='small' onClick={() => {
+                                                                  //setMobileEditPageId(item.PageId)
+                                                                  togglePageActionDrawer('delete_array', item.Id, CSRF_TOKEN_MAP[item['Id']])
+                                                                }}>
+                                <Icon icon='mdi:delete-outline' fontSize={20} />
+                              </IconButton>
+                            )}
                           </Box>
                         </Box>
                       </Grid>
