@@ -16,7 +16,7 @@ if(hostname == 'localhost' || hostname == '127.0.0.1')   {
   AppMarkId = 'dandian'
 }
 
-//APP_URL = "https://fdzz.dandian.net/api/"
+APP_URL = "https://fdzz.dandian.net/api/"
 AppMarkId = 'fdzz'
 
 const config = {
