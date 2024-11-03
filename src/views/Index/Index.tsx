@@ -175,7 +175,7 @@ const Index = ({  }: any) => {
             >
 
             {pageModel == 'MainSetting' && (
-              <Container>
+              <Container sx={{mt: 5}}>
                 {menuArray && menuArray.length > 0 && menuArray.map((menuItem: any, menuIndex: number)=>{
 
                   return (
