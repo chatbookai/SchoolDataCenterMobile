@@ -22,7 +22,7 @@ const Home = () => {
   const user:any = auth.user
 
   const [currentTab, setCurrentTab] = useState<string>('Loading')
-  const [loadingText, setLoadingText] = useState<string>(t('Login Tip') as string)
+  const [loadingText, setLoadingText] = useState<string>('')
 
   useEffect(() => {
 
@@ -40,6 +40,7 @@ const Home = () => {
     refreshUserToken();
 
     const loadingFirstTime = async () => {
+      setLoadingText(t('Login Tip') as string)
       setTimeout(() => {
         if (user) {
           setCurrentTab("Index")

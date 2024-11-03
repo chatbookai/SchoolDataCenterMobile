@@ -323,17 +323,34 @@ const Login = ({ setCurrentTab }: any) => {
         </RightWrapper>
       </Box>
     )}
+
     {pageModel == 'PrivacyPolicy' && (
-      <Grid container spacing={6} sx={{px:5, paddingTop: 'env(safe-area-inset-top)'}}>
-        <Grid item xs={12} mt={15} mb={5}>
+      <Grid container spacing={6} sx={{
+        px:5,
+        flex: 1,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        marginTop: '35px', // Adjust according to the height of the AppBar
+        marginBottom: '56px', // Adjust according to the height of the Footer
+        paddingTop: 'env(safe-area-inset-top)'
+      }}>
+        <Grid item xs={12} mt={5} mb={5}>
           <PrivacyPolicy />
         </Grid>
       </Grid>
     )}
 
     {pageModel == 'TermsOfUse' && (
-      <Grid container spacing={6} sx={{px:5, paddingTop: 'env(safe-area-inset-top)'}}>
-        <Grid item xs={12} mt={15} mb={5}>
+      <Grid container spacing={6} sx={{
+        px:5,
+        flex: 1,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        marginTop: '35px', // Adjust according to the height of the AppBar
+        marginBottom: '56px', // Adjust according to the height of the Footer
+        paddingTop: 'env(safe-area-inset-top)'
+      }}>
+        <Grid item xs={12} mt={5} mb={5}>
           <TermsofUse />
         </Grid>
       </Grid>
