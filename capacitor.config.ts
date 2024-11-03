@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'net.dandian.dc',
-  appName: 'Dandian DataCenter',
+  appName: '单点数据中心',
   webDir: 'out',
   "bundledWebRuntime": true
 };

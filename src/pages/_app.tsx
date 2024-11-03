@@ -123,7 +123,7 @@ const App = (props: ExtendedAppProps) => {
             content={`${themeConfig.templateName} – By 单点科技`}
           />
           <meta name='keywords' content='单点科技 & 数据中心' />
-          <meta name='viewport' content='initial-scale=1, width=device-width' />
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
           <link rel="icon" type="image/png" href="/icons/icon16.png" sizes="16x16" />
           <link rel="icon" type="image/png" href="/icons/icon32.png" sizes="32x32" />
           <link rel="icon" type="image/png" href="/icons/icon48.png" sizes="48x48" />

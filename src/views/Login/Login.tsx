@@ -334,7 +334,7 @@ const Login = ({ setCurrentTab }: any) => {
         marginBottom: '56px', // Adjust according to the height of the Footer
         paddingTop: 'env(safe-area-inset-top)'
       }}>
-        <Grid item xs={12} mt={5} mb={5}>
+        <Grid item xs={12} mt={15} mb={5}>
           <PrivacyPolicy />
         </Grid>
       </Grid>
@@ -350,7 +350,7 @@ const Login = ({ setCurrentTab }: any) => {
         marginBottom: '56px', // Adjust according to the height of the Footer
         paddingTop: 'env(safe-area-inset-top)'
       }}>
-        <Grid item xs={12} mt={5} mb={5}>
+        <Grid item xs={12} mt={15} mb={5}>
           <TermsofUse />
         </Grid>
       </Grid>
