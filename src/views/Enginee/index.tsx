@@ -1226,7 +1226,8 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
                 const columnActions = store && store.columns && store.columns[0] && store.columns[0]['actions'] && store.columns[0]['actions'].map((Item: any)=>Item.action)
 
                 const IsShowRightIconSection = (columnActions.includes('edit_default') && (!forbiddenEditRow.includes(item.Id)) && item.EditUrl) || (columnActions.includes('delete_array') && (!forbiddenDeleteRow.includes(item.Id)))
-                console.log("IsShowRightIconSection", IsShowRightIconSection)
+
+                //console.log("IsShowRightIconSection", IsShowRightIconSection)
 
                 return (
                   <Grid item xs={12} sx={{ py: 0 }} key={index}>

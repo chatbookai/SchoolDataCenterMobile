@@ -51,7 +51,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   const [previousPageModel, setPreviousPageModel] = useState<string[]>([])
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
-  const [Title, setTitle] = useState<string>(t('My Profile') as string)
+  const [Title, setTitle] = useState<string>(t('Setting') as string)
   const [RightButtonText, setRightButtonText] = useState<string>('')
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
 
@@ -120,11 +120,14 @@ const Setting = ({ handleLogout, menuArray }: any) => {
         handleClickSecurityPrivacyButton()
         break
       case 'EngineeModelApp':
-        if(previousPageModel.pop() == 'SystemSetting') {
+        console.log("previousPageModel", previousPageModel)
+        if(previousPageModel.at(-1) == 'SystemSetting') {
           handleClickSystemSettingButton()
+          previousPageModel.pop()
         }
-        if(previousPageModel.pop() == 'BasicData') {
+        if(previousPageModel.at(-1) == 'BasicData') {
           handleClickBasicDataButton()
+          previousPageModel.pop()
         }
         break
     }

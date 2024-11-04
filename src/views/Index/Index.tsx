@@ -89,7 +89,8 @@ const Index = ({ menuArray, setMenuArray }: any) => {
       if(window && dataJson) {
         window.localStorage.setItem(authConfig.storageMainMenus, JSON.stringify(dataJson))
       }
-      console.log("handleGetMainMenus menuArray dataJson", dataJson)
+
+      //console.log("handleGetMainMenus menuArray dataJson", dataJson)
     })
     .catch(error => {
       if (error.response) {
@@ -179,7 +180,7 @@ const Index = ({ menuArray, setMenuArray }: any) => {
                 {menuArray && menuArray.length > 0 && menuArray.map((menuItem: any, menuIndex: number)=>{
 
                   return (
-                    <>
+                    <Fragment key={menuIndex}>
                     {menuItem && menuItem.title && !['基础数据','系统设置','低代码平台'].includes(menuItem.title) && (
                       <Box my={2} key={menuIndex}>
                         <Typography variant="h6" sx={{ py: 0.5, pl: 2, borderRadius: '5px', mb: 2, fontSize: '16px' }}>
@@ -205,7 +206,7 @@ const Index = ({ menuArray, setMenuArray }: any) => {
                       </Grid>
                     </Box>
                     )}
-                    </>
+                    </Fragment>
                   )
 
                 })}

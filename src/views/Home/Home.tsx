@@ -32,7 +32,8 @@ const Home = () => {
         if (user) {
           refresh(user)
         }
-        console.log("当前用户状态: ", user)
+
+        //console.log("当前用户状态: ", user)
       }
       catch (error) {
         console.error('Error fetching data:', error);
@@ -69,7 +70,7 @@ const Home = () => {
     setCurrentTab("Login")
   }
 
-  console.log("currentTab - 60", currentTab)
+  //console.log("currentTab - 60", currentTab)
 
   return (
     <Fragment>

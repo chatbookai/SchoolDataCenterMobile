@@ -82,7 +82,7 @@ const Footer = (props: any) => {
             }}
           />
           <BottomNavigationAction label={t("Message") as string} icon={<Icon icon='mdi:message-processing-outline' />} />
-          <BottomNavigationAction label={t("My") as string} icon={<Icon icon='mdi:account-box-outline' />} />
+          <BottomNavigationAction label={t("Setting") as string} icon={<Icon icon='mdi:settings-outline' />} />
         </BottomNavigation>
       </Box>
   )
