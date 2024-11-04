@@ -216,6 +216,7 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
         },
         params: newAllFilters
       }).then(res => {
+        params['page'] == 0 && setIsFirstLoadingTip(false)
         const data = res.data
         if(data && data.isEncrypted == "1" && data.data)  {
           const i = data.data.slice(0, 32);
@@ -310,7 +311,6 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
       //setIsLoadingTipText(response.export_default.ExportLoading)
 
       //setFilter(response.init_default.filter)
-      params['page'] == 0 && setIsFirstLoadingTip(false)
       setIsLoading(false);
       setIsLoadingTip(false);
       setPageSize(response.init_default.pageNumber)
