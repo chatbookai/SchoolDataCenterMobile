@@ -25,6 +25,7 @@ import { useTranslation } from 'react-i18next'
 
 import { getUserLanguage, setUserLanguage  } from 'src/configs/functions'
 
+import EngineeModelApp from "src/views/Enginee/index"
 
 const ContentWrapper = styled('main')(({ theme }) => ({
   flexGrow: 1,
@@ -47,6 +48,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   const [counter, setCounter] = useState<number>(0)
 
   const [pageModel, setPageModel] = useState<string>('Setting')
+  const [previousPageModel, setPreviousPageModel] = useState<string[]>([])
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
   const [Title, setTitle] = useState<string>(t('My Profile') as string)
@@ -55,12 +57,10 @@ const Setting = ({ handleLogout, menuArray }: any) => {
 
   const [languageValue, setLanguageValue] = useState<string>(getUserLanguage())
   const [themeValue, setThemeValue] = useState<string>(settings.mode)
-
-  console.log("menuArray", menuArray)
+  const [appItemId, setAppItemId] = useState<string>('')
 
   const basicDataMenus = menuArray && menuArray.length > 0 && menuArray.filter((Item: any) => Item && Item.title && Item.title == '基础数据')
   const systemSettingMenus = menuArray && menuArray.length > 0 && menuArray.filter((Item: any) => Item && Item.title && Item.title == '系统设置')
-  const lowcodeMenus = menuArray && menuArray.length > 0 && menuArray.filter((Item: any) => Item && Item.title && Item.title == '低代码平台')
 
   const LanguageArray = [
     {name:'English', value:'en'},
@@ -73,6 +73,19 @@ const Setting = ({ handleLogout, menuArray }: any) => {
     {name:'Dark', value:'dark'},
     {name:'Light', value:'light'}
   ]
+
+  const handleGoAppItem = (item: any, previousModel: string) => {
+    setAppItemId(item.path.replace('/apps/', ''))
+    setCounter(counter + 1)
+    setPageModel('EngineeModelApp')
+    setLeftIcon('mdi:arrow-left-thin')
+    setTitle(item.title)
+    setRightButtonText('')
+    setRightButtonIcon('')
+    setPreviousPageModel((preV: any)=>[...preV, previousModel])
+  }
+
+  console.log("previousPageModel", previousPageModel)
 
   const handleWalletGoHome = () => {
     setRefreshWalletData(refreshWalletData+1)
@@ -105,6 +118,14 @@ const Setting = ({ handleLogout, menuArray }: any) => {
       case 'PrivacyPolicy':
       case 'TermsOfUse':
         handleClickSecurityPrivacyButton()
+        break
+      case 'EngineeModelApp':
+        if(previousPageModel.pop() == 'SystemSetting') {
+          handleClickSystemSettingButton()
+        }
+        if(previousPageModel.pop() == 'BasicData') {
+          handleClickBasicDataButton()
+        }
         break
     }
   }
@@ -147,15 +168,6 @@ const Setting = ({ handleLogout, menuArray }: any) => {
     setPageModel('SystemSetting')
     setLeftIcon('mdi:arrow-left-thin')
     setTitle('系统设置')
-    setRightButtonText('')
-    setRightButtonIcon('')
-  }
-
-  const handleClickLowCodeButton = () => {
-    setCounter(counter + 1)
-    setPageModel('LowCode')
-    setLeftIcon('mdi:arrow-left-thin')
-    setTitle('低代码平台')
     setRightButtonText('')
     setRightButtonIcon('')
   }
@@ -393,45 +405,6 @@ const Setting = ({ handleLogout, menuArray }: any) => {
                                 </Box>
                                 <Box textAlign="right">
                                   <IconButton sx={{ p: 0 }} onClick={()=>handleClickSystemSettingButton()}>
-                                      <Icon icon='mdi:chevron-right' fontSize={30} />
-                                  </IconButton>
-                                </Box>
-                              </Box>
-                            </Card>
-                          </Grid>
-                        )}
-                        {lowcodeMenus && lowcodeMenus[0] && (
-                          <Grid item xs={12} sx={{ py: 1 }}>
-                            <Card>
-                              <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
-                                <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>handleClickLowCodeButton()}>
-                                  <Icon icon={lowcodeMenus[0]['icon']} fontSize={34} />
-                                </IconButton>
-                                <Box sx={{ ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickLowCodeButton()}
-                                  >
-                                  <Typography sx={{
-                                    color: 'text.primary',
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                  }}
-                                  >
-                                    {lowcodeMenus[0]['title']}
-                                  </Typography>
-                                  <Box sx={{ display: 'flex'}}>
-                                    <Typography variant='body2' sx={{
-                                      color: `secondary.primary`,
-                                      overflow: 'hidden',
-                                      textOverflow: 'ellipsis',
-                                      whiteSpace: 'nowrap',
-                                      flex: 1
-                                    }}>
-                                      {'帮你简化系统设计'}
-                                    </Typography>
-                                  </Box>
-                                </Box>
-                                <Box textAlign="right">
-                                  <IconButton sx={{ p: 0 }} onClick={()=>handleClickLowCodeButton()}>
                                       <Icon icon='mdi:chevron-right' fontSize={30} />
                                   </IconButton>
                                 </Box>
@@ -745,11 +718,10 @@ const Setting = ({ handleLogout, menuArray }: any) => {
                           <Grid item xs={12} sx={{ py: 1 }} key={Index}>
                             <Card>
                               <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
-                                  <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
-                                      <Icon icon='clarity:language-line' fontSize={38} />
+                                  <IconButton sx={{ p: 0 }} onClick={()=>handleGoAppItem(Item, pageModel)}>
+                                    <Icon icon={'mdi:'+Item.Menu_Three_Icon} fontSize={38} />
                                   </IconButton>
-                                  <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickLanguageButton()}
-                                      >
+                                  <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleGoAppItem(Item, pageModel)} >
                                       <Typography sx={{
                                       color: 'text.primary',
                                       overflow: 'hidden',
@@ -772,7 +744,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
                                       </Box>
                                   </Box>
                                   <Box textAlign="right">
-                                      <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
+                                      <IconButton sx={{ p: 0 }} onClick={()=>handleGoAppItem(Item, pageModel)}>
                                           <Icon icon='mdi:chevron-right' fontSize={30} />
                                       </IconButton>
                                   </Box>
@@ -793,10 +765,10 @@ const Setting = ({ handleLogout, menuArray }: any) => {
                           <Grid item xs={12} sx={{ py: 1 }} key={Index}>
                             <Card>
                               <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
-                                  <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
-                                      <Icon icon='clarity:language-line' fontSize={38} />
+                                  <IconButton sx={{ p: 0 }} onClick={()=>handleGoAppItem(Item, pageModel)}>
+                                      <Icon icon={'mdi:'+Item.Menu_Three_Icon} fontSize={38} />
                                   </IconButton>
-                                  <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickLanguageButton()}
+                                  <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleGoAppItem(Item, pageModel)}
                                       >
                                       <Typography sx={{
                                       color: 'text.primary',
@@ -820,7 +792,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
                                       </Box>
                                   </Box>
                                   <Box textAlign="right">
-                                      <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
+                                      <IconButton sx={{ p: 0 }} onClick={()=>handleGoAppItem(Item, pageModel)}>
                                           <Icon icon='mdi:chevron-right' fontSize={30} />
                                       </IconButton>
                                   </Box>
@@ -833,52 +805,10 @@ const Setting = ({ handleLogout, menuArray }: any) => {
               </Grid>
             )}
 
-            {pageModel == 'LowCode' && (
-              <Grid container spacing={2}>
-                <Grid item xs={12} sx={{height: 'calc(100%)'}}>
-                    <Grid container spacing={2}>
-                        {lowcodeMenus && lowcodeMenus[0] && lowcodeMenus[0]['children'] && lowcodeMenus[0]['children'].length > 0 && lowcodeMenus[0]['children'].map((Item: any, Index: number)=>(
-                          <Grid item xs={12} sx={{ py: 1 }} key={Index}>
-                            <Card>
-                              <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
-                                  <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
-                                      <Icon icon='clarity:language-line' fontSize={38} />
-                                  </IconButton>
-                                  <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickLanguageButton()}
-                                      >
-                                      <Typography sx={{
-                                      color: 'text.primary',
-                                      overflow: 'hidden',
-                                      textOverflow: 'ellipsis',
-                                      whiteSpace: 'nowrap',
-                                      }}
-                                      >
-                                      {Item.title}
-                                      </Typography>
-                                      <Box sx={{ display: 'flex'}}>
-                                      <Typography variant='body2' sx={{
-                                          color: `secondary.primary`,
-                                          overflow: 'hidden',
-                                          textOverflow: 'ellipsis',
-                                          whiteSpace: 'nowrap',
-                                          flex: 1
-                                      }}>
-                                          {Item.title}
-                                      </Typography>
-                                      </Box>
-                                  </Box>
-                                  <Box textAlign="right">
-                                      <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
-                                          <Icon icon='mdi:chevron-right' fontSize={30} />
-                                      </IconButton>
-                                  </Box>
-                              </Box>
-                            </Card>
-                          </Grid>
-                        ))}
-                    </Grid>
-                </Grid>
-              </Grid>
+            {pageModel == 'EngineeModelApp' && appItemId && (
+              <>
+                <EngineeModelApp backEndApi={`apps/apps_${appItemId}.php`} externalId=''/>
+              </>
             )}
 
         </ContentWrapper>
