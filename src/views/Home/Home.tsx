@@ -23,6 +23,7 @@ const Home = () => {
 
   const [currentTab, setCurrentTab] = useState<string>('Loading')
   const [loadingText, setLoadingText] = useState<string>('')
+  const [menuArray, setMenuArray] = useState<any[]>([])
 
   useEffect(() => {
 
@@ -86,8 +87,8 @@ const Home = () => {
         </Grid>
       )}
       {currentTab == "Login" && (<Login setCurrentTab={setCurrentTab} />)}
-      {currentTab == "Setting" && (<Setting handleLogout={handleLogout} />)}
-      {currentTab == "Index" && (<Index />)}
+      {currentTab == "Setting" && (<Setting handleLogout={handleLogout} menuArray={menuArray} />)}
+      {currentTab == "Index" && (<Index menuArray={menuArray} setMenuArray={setMenuArray} />)}
       {currentTab != "Loading" && currentTab != "Login" && (<Footer Hidden={false} setCurrentTab={setCurrentTab} currentTab={currentTab} />)}
 
     </Fragment>

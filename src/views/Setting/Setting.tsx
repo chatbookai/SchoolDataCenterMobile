@@ -15,7 +15,6 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Icon from '../../@core/components/icon'
 import authConfig from '../../configs/auth'
 import { useSettings } from '../../@core/hooks/useSettings'
-import Link from 'next/link'
 
 import { styled } from '@mui/material/styles'
 import Header from '../Layout/Header'
@@ -38,7 +37,7 @@ const ContentWrapper = styled('main')(({ theme }) => ({
   }
 }))
 
-const Setting = ({ handleLogout }: any) => {
+const Setting = ({ handleLogout, menuArray }: any) => {
 
   // ** Hook
   const { t, i18n } = useTranslation()
@@ -56,6 +55,12 @@ const Setting = ({ handleLogout }: any) => {
 
   const [languageValue, setLanguageValue] = useState<string>(getUserLanguage())
   const [themeValue, setThemeValue] = useState<string>(settings.mode)
+
+  console.log("menuArray", menuArray)
+
+  const basicDataMenus = menuArray && menuArray.length > 0 && menuArray.filter((Item: any) => Item && Item.title && Item.title == '基础数据')
+  const systemSettingMenus = menuArray && menuArray.length > 0 && menuArray.filter((Item: any) => Item && Item.title && Item.title == '系统设置')
+  const lowcodeMenus = menuArray && menuArray.length > 0 && menuArray.filter((Item: any) => Item && Item.title && Item.title == '低代码平台')
 
   const LanguageArray = [
     {name:'English', value:'en'},
@@ -86,6 +91,9 @@ const Setting = ({ handleLogout }: any) => {
       case 'General':
       case 'Support':
       case 'SecurityPrivacy':
+      case 'BasicData':
+      case 'SystemSetting':
+      case 'LowCode':
         handleWalletGoHome()
         break
       case 'Language':
@@ -121,6 +129,33 @@ const Setting = ({ handleLogout }: any) => {
     setPageModel('SecurityPrivacy')
     setLeftIcon('mdi:arrow-left-thin')
     setTitle('Security & Privacy')
+    setRightButtonText('')
+    setRightButtonIcon('')
+  }
+
+  const handleClickBasicDataButton = () => {
+    setCounter(counter + 1)
+    setPageModel('BasicData')
+    setLeftIcon('mdi:arrow-left-thin')
+    setTitle('基础数据')
+    setRightButtonText('')
+    setRightButtonIcon('')
+  }
+
+  const handleClickSystemSettingButton = () => {
+    setCounter(counter + 1)
+    setPageModel('SystemSetting')
+    setLeftIcon('mdi:arrow-left-thin')
+    setTitle('系统设置')
+    setRightButtonText('')
+    setRightButtonIcon('')
+  }
+
+  const handleClickLowCodeButton = () => {
+    setCounter(counter + 1)
+    setPageModel('LowCode')
+    setLeftIcon('mdi:arrow-left-thin')
+    setTitle('低代码平台')
     setRightButtonText('')
     setRightButtonIcon('')
   }
@@ -288,25 +323,24 @@ const Setting = ({ handleLogout }: any) => {
                             </Box>
                           </Card>
                         </Grid>
-                        <Grid item xs={12} sx={{ py: 1 }}>
-                          <Card>
-                            <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
-                              <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>null}>
-                                <Icon icon='material-symbols:support-agent' fontSize={34} />
-                              </IconButton>
-                              <Box sx={{ ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>null}
-                                >
-                                <Typography sx={{
-                                  color: 'text.primary',
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  whiteSpace: 'nowrap',
-                                }}
-                                >
-                                  {t('Support') as string}
-                                </Typography>
-                                <Box sx={{ display: 'flex'}}>
-                                  <Link href={`https://discord.com`} target='_blank' style={{ textDecoration: 'none' }}>
+                        {basicDataMenus && basicDataMenus[0] && (
+                          <Grid item xs={12} sx={{ py: 1 }}>
+                            <Card>
+                              <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                                <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>handleClickBasicDataButton()}>
+                                  <Icon icon={basicDataMenus[0]['icon']} fontSize={34} />
+                                </IconButton>
+                                <Box sx={{ ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickBasicDataButton()}>
+                                  <Typography sx={{
+                                    color: 'text.primary',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                  }}
+                                  >
+                                    {basicDataMenus[0]['title']}
+                                  </Typography>
+                                  <Box sx={{ display: 'flex'}}>
                                     <Typography variant='body2' sx={{
                                       color: `secondary.primary`,
                                       overflow: 'hidden',
@@ -314,26 +348,97 @@ const Setting = ({ handleLogout }: any) => {
                                       whiteSpace: 'nowrap',
                                       flex: 1
                                     }}>
-                                      {t('Discord') as string}
+                                      {'系部,专业,班级,学生,课程等'}
                                     </Typography>
-                                  </Link>
-                                  <Link href={`https://twitter.com`} target='_blank' style={{ textDecoration: 'none' }}>
-                                    <Typography variant='body2' sx={{
-                                      color: `secondary.primary`,
-                                      overflow: 'hidden',
-                                      textOverflow: 'ellipsis',
-                                      whiteSpace: 'nowrap',
-                                      ml: 2,
-                                      flex: 1
-                                    }}>
-                                      {t('Twitter') as string}
-                                    </Typography>
-                                  </Link>
+                                  </Box>
+                                </Box>
+                                <Box textAlign="right">
+                                  <IconButton sx={{ p: 0 }} onClick={()=>handleClickBasicDataButton()}>
+                                      <Icon icon='mdi:chevron-right' fontSize={30} />
+                                  </IconButton>
                                 </Box>
                               </Box>
-                            </Box>
-                          </Card>
-                        </Grid>
+                            </Card>
+                          </Grid>
+                        )}
+                        {systemSettingMenus && systemSettingMenus[0] && (
+                          <Grid item xs={12} sx={{ py: 1 }}>
+                            <Card>
+                              <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                                <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>handleClickSystemSettingButton()}>
+                                  <Icon icon={systemSettingMenus[0]['icon']} fontSize={34} />
+                                </IconButton>
+                                <Box sx={{ ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickSystemSettingButton()}
+                                  >
+                                  <Typography sx={{
+                                    color: 'text.primary',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                  }}
+                                  >
+                                    {systemSettingMenus[0]['title']}
+                                  </Typography>
+                                  <Box sx={{ display: 'flex'}}>
+                                    <Typography variant='body2' sx={{
+                                      color: `secondary.primary`,
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      whiteSpace: 'nowrap',
+                                      flex: 1
+                                    }}>
+                                      {'单位,部门,用户,角色,日志等'}
+                                    </Typography>
+                                  </Box>
+                                </Box>
+                                <Box textAlign="right">
+                                  <IconButton sx={{ p: 0 }} onClick={()=>handleClickSystemSettingButton()}>
+                                      <Icon icon='mdi:chevron-right' fontSize={30} />
+                                  </IconButton>
+                                </Box>
+                              </Box>
+                            </Card>
+                          </Grid>
+                        )}
+                        {lowcodeMenus && lowcodeMenus[0] && (
+                          <Grid item xs={12} sx={{ py: 1 }}>
+                            <Card>
+                              <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                                <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>handleClickLowCodeButton()}>
+                                  <Icon icon={lowcodeMenus[0]['icon']} fontSize={34} />
+                                </IconButton>
+                                <Box sx={{ ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickLowCodeButton()}
+                                  >
+                                  <Typography sx={{
+                                    color: 'text.primary',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                  }}
+                                  >
+                                    {lowcodeMenus[0]['title']}
+                                  </Typography>
+                                  <Box sx={{ display: 'flex'}}>
+                                    <Typography variant='body2' sx={{
+                                      color: `secondary.primary`,
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      whiteSpace: 'nowrap',
+                                      flex: 1
+                                    }}>
+                                      {'帮你简化系统设计'}
+                                    </Typography>
+                                  </Box>
+                                </Box>
+                                <Box textAlign="right">
+                                  <IconButton sx={{ p: 0 }} onClick={()=>handleClickLowCodeButton()}>
+                                      <Icon icon='mdi:chevron-right' fontSize={30} />
+                                  </IconButton>
+                                </Box>
+                              </Box>
+                            </Card>
+                          </Grid>
+                        )}
                         <Grid item xs={12} sx={{ py: 1 }}>
                           <Card>
                             <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
@@ -628,6 +733,150 @@ const Setting = ({ handleLogout }: any) => {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TermsofUse />
+                </Grid>
+              </Grid>
+            )}
+
+            {pageModel == 'BasicData' && (
+              <Grid container spacing={2}>
+                <Grid item xs={12} sx={{height: 'calc(100%)'}}>
+                    <Grid container spacing={2}>
+                        {basicDataMenus && basicDataMenus[0] && basicDataMenus[0]['children'] && basicDataMenus[0]['children'].length > 0 && basicDataMenus[0]['children'].map((Item: any, Index: number)=>(
+                          <Grid item xs={12} sx={{ py: 1 }} key={Index}>
+                            <Card>
+                              <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                                  <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
+                                      <Icon icon='clarity:language-line' fontSize={38} />
+                                  </IconButton>
+                                  <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickLanguageButton()}
+                                      >
+                                      <Typography sx={{
+                                      color: 'text.primary',
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      whiteSpace: 'nowrap',
+                                      }}
+                                      >
+                                      {Item.title}
+                                      </Typography>
+                                      <Box sx={{ display: 'flex'}}>
+                                      <Typography variant='body2' sx={{
+                                          color: `secondary.primary`,
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis',
+                                          whiteSpace: 'nowrap',
+                                          flex: 1
+                                      }}>
+                                          {Item.title}
+                                      </Typography>
+                                      </Box>
+                                  </Box>
+                                  <Box textAlign="right">
+                                      <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
+                                          <Icon icon='mdi:chevron-right' fontSize={30} />
+                                      </IconButton>
+                                  </Box>
+                              </Box>
+                            </Card>
+                          </Grid>
+                        ))}
+                    </Grid>
+                </Grid>
+              </Grid>
+            )}
+
+            {pageModel == 'SystemSetting' && (
+              <Grid container spacing={2}>
+                <Grid item xs={12} sx={{height: 'calc(100%)'}}>
+                    <Grid container spacing={2}>
+                        {systemSettingMenus && systemSettingMenus[0] && systemSettingMenus[0]['children'] && systemSettingMenus[0]['children'].length > 0 && systemSettingMenus[0]['children'].map((Item: any, Index: number)=>(
+                          <Grid item xs={12} sx={{ py: 1 }} key={Index}>
+                            <Card>
+                              <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                                  <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
+                                      <Icon icon='clarity:language-line' fontSize={38} />
+                                  </IconButton>
+                                  <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickLanguageButton()}
+                                      >
+                                      <Typography sx={{
+                                      color: 'text.primary',
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      whiteSpace: 'nowrap',
+                                      }}
+                                      >
+                                      {Item.title}
+                                      </Typography>
+                                      <Box sx={{ display: 'flex'}}>
+                                      <Typography variant='body2' sx={{
+                                          color: `secondary.primary`,
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis',
+                                          whiteSpace: 'nowrap',
+                                          flex: 1
+                                      }}>
+                                          {Item.title}
+                                      </Typography>
+                                      </Box>
+                                  </Box>
+                                  <Box textAlign="right">
+                                      <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
+                                          <Icon icon='mdi:chevron-right' fontSize={30} />
+                                      </IconButton>
+                                  </Box>
+                              </Box>
+                            </Card>
+                          </Grid>
+                        ))}
+                    </Grid>
+                </Grid>
+              </Grid>
+            )}
+
+            {pageModel == 'LowCode' && (
+              <Grid container spacing={2}>
+                <Grid item xs={12} sx={{height: 'calc(100%)'}}>
+                    <Grid container spacing={2}>
+                        {lowcodeMenus && lowcodeMenus[0] && lowcodeMenus[0]['children'] && lowcodeMenus[0]['children'].length > 0 && lowcodeMenus[0]['children'].map((Item: any, Index: number)=>(
+                          <Grid item xs={12} sx={{ py: 1 }} key={Index}>
+                            <Card>
+                              <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                                  <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
+                                      <Icon icon='clarity:language-line' fontSize={38} />
+                                  </IconButton>
+                                  <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickLanguageButton()}
+                                      >
+                                      <Typography sx={{
+                                      color: 'text.primary',
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      whiteSpace: 'nowrap',
+                                      }}
+                                      >
+                                      {Item.title}
+                                      </Typography>
+                                      <Box sx={{ display: 'flex'}}>
+                                      <Typography variant='body2' sx={{
+                                          color: `secondary.primary`,
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis',
+                                          whiteSpace: 'nowrap',
+                                          flex: 1
+                                      }}>
+                                          {Item.title}
+                                      </Typography>
+                                      </Box>
+                                  </Box>
+                                  <Box textAlign="right">
+                                      <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
+                                          <Icon icon='mdi:chevron-right' fontSize={30} />
+                                      </IconButton>
+                                  </Box>
+                              </Box>
+                            </Card>
+                          </Grid>
+                        ))}
+                    </Grid>
                 </Grid>
               </Grid>
             )}

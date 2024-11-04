@@ -31,10 +31,8 @@ const ContentWrapper = styled('main')(({ theme }) => ({
   }
 }))
 
-const Index = ({  }: any) => {
+const Index = ({ menuArray, setMenuArray }: any) => {
   // ** Hook
-  const [menuArray, setMenuArray] = useState<any[]>([])
-
   const contentHeightFixed = {}
   const [counter, setCounter] = useState<number>(0)
 
@@ -181,7 +179,9 @@ const Index = ({  }: any) => {
                 {menuArray && menuArray.length > 0 && menuArray.map((menuItem: any, menuIndex: number)=>{
 
                   return (
-                    <Box my={2} key={menuIndex}>
+                    <>
+                    {menuItem && menuItem.title && !['基础数据','系统设置','低代码平台'].includes(menuItem.title) && (
+                      <Box my={2} key={menuIndex}>
                         <Typography variant="h6" sx={{ py: 0.5, pl: 2, borderRadius: '5px', mb: 2, fontSize: '16px' }}>
                           {menuItem.title}
                         </Typography>
@@ -204,6 +204,8 @@ const Index = ({  }: any) => {
                         ))}
                       </Grid>
                     </Box>
+                    )}
+                    </>
                   )
 
                 })}
