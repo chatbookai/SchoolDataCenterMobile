@@ -353,10 +353,8 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
         setIsLoadingTipText("已经加载所有数据");
       }
     }
-    console.log("mobileEditPageId > -1 && mobileEditPageIdEnable ? mobileEditPageId : page", page)
-    console.log("mobileEditPageId > -1 && mobileEditPageIdEnable ? mobileEditPageId : pageCount", pageCount)
     setMobileEditPageIdEnable(false);
-  }, [dispatch, searchFieldName, searchFieldValue, allSubmitFields, page, pageSize, pageCount, sortMethod, sortColumn, forceUpdate, filterMultiColumns, externalId])
+  }, [dispatch, searchFieldName, searchFieldValue, allSubmitFields, page, pageSize, sortMethod, sortColumn, forceUpdate, filterMultiColumns, externalId])
 
   const [isGetNextPageData, setIsGetNextPageData] = useState<boolean>(false)
 
@@ -1152,7 +1150,7 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
         }
       </Grid>
       : '' }
-      {store && store.init_action.action == 'init_default' && isMobileData == true ?
+      {store && store.init_action.action == 'init_default' && isMobileData == true && isFirstLoadingTip==false ?
         <Grid item xs={12}>
           <Card sx={{ mb: 3}}>
             {store.init_default.returnButton && store.init_default.returnButton.status ?
@@ -1172,7 +1170,7 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
                   </Grid>
                 </Grid>
                 :
-                <>{isFirstLoadingTip==false && (<CardHeader title={store.init_default.searchtitle} sx={{ pb: 2, pt: 3 }}/>)}</>
+                <CardHeader title={store.init_default.searchtitle} sx={{ pb: 2, pt: 3 }}/>
               }
               </Fragment>
             }
