@@ -38,7 +38,7 @@ const ContentWrapper = styled('main')(({ theme }) => ({
   }
 }))
 
-const MyProfile = ({ handleLogout }: any) => {
+const Setting = ({ handleLogout }: any) => {
 
   // ** Hook
   const { t, i18n } = useTranslation()
@@ -47,7 +47,7 @@ const MyProfile = ({ handleLogout }: any) => {
   const contentHeightFixed = {}
   const [counter, setCounter] = useState<number>(0)
 
-  const [pageModel, setPageModel] = useState<string>('MyProfile')
+  const [pageModel, setPageModel] = useState<string>('Setting')
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
   const [Title, setTitle] = useState<string>(t('My Profile') as string)
@@ -71,16 +71,16 @@ const MyProfile = ({ handleLogout }: any) => {
 
   const handleWalletGoHome = () => {
     setRefreshWalletData(refreshWalletData+1)
-    setPageModel('MyProfile')
+    setPageModel('Setting')
     setLeftIcon('')
-    setTitle('MyProfile')
+    setTitle('Setting')
     setRightButtonText('QR')
     setRightButtonIcon('')
   }
 
   const LeftIconOnClick = () => {
     switch(pageModel) {
-      case 'MyProfile':
+      case 'Setting':
         handleWalletGoHome()
         break
       case 'General':
@@ -210,7 +210,7 @@ const MyProfile = ({ handleLogout }: any) => {
             }}
             >
 
-            {pageModel == 'MyProfile' && (
+            {pageModel == 'Setting' && (
               <Grid container spacing={2}>
                 <Grid item xs={12} sx={{height: 'calc(100%)'}}>
                     <Grid container spacing={2}>
@@ -638,4 +638,4 @@ const MyProfile = ({ handleLogout }: any) => {
   )
 }
 
-export default MyProfile
+export default Setting

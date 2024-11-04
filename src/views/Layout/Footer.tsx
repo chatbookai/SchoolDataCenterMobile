@@ -55,7 +55,7 @@ const Footer = (props: any) => {
                 setCurrentTab('Message')
                 break;
               case 4:
-                setCurrentTab('MyProfile')
+                setCurrentTab('Setting')
                 break;
             }
           }}

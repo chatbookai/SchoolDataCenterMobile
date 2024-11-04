@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography'
 import { useAuth } from 'src/hooks/useAuth'
 
 import Footer from '../Layout/Footer'
-import MyProfile from '../Setting/MyProfile'
+import Setting from '../Setting/Setting'
 import Index from '../Index/Index'
 import Login from '../Login/Login'
 import { useTranslation } from 'react-i18next'
@@ -86,7 +86,7 @@ const Home = () => {
         </Grid>
       )}
       {currentTab == "Login" && (<Login setCurrentTab={setCurrentTab} />)}
-      {currentTab == "MyProfile" && (<MyProfile handleLogout={handleLogout} />)}
+      {currentTab == "Setting" && (<Setting handleLogout={handleLogout} />)}
       {currentTab == "Index" && (<Index />)}
       {currentTab != "Loading" && currentTab != "Login" && (<Footer Hidden={false} setCurrentTab={setCurrentTab} currentTab={currentTab} />)}
 
