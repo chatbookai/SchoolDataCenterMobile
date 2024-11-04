@@ -1225,15 +1225,16 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
 
                 const columnActions = store && store.columns && store.columns[0] && store.columns[0]['actions'] && store.columns[0]['actions'].map((Item: any)=>Item.action)
 
+                const IsShowRightIconSection = (columnActions.includes('edit_default') && (!forbiddenEditRow.includes(item.Id)) && item.EditUrl) || (columnActions.includes('delete_array') && (!forbiddenDeleteRow.includes(item.Id)))
+                console.log("IsShowRightIconSection", IsShowRightIconSection)
+
                 return (
                   <Grid item xs={12} sx={{ py: 0 }} key={index}>
                     <Card>
-                    <Grid container spacing={0} sx={{ p: 2 }}>
-                      <Grid item xs={12}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                          <Box sx={{ display: 'flex', alignItems: 'center'}}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', py: 1, px: 1 }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', py: 1, px: 1, width: 'calc(100%)'}}>
                             {renderMobileEndAvatar(item)}
-                            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column', maxWidth: 'calc(100% - 50px)' }}
+                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: 'calc(100%)' }}
                               onClick={() => togglePageActionDrawer('view_default', item['Id'], CSRF_TOKEN_MAP[item['Id']])}
                               >
                               <Typography sx={{
@@ -1261,34 +1262,35 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
                                   whiteSpace: 'nowrap',
-                                  ml:1
+                                  ml: 1,
+                                  mr: 1
                                 }}>
                                   {item['MobileEndSecondLineRight']}
                                 </Typography>
                               </Box>
                             </Box>
                           </Box>
-                          <Box sx={{ display: 'flex', alignItems: 'center'}}>
-                            {columnActions.includes('edit_default') && (!forbiddenEditRow.includes(item.Id)) && item.EditUrl && (
-                              <IconButton size='small' onClick={() => {
-                                                                  setMobileEditPageId(item.PageId)
-                                                                  togglePageActionDrawer('edit_default', item.Id, CSRF_TOKEN_MAP[item['Id']])
-                                                                }}>
-                                <Icon icon={item.EditIcon} fontSize={20} />
-                              </IconButton>
-                            )}
-                            {columnActions.includes('delete_array') && (!forbiddenDeleteRow.includes(item.Id)) && (
-                              <IconButton size='small' onClick={() => {
-                                                                  //setMobileEditPageId(item.PageId)
-                                                                  togglePageActionDrawer('delete_array', item.Id, CSRF_TOKEN_MAP[item['Id']])
-                                                                }}>
-                                <Icon icon='mdi:delete-outline' fontSize={20} />
-                              </IconButton>
-                            )}
-                          </Box>
+                          {IsShowRightIconSection && (
+                              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                                {columnActions.includes('edit_default') && (!forbiddenEditRow.includes(item.Id)) && item.EditUrl && (
+                                  <IconButton size='small' sx={{ml: 1}} onClick={() => {
+                                                                      setMobileEditPageId(item.PageId)
+                                                                      togglePageActionDrawer('edit_default', item.Id, CSRF_TOKEN_MAP[item['Id']])
+                                                                    }}>
+                                    <Icon icon={item.EditIcon} fontSize={20} />
+                                  </IconButton>
+                                )}
+                                {columnActions.includes('delete_array') && (!forbiddenDeleteRow.includes(item.Id)) && (
+                                  <IconButton size='small' sx={{ml: 1}} onClick={() => {
+                                                                      //setMobileEditPageId(item.PageId)
+                                                                      togglePageActionDrawer('delete_array', item.Id, CSRF_TOKEN_MAP[item['Id']])
+                                                                    }}>
+                                    <Icon icon='mdi:delete-outline' fontSize={20} />
+                                  </IconButton>
+                                )}
+                              </Box>
+                          )}
                         </Box>
-                      </Grid>
-                    </Grid>
                     </Card>
                   </Grid>
                 )
