@@ -311,9 +311,9 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
       //setIsLoadingTipText(response.export_default.ExportLoading)
 
       //setFilter(response.init_default.filter)
+      //setPageSize(response.init_default.pageNumber) //不能开启此项
       setIsLoading(false);
       setIsLoadingTip(false);
-      setPageSize(response.init_default.pageNumber)
       setPageCount(response.init_default.pageCount)
 
       return response
@@ -353,6 +353,9 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
         setIsLoadingTipText("已经加载所有数据");
       }
     }
+    console.log("mobileEditPageId > -1 && mobileEditPageIdEnable ? mobileEditPageId : page", page)
+    console.log("mobileEditPageId > -1 && mobileEditPageIdEnable ? mobileEditPageId : pageCount", pageCount)
+    console.log("111111", searchFieldName, searchFieldValue, allSubmitFields, page, pageSize, pageCount, sortMethod, sortColumn, forceUpdate, filterMultiColumns, externalId)
     setMobileEditPageIdEnable(false);
   }, [dispatch, searchFieldName, searchFieldValue, allSubmitFields, page, pageSize, sortMethod, sortColumn, forceUpdate, filterMultiColumns, externalId])
 
