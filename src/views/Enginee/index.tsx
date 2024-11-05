@@ -60,6 +60,7 @@ import toast from 'react-hot-toast'
 
 // ** Myself file
 import IndexTableHeader from 'src/views/Enginee/IndexTableHeader'
+import IndexTableHeaderMobile from 'src/views/Enginee/IndexTableHeaderMobile'
 import AddOrEditTable from './AddOrEditTable'
 import ViewTable from './ViewTable'
 import ImagesPreview from './ImagesPreview'
@@ -312,6 +313,7 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
 
       //setFilter(response.init_default.filter)
       //setPageSize(response.init_default.pageNumber) //不能开启此项
+      params['page'] == 0 && setIsFirstLoadingTip(false)
       setIsLoading(false);
       setIsLoadingTip(false);
       setPageCount(response.init_default.pageCount)
@@ -1158,23 +1160,19 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
           <Card sx={{ mb: 3}}>
             {store.init_default.returnButton && store.init_default.returnButton.status ?
               <Grid sx={{ pr: 3, pb: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-                <CardHeader title={store.init_default.searchtitle} />
                 <Grid sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                   <Button sx={{ mb: 2 }} variant='outlined' size='small' onClick={() => { window.history.back(); }}>{store.init_default.returnButton.text}</Button>
                 </Grid>
               </Grid>
               :
               <Fragment>
-              {store.init_default.filter && store.init_default.filter.length == 0 && store.add_default && store.add_default.allFields && isMobileData && store.init_default.button_add && store.init_default.MobileEndShowSearch == 'No' ?
+              {store.init_default.filter && store.init_default.filter.length == 0 && store.add_default && store.add_default.allFields && isMobileData && store.init_default.button_add && store.init_default.MobileEndShowSearch == 'No' && (
                 <Grid sx={{ pr: 3, pb: 0, pt: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <CardHeader title={store.init_default.searchtitle} sx={{ pb: 2, pt: 3 }}/>
                   <Grid sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
                     <Button variant='outlined' size='small' onClick={toggleAddTableDrawer}>{store.init_default.button_add}</Button>
                   </Grid>
                 </Grid>
-                :
-                <CardHeader title={store.init_default.searchtitle} sx={{ pb: 2, pt: 3 }}/>
-              }
+              )}
               </Fragment>
             }
             {store.init_default.MobileSummary && store.init_default.MobileSummary.length > 0 && (
@@ -1218,7 +1216,7 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
               )
             })}
 
-            {store && store.init_default && store.init_default.searchFieldText && store.init_default.searchFieldArray && store.init_default.searchFieldArray.length>0 && isFirstLoadingTip==false ? <IndexTableHeader filter={store.init_default.filter} handleFilterChange={handleFilterChange} value={searchFieldName} handleFilter={tableHeaderHandleFilter} toggleAddTableDrawer={toggleAddTableDrawer} toggleImportTableDrawer={toggleImportTableDrawer} toggleExportTableDrawer={toggleExportTableDrawer} searchFieldText={store.init_default.searchFieldText} searchFieldArray={store.init_default.searchFieldArray} selectedRows={selectedRows} multireview={store.init_default.multireview} multiReviewHandleFilter={multiReviewHandleFilter} button_search={store.init_default.button_search} button_add={store.init_default.button_add} button_import={store.init_default.button_import} button_export={store.init_default.button_export} isAddButton={store && store.add_default && store.add_default.allFields ? true : false} isImportButton={store && store.import_default && store.import_default.allFields ? true : false} isExportButton={store && store.export_default && store.export_default.allFields && store.export_default.exportUrl ? true : false} CSRF_TOKEN={CSRF_TOKEN} MobileEndShowSearch={store.init_default.MobileEndShowSearch} MobileEndShowGroupFilter={store.init_default.MobileEndShowGroupFilter} /> : ''}
+            {store && store.init_default && store.init_default.searchFieldText && store.init_default.searchFieldArray && store.init_default.searchFieldArray.length>0 && isFirstLoadingTip==false ? <IndexTableHeaderMobile filter={store.init_default.filter} handleFilterChange={handleFilterChange} value={searchFieldName} handleFilter={tableHeaderHandleFilter} toggleAddTableDrawer={toggleAddTableDrawer} toggleImportTableDrawer={toggleImportTableDrawer} toggleExportTableDrawer={toggleExportTableDrawer} searchFieldText={store.init_default.searchFieldText} searchFieldArray={store.init_default.searchFieldArray} selectedRows={selectedRows} multireview={store.init_default.multireview} multiReviewHandleFilter={multiReviewHandleFilter} button_search={store.init_default.button_search} button_add={store.init_default.button_add} button_import={store.init_default.button_import} button_export={store.init_default.button_export} isAddButton={store && store.add_default && store.add_default.allFields ? true : false} isImportButton={store && store.import_default && store.import_default.allFields ? true : false} isExportButton={store && store.export_default && store.export_default.allFields && store.export_default.exportUrl ? true : false} CSRF_TOKEN={CSRF_TOKEN} MobileEndShowSearch={store.init_default.MobileEndShowSearch} MobileEndShowGroupFilter={store.init_default.MobileEndShowGroupFilter} /> : ''}
           </Card>
           <Fragment>
             <Grid container spacing={2}>
