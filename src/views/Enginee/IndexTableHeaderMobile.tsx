@@ -23,8 +23,6 @@ import DialogContentText from '@mui/material/DialogContentText'
 import { GridRowId } from '@mui/x-data-grid'
 import toast from 'react-hot-toast'
 
-import {isMobile} from 'src/configs/functions'
-
 import { useForm, Controller } from 'react-hook-form'
 
 interface TableHeaderProps {
@@ -55,7 +53,7 @@ interface TableHeaderProps {
 const IndexTableHeaderMobile = (props: TableHeaderProps) => {
 
   // ** Props
-  const { filter, handleFilterChange, handleFilter, toggleAddTableDrawer, toggleImportTableDrawer, toggleExportTableDrawer, searchFieldText, searchFieldArray, selectedRows, multireview, multiReviewHandleFilter, button_search, button_add, button_export, isAddButton, isImportButton, isExportButton, CSRF_TOKEN, MobileEndShowSearch, MobileEndShowGroupFilter } = props
+  const { filter, handleFilterChange, handleFilter, toggleAddTableDrawer, toggleImportTableDrawer, toggleExportTableDrawer, searchFieldText, searchFieldArray, selectedRows, multireview, multiReviewHandleFilter, button_search, button_add, isAddButton, isImportButton, isExportButton, CSRF_TOKEN, MobileEndShowSearch, MobileEndShowGroupFilter } = props
   const defaultValuesInitial = { "searchFieldName": searchFieldArray && searchFieldArray[0] && searchFieldArray[0].value ? searchFieldArray[0].value : undefined, "searchFieldValue": "", "multiReviewInputName": "" }
 
   //console.log("IndexTableHeaderMobile props", props)
