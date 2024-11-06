@@ -138,7 +138,7 @@ const IndexTableHeaderMobile = (props: TableHeaderProps) => {
     <>
       <form onSubmit={handleSubmit(onSubmit)} id="searchOneField">
         {filter.length > 0 && MobileEndShowGroupFilter=='Yes' ?
-          <CardContent sx={{ pl: 3, pb: 1, pt: 1 }}>
+          <CardContent sx={{ pl: 3, pb: 0, pt: 4 }}>
             <Grid container spacing={6}>
               {filter.length > 0 && filter.map((Filter: any, Filter_index: number) => {
 

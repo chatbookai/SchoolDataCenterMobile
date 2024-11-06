@@ -1377,7 +1377,7 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
                   </Grid>
                 )
               })}
-              {isGetNextPageData == false && pageCount > 1 && (
+              {isMobileData == true && isGetNextPageData == false && pageCount > 1 && (
                 <Grid item key={"Pagination"} xs={12} sm={12} md={12} lg={12} sx={{ padding: '10px 0 10px 0' }}>
                   <Pagination count={pageCount} variant='outlined' color='primary' page={(paginationModel.page+1)} onChange={
                     (event: React.ChangeEvent<unknown>, page: number) => {
