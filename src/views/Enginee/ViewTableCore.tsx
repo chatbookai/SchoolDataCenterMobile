@@ -107,7 +107,7 @@ const ViewTableCore = (props: ViewTableType) => {
     }
   });
 
-  console.log("newTableRowData--------------------------------", newTableRowData)
+  //console.log("newTableRowData--------------------------------", newTableRowData)
 
   const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
 
@@ -177,12 +177,14 @@ const ViewTableCore = (props: ViewTableType) => {
       )}
       {model == "" && (
         <Fragment>
-          <Box sx={{ mb: 8, textAlign: 'center' }}>
-            <Typography variant='h5' sx={{ mb: 3 }}>
-              {titletext}
-            </Typography>
-            <Typography variant='body2'>{store.view_default.titlememo ? store.view_default.titlememo : ''}</Typography>
-          </Box>
+          {isMobileData == false && (
+            <Box sx={{ mb: 8, textAlign: 'center' }}>
+              <Typography variant='h5' sx={{ mb: 3 }}>
+                {titletext}
+              </Typography>
+              <Typography variant='body2'>{store.view_default.titlememo ? store.view_default.titlememo : ''}</Typography>
+            </Box>
+          )}
           <Card key={"AllFieldsMode"}>
             <CardContent sx={{ px: { xs: 8, sm: 12 } }}>
               <Grid container spacing={6} sx={{pt: '10px'}}>

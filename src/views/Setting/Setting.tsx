@@ -85,6 +85,16 @@ const Setting = ({ handleLogout, menuArray }: any) => {
     setPreviousPageModel((preV: any)=>[...preV, previousModel])
   }
 
+  const handleActionInMobileApp = (action: string, title: string) => {
+    console.log("actionactionactionaction", action)
+    setPreviousPageModel((preV: any)=>[...preV, action])
+    setPageModel('EngineeModelApp')
+    setLeftIcon('mdi:arrow-left-thin')
+    setTitle(title)
+    setRightButtonText('')
+    setRightButtonIcon('')
+  }
+
   console.log("previousPageModel", previousPageModel)
 
   const handleWalletGoHome = () => {
@@ -95,6 +105,8 @@ const Setting = ({ handleLogout, menuArray }: any) => {
     setRightButtonText('QR')
     setRightButtonIcon('')
   }
+
+  console.log("pageModel", pageModel, previousPageModel)
 
   const LeftIconOnClick = () => {
     switch(pageModel) {
@@ -120,12 +132,15 @@ const Setting = ({ handleLogout, menuArray }: any) => {
         handleClickSecurityPrivacyButton()
         break
       case 'EngineeModelApp':
-        console.log("previousPageModel", previousPageModel)
-        if(previousPageModel.at(-1) == 'SystemSetting') {
+        if(previousPageModel.at(-1) == 'view_default') { // sub module redirect
+          //在此处修改子模块的值
+          previousPageModel.pop()
+        }
+        else if(previousPageModel.at(-1) == 'SystemSetting') {
           handleClickSystemSettingButton()
           previousPageModel.pop()
         }
-        if(previousPageModel.at(-1) == 'BasicData') {
+        else if(previousPageModel.at(-1) == 'BasicData') {
           handleClickBasicDataButton()
           previousPageModel.pop()
         }
@@ -810,7 +825,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
 
             {pageModel == 'EngineeModelApp' && appItemId && (
               <>
-                <EngineeModelApp backEndApi={`apps/apps_${appItemId}.php`} externalId=''/>
+                <EngineeModelApp backEndApi={`apps/apps_${appItemId}.php`} externalId='' handleActionInMobileApp={handleActionInMobileApp} />
               </>
             )}
 

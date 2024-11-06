@@ -93,8 +93,9 @@ const StyledLink = styled(Link)(({ theme }) => ({
 }))
 
 interface AddTableType{
-  backEndApi:string
-  externalId:string
+  backEndApi: string
+  externalId: string
+  handleActionInMobileApp: any
 }
 
 const ImgStyled = styled('img')(() => ({
@@ -103,7 +104,7 @@ const ImgStyled = styled('img')(() => ({
   borderRadius: 4
 }))
 
-const UserList = ({ backEndApi, externalId }: AddTableType) => {
+const UserList = ({ backEndApi, externalId, handleActionInMobileApp }: AddTableType) => {
   // ** Props
   const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
 
@@ -136,7 +137,6 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
 
   const [forbiddenEditRow, setForbiddenEditRow] = useState<any[]>([])
   const [forbiddenDeleteRow, setForbiddenDeleteRow] = useState<any[]>([])
-
 
   const [allSubmitFields, setAllSubmitFields] = useState({ 'searchFieldName': '' });
 
@@ -262,6 +262,9 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
         setAddEditActionOpen(!addEditActionOpen)
         setAddEditViewShowInWindow(true)
       }
+      else if(response && response.init_action.action.indexOf("init_default") != -1) {
+        setAddEditActionName(response.init_action.action)
+      }
 
       if(response && response.init_default && response.init_default.MobileEndData && response.init_default.MobileEndData.length > 0) {
 
@@ -371,6 +374,7 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
     window.addEventListener('resize', handleResize);
 
     if (isMobileData === true) {
+        setAddEditViewShowInWindow(true)
         const handleScroll = () => {
             const scrollY = window.scrollY;
             const windowHeight = window.innerHeight;
@@ -545,16 +549,19 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
   const toggleAddTableDrawer = () => {
     setAddEditActionName('add_default')
     setAddEditActionOpen(!addEditActionOpen)
+    handleActionInMobileApp('add_default', 'Title')
   }
 
   const toggleEditTableDrawer = () => {
     setAddEditActionName('edit_default')
     setAddEditActionOpen(!addEditActionOpen)
+    handleActionInMobileApp('edit_default', 'Title')
   }
 
   const toggleViewTableDrawer = () => {
     setAddEditActionName('view_default')
     setViewActionOpen(!viewActionOpen)
+    handleActionInMobileApp('view_default', 'Title')
   }
 
   const toggleImagesPreviewDrawer = () => {
@@ -574,15 +581,18 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
       case 'edit_default':
         setAddEditActionId(id)
         setAddEditActionOpen(!addEditActionOpen)
+        handleActionInMobileApp(action, 'Title')
         break;
       case 'view_default':
         setAddEditActionId(id)
         setViewActionOpen(!viewActionOpen)
         setEditViewCounter(0)
+        handleActionInMobileApp(action, 'Title')
         break;
       case 'delete_array':
         setSelectedRows([id])
         handleMultiOpenDialog("delete_array")
+        handleActionInMobileApp(action, 'Title')
         break;
     }
     if (action != "edit_default" && action.indexOf("edit_default") != -1) {
@@ -1033,8 +1043,8 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
   }
 
   return (
-    <Grid container spacing={6}>
-      {store && store.init_action.action == 'init_default' && isMobileData == false ?
+    <Grid container spacing={0}>
+      {addEditActionName == 'init_default' && isMobileData == false ?
       <Grid item xs={12}>
         <Card>
           {store.init_default.returnButton && store.init_default.returnButton.status ?
@@ -1155,7 +1165,7 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
         }
       </Grid>
       : '' }
-      {store && store.init_action.action == 'init_default' && isMobileData == true && isFirstLoadingTip==false ?
+      {addEditActionName == 'init_default' && isMobileData == true && isFirstLoadingTip==false && (
         <Grid item xs={12}>
           <Card sx={{ mb: 3}}>
             {store.init_default.returnButton && store.init_default.returnButton.status ?
@@ -1426,8 +1436,8 @@ const UserList = ({ backEndApi, externalId }: AddTableType) => {
             )
             : ''
           }
-      </Grid>
-      : '' }
+        </Grid>
+      )}
 
       {isMobileData == true && isFirstLoadingTip && (
         <Backdrop
