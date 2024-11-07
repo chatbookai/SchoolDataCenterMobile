@@ -1082,15 +1082,14 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
 
     return (
         <Fragment>
-            {titletext && titletext != "" && !isLoading ?
+            {isMobileData == false && titletext && titletext != "" && !isLoading && (
                 <Box sx={{ mb: 8, textAlign: 'center' }}>
                     <Typography variant='h5' sx={{ mb: 3 }}>
                         {titletext}
                     </Typography>
                     <Typography variant='body2'>{addEditStructInfo2.titlememo ? addEditStructInfo2.titlememo : ''}</Typography>
                 </Box>
-                : ''
-            }
+            )}
             <Fragment>
                 {isLoading ? (
                     <Grid item xs={12} sm={12} container justifyContent="space-around">
@@ -4880,10 +4879,10 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
 
                         {((addEditStructInfo2.submittext && addEditStructInfo2.submittext) || (addEditStructInfo2.canceltext && addEditStructInfo2.canceltext)) && ((singleModelCounter == (fieldIdValue+1) ) || FieldShowStatus == 2) ?
                             <Grid item xs={12} sm={12} container justifyContent="space-around" sx={{ pt: 4 }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                                     {addEditStructInfo2.submittext && addEditStructInfo2.submittext != "" ?
                                         <Tooltip title="Alt+s">
-                                            <Button size={componentsize} disabled={isSubmitLoading} type='submit' variant='contained' sx={{ mr: 3 }}>
+                                            <Button size={componentsize} disabled={isSubmitLoading} type='submit' variant='contained' sx={{ width: isMobileData == true ? '100%' : '' }}>
                                                 {isSubmitLoading ? (
                                                     <CircularProgress
                                                         sx={{

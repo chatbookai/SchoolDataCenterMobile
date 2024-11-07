@@ -380,16 +380,16 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
 
     window.addEventListener('resize', handleResize);
 
-    console.log("addEditActionName 111111", addEditActionName)
 
     if (isMobileData === true) {
         setAddEditViewShowInWindow(true)
         const handleScroll = () => {
+            console.log("addEditActionName 111111", addEditActionName)
             const scrollY = window.scrollY;
             const windowHeight = window.innerHeight;
             const documentHeight = document.body.scrollHeight;
 
-            if (scrollY + windowHeight >= documentHeight && isLoadingTipDisabled === false && paginationModel.page < (pageCount-1)) {
+            if (addEditActionName == 'init_default' && scrollY + windowHeight >= documentHeight && isLoadingTipDisabled === false && paginationModel.page < (pageCount-1)) {
                 setPaginationModel((paginationModel) => {
                     if (paginationModel.page < pageCount) {
                         const newPage = paginationModel.page + 1;
@@ -417,7 +417,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
             window.removeEventListener('resize', handleResize);
         };
     }
-  }, [isMobileData, isLoadingTipDisabled, pageCount]);
+  }, [isMobileData, isLoadingTipDisabled, pageCount, addEditActionName]);
 
 
   const [innerHeight, setInnerHeight] = useState<number | string>(window.innerHeight)
