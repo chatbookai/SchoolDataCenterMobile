@@ -207,9 +207,9 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp }: AddTableT
     if (params['filterMultiColumns'] != undefined) {
       newAllFilters['filterMultiColumns'] = JSON.parse(JSON.stringify(params['filterMultiColumns']))
     }
-
+    console.log("params", params)
     if (storedToken) {
-      params['page'] == 0 && setIsFirstLoadingTip(true)
+      params['page'] == 0 && params['searchFieldName'] == '' && setIsFirstLoadingTip(true)
       setIsLoading(true)
       const response = await axios.get(authConfig.backEndApiHost + backEndApi, {
         headers: {
@@ -217,7 +217,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp }: AddTableT
         },
         params: newAllFilters
       }).then(res => {
-        params['page'] == 0 && setIsFirstLoadingTip(false)
+        params['page'] == 0 && params['searchFieldName'] == '' && setIsFirstLoadingTip(false)
         const data = res.data
         if(data && data.isEncrypted == "1" && data.data)  {
           const i = data.data.slice(0, 32);
@@ -316,7 +316,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp }: AddTableT
 
       //setFilter(response.init_default.filter)
       //setPageSize(response.init_default.pageNumber) //不能开启此项
-      params['page'] == 0 && setIsFirstLoadingTip(false)
+      params['page'] == 0 && params['searchFieldName'] == '' && setIsFirstLoadingTip(false)
       setIsLoading(false);
       setIsLoadingTip(false);
       setPageCount(response.init_default.pageCount)
@@ -1426,6 +1426,14 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp }: AddTableT
               :
               null
               }
+              {isMobileData == true && isLoading == true && (
+                <Backdrop
+                  sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                  open={true}
+                >
+                  <CircularProgress color="inherit" size={45}/>
+                </Backdrop>
+              )}
             </Grid>
           </Fragment>
           { (store.init_default.ApprovalNodeFields && store.init_default.ApprovalNodeFields.AllNodes && store.init_default.ApprovalNodeFields.CurrentNode && store.init_default.ApprovalNodeFields.ApprovalNodeTitle) || (store.init_default.ApprovalNodeFields.DebugSql) ?
