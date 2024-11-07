@@ -104,7 +104,7 @@ const ImgStyled = styled('img')(() => ({
   borderRadius: 4
 }))
 
-const UserList = ({ backEndApi, externalId, handleActionInMobileApp }: AddTableType) => {
+const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMobileApp }: AddTableType) => {
   // ** Props
   const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
 
@@ -360,7 +360,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp }: AddTableT
     }
     console.log("mobileEditPageId > -1 && mobileEditPageIdEnable ? mobileEditPageId : page", page)
     console.log("mobileEditPageId > -1 && mobileEditPageIdEnable ? mobileEditPageId : pageCount", pageCount)
-    console.log("111111", searchFieldName, searchFieldValue, allSubmitFields, page, pageSize, pageCount, sortMethod, sortColumn, forceUpdate, filterMultiColumns, externalId)
+    console.log("mobileEditPageId 111111", searchFieldName, searchFieldValue, allSubmitFields, page, pageSize, pageCount, sortMethod, sortColumn, forceUpdate, filterMultiColumns, externalId)
     setMobileEditPageIdEnable(false);
   }, [dispatch, searchFieldName, searchFieldValue, allSubmitFields, page, pageSize, sortMethod, sortColumn, forceUpdate, filterMultiColumns, externalId])
 
@@ -372,6 +372,8 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp }: AddTableT
     };
 
     window.addEventListener('resize', handleResize);
+
+    console.log("addEditActionName 111111", addEditActionName)
 
     if (isMobileData === true) {
         setAddEditViewShowInWindow(true)
@@ -617,6 +619,13 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp }: AddTableT
   if (store.init_default.searchtitle != undefined) {
     document.title = store.init_default.searchtitle;
   }
+
+  //在移动端时,当处理在查看,编辑,新增,删除页面时, 返回到列表页面. 左上角的返回按钮事件是在这个页面的父页面, 需要在此进行获得这个状态的改变
+  useEffect(() => {
+    if(actionInMobileApp)  {
+      setAddEditActionName('init_default')
+    }
+  }, [actionInMobileApp])
 
   const addDefault:{[key:string]:any} = {}
 
@@ -1388,7 +1397,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp }: AddTableT
                   </Grid>
                 )
               })}
-              {isMobileData == true && isGetNextPageData == false && pageCount > 1 && (
+              {isMobileData == true && isGetNextPageData == false && pageCount > 1 && false && ( // 移动端暂时不需要单独的分页显示, 之前加上是因为在H5中,有些型号的手机无法实现下拉分页
                 <Grid item key={"Pagination"} xs={12} sm={12} md={12} lg={12} sx={{ padding: '10px 0 10px 0' }}>
                   <Pagination count={pageCount} variant='outlined' color='primary' page={(paginationModel.page+1)} onChange={
                     (event: React.ChangeEvent<unknown>, page: number) => {

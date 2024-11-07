@@ -59,6 +59,8 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   const [themeValue, setThemeValue] = useState<string>(settings.mode)
   const [appItemId, setAppItemId] = useState<string>('')
 
+  const [actionInMobileApp, setActionInMobileApp] = useState<string>('')
+
   const basicDataMenus = menuArray && menuArray.length > 0 && menuArray.filter((Item: any) => Item && Item.title && Item.title == '基础数据')
   const systemSettingMenus = menuArray && menuArray.length > 0 && menuArray.filter((Item: any) => Item && Item.title && Item.title == '系统设置')
 
@@ -87,6 +89,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
 
   const handleActionInMobileApp = (action: string, title: string) => {
     console.log("actionactionactionaction", action)
+    setActionInMobileApp(action)
     setPreviousPageModel((preV: any)=>[...preV, action])
     setPageModel('EngineeModelApp')
     setLeftIcon('mdi:arrow-left-thin')
@@ -133,7 +136,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
         break
       case 'EngineeModelApp':
         if(previousPageModel.at(-1) == 'view_default') { // sub module redirect
-          //在此处修改子模块的值
+          setActionInMobileApp('init_default')
           previousPageModel.pop()
         }
         else if(previousPageModel.at(-1) == 'SystemSetting') {
@@ -825,7 +828,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
 
             {pageModel == 'EngineeModelApp' && appItemId && (
               <>
-                <EngineeModelApp backEndApi={`apps/apps_${appItemId}.php`} externalId='' handleActionInMobileApp={handleActionInMobileApp} />
+                <EngineeModelApp backEndApi={`apps/apps_${appItemId}.php`} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} />
               </>
             )}
 

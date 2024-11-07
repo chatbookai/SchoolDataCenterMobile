@@ -198,6 +198,7 @@ const ViewTableCore = (props: ViewTableType) => {
                         <TableRow key={RowData_index}>
                           {RowData && RowData.map((CellData: any, FieldArray_index: number) => {
                             const FieldArray = CellData.FieldArray
+                            if(FieldArray == null) return
 
                             //开始根据表单中每个字段的类型,进行不同的渲染,此部分比较复杂,注意代码改动.
                             if (FieldArray.type == "input"
