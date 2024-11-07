@@ -52,6 +52,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
   const [Title, setTitle] = useState<string>(t('Setting') as string)
+  const [TitleOriginal, setTitleOriginal] = useState<string>(t('Setting') as string)
   const [RightButtonText, setRightButtonText] = useState<string>('')
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
 
@@ -59,7 +60,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   const [themeValue, setThemeValue] = useState<string>(settings.mode)
   const [appItemId, setAppItemId] = useState<string>('')
 
-  const [actionInMobileApp, setActionInMobileApp] = useState<string>('')
+  const [actionInMobileApp, setActionInMobileApp] = useState<string>('20241108')
 
   const basicDataMenus = menuArray && menuArray.length > 0 && menuArray.filter((Item: any) => Item && Item.title && Item.title == '基础数据')
   const systemSettingMenus = menuArray && menuArray.length > 0 && menuArray.filter((Item: any) => Item && Item.title && Item.title == '系统设置')
@@ -82,6 +83,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
     setPageModel('EngineeModelApp')
     setLeftIcon('mdi:arrow-left-thin')
     setTitle(item.title)
+    setTitleOriginal(item.title)
     setRightButtonText('')
     setRightButtonIcon('')
     setPreviousPageModel((preV: any)=>[...preV, previousModel])
@@ -89,16 +91,22 @@ const Setting = ({ handleLogout, menuArray }: any) => {
 
   const handleActionInMobileApp = (action: string, title: string) => {
     console.log("actionactionactionaction", action)
-    setActionInMobileApp(action)
     setPreviousPageModel((preV: any)=>[...preV, action])
     setPageModel('EngineeModelApp')
     setLeftIcon('mdi:arrow-left-thin')
     setTitle(title)
     setRightButtonText('')
     setRightButtonIcon('')
+    if(actionInMobileApp == 'add_default') {
+      setActionInMobileApp(String(Math.random()))
+    }
+    if(actionInMobileApp == 'edit_default') {
+      setActionInMobileApp(String(Math.random()))
+    }
+    if(actionInMobileApp == 'view_default') {
+      setActionInMobileApp(String(Math.random()))
+    }
   }
-
-  console.log("previousPageModel", previousPageModel)
 
   const handleWalletGoHome = () => {
     setRefreshWalletData(refreshWalletData+1)
@@ -135,8 +143,19 @@ const Setting = ({ handleLogout, menuArray }: any) => {
         handleClickSecurityPrivacyButton()
         break
       case 'EngineeModelApp':
-        if(previousPageModel.at(-1) == 'view_default') { // sub module redirect
-          setActionInMobileApp('init_default')
+        if(previousPageModel.at(-1) == 'add_default') { // sub module redirect
+          setActionInMobileApp(String(Math.random()))
+          setTitle(TitleOriginal)
+          previousPageModel.pop()
+        }
+        else if(previousPageModel.at(-1) == 'edit_default') { // sub module redirect
+          setActionInMobileApp(String(Math.random()))
+          setTitle(TitleOriginal)
+          previousPageModel.pop()
+        }
+        else if(previousPageModel.at(-1) == 'view_default') { // sub module redirect
+          setActionInMobileApp(String(Math.random()))
+          setTitle(TitleOriginal)
           previousPageModel.pop()
         }
         else if(previousPageModel.at(-1) == 'SystemSetting') {

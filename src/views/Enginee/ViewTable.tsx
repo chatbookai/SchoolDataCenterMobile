@@ -50,7 +50,7 @@ const ViewTable = (props: ViewTableType) => {
   return (
     <Fragment>
     {addEditViewShowInWindow ?
-      <Grid sx={{ pb: 2, px: 2, pt: 2, position: 'relative' }} style={{ width: '100%' }}>
+      <Grid sx={{ pb: 2, px: 0, pt: 2, position: 'relative' }} style={{ width: '100%' }}>
         <ViewTableCore externalId={Number(externalId)} id={id} action={action} pageJsonInfor={pageJsonInfor} open={open} toggleViewTableDrawer={toggleViewTableDrawer} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} CSRF_TOKEN={CSRF_TOKEN} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} />
       </Grid>
       :

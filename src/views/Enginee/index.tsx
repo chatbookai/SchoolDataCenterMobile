@@ -96,6 +96,7 @@ interface AddTableType{
   backEndApi: string
   externalId: string
   handleActionInMobileApp: any
+  actionInMobileApp: string
 }
 
 const ImgStyled = styled('img')(() => ({
@@ -151,7 +152,13 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
   const isMobileData = isMobile()
   const windowWidthData = windowWidth()
 
-  //const [filter, setFilter] = useState<any[]>([])
+  //在移动端时,当处理在查看,编辑,新增,删除页面时, 返回到列表页面. 左上角的返回按钮事件是在这个页面的父页面, 需要在此进行获得这个状态的改变
+  useEffect(() => {
+    console.log("actionInMobileApp actionInMobileApp", actionInMobileApp)
+    if(actionInMobileApp)  {
+      setAddEditActionName('init_default')
+    }
+  }, [actionInMobileApp])
 
   const handleIsLoadingTipChange = (status: boolean, showText: string) => {
     setIsLoadingTip(status)
@@ -553,18 +560,20 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
     setAddEditActionName('add_default')
     setAddEditActionOpen(!addEditActionOpen)
     handleActionInMobileApp('add_default', 'Title')
+    handleActionInMobileApp('view_default', store.edit_default.titletext)
   }
 
   const toggleEditTableDrawer = () => {
     setAddEditActionName('edit_default')
     setAddEditActionOpen(!addEditActionOpen)
     handleActionInMobileApp('edit_default', 'Title')
+    handleActionInMobileApp('view_default', store.edit_default.titletext)
   }
 
   const toggleViewTableDrawer = () => {
     setAddEditActionName('view_default')
     setViewActionOpen(!viewActionOpen)
-    handleActionInMobileApp('view_default', 'Title')
+    handleActionInMobileApp('view_default', store.view_default.titletext)
   }
 
   const toggleImagesPreviewDrawer = () => {
@@ -584,13 +593,13 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
       case 'edit_default':
         setAddEditActionId(id)
         setAddEditActionOpen(!addEditActionOpen)
-        handleActionInMobileApp(action, 'Title')
+        handleActionInMobileApp(action, store.edit_default.titletext)
         break;
       case 'view_default':
         setAddEditActionId(id)
         setViewActionOpen(!viewActionOpen)
         setEditViewCounter(0)
-        handleActionInMobileApp(action, 'Title')
+        handleActionInMobileApp(action, store.view_default.titletext)
         break;
       case 'delete_array':
         setSelectedRows([id])
@@ -619,13 +628,6 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
   if (store.init_default.searchtitle != undefined) {
     document.title = store.init_default.searchtitle;
   }
-
-  //在移动端时,当处理在查看,编辑,新增,删除页面时, 返回到列表页面. 左上角的返回按钮事件是在这个页面的父页面, 需要在此进行获得这个状态的改变
-  useEffect(() => {
-    if(actionInMobileApp)  {
-      setAddEditActionName('init_default')
-    }
-  }, [actionInMobileApp])
 
   const addDefault:{[key:string]:any} = {}
 

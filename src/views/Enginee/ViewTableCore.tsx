@@ -15,6 +15,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import ListItem from '@mui/material/ListItem'
 import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -88,6 +89,7 @@ const ViewTableCore = (props: ViewTableType) => {
 
   // ** Hooks
   //const dispatch = useDispatch<AppDispatch>()
+  const [isLoading, setIsLoading] = useState(false);
   const store = useSelector((state: RootState) => state.user)
   const titletext: string = store.view_default.titletext;
   const [defaultValuesView, setDefaultValuesView] = useState<{[key:string]:any}>({})
@@ -113,6 +115,7 @@ const ViewTableCore = (props: ViewTableType) => {
 
   useEffect(() => {
     if (action == "view_default" && editViewCounter > 0) {
+      setIsLoading(true)
       axios
         .get(authConfig.backEndApiHost + backEndApi, { headers: { Authorization: storedToken+"::::"+CSRF_TOKEN }, params: { action, id, editViewCounter, isMobileData } })
         .then(res => {
@@ -155,8 +158,10 @@ const ViewTableCore = (props: ViewTableType) => {
               setPrint(dataJson.print)
             }
           }
+          setIsLoading(false)
         })
         .catch(() => {
+          setIsLoading(false)
           console.log("axios.get editUrl return")
         })
     }
@@ -170,12 +175,12 @@ const ViewTableCore = (props: ViewTableType) => {
 
   return (
     <Fragment>
-      {model && model == "测评模式" && (
+      {isLoading == false && model && model == "测评模式" && (
         <Fragment>
           <ModelMiddleSchoolSoulAssessment modelOriginal={model} dataOriginal={defaultValuesView} id={id} backEndApi={backEndApi}/>
         </Fragment>
       )}
-      {model == "" && (
+      {isLoading == false && model == "" && (
         <Fragment>
           {isMobileData == false && (
             <Box sx={{ mb: 8, textAlign: 'center' }}>
@@ -186,7 +191,7 @@ const ViewTableCore = (props: ViewTableType) => {
             </Box>
           )}
           <Card key={"AllFieldsMode"}>
-            <CardContent sx={{ px: { xs: 8, sm: 12 } }}>
+            <CardContent sx={{ px: { xs: 9, sm: 12 } }}>
               <Grid container spacing={6} sx={{pt: '10px'}}>
                 <Table>
                   <TableBody>
@@ -479,6 +484,14 @@ const ViewTableCore = (props: ViewTableType) => {
             </CardContent>
           </Card>
         </Fragment>
+      )}
+      {isLoading == true && (
+        <Grid item xs={12} sm={12} container justifyContent="space-around">
+          <Box sx={{ mt: 6, mb: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+              <CircularProgress />
+              <Typography sx={{pt:5,pb:5}}>正在加载中</Typography>
+          </Box>
+        </Grid>
       )}
     </Fragment>
   )
