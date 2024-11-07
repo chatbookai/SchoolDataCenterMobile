@@ -215,7 +215,7 @@ const Index = ({ menuArray, setMenuArray }: any) => {
 
             {pageModel == 'EngineeModelApp' && appItemId && (
               <>
-                <EngineeModelApp backEndApi={`apps/apps_${appItemId}.php`} externalId=''/>
+                <EngineeModelApp backEndApi={`apps/apps_${appItemId}.php`} externalId='' handleActionInMobileApp={null} actionInMobileApp={''}/>
               </>
             )}
 
