@@ -230,7 +230,7 @@ const IndexTableHeaderMobile = (props: TableHeaderProps) => {
                 : ''}
               {searchFieldArray ?
                 <Grid item xs={12}>
-                  <FormControl fullWidth size="small" sx={{}}>
+                  <FormControl fullWidth size="small" sx={{mt: 1}}>
                     <Controller
                       name="searchFieldValue"
                       control={control}

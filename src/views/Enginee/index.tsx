@@ -207,9 +207,9 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp }: AddTableT
     if (params['filterMultiColumns'] != undefined) {
       newAllFilters['filterMultiColumns'] = JSON.parse(JSON.stringify(params['filterMultiColumns']))
     }
-    console.log("params", params)
+    console.log("params", params, params['page'] == 0 && params['searchFieldName'] == '' && Object.keys(params['allSubmitFields']).length == 1)
     if (storedToken) {
-      params['page'] == 0 && params['searchFieldName'] == '' && setIsFirstLoadingTip(true)
+      params['page'] == 0 && params['searchFieldName'] == '' && Object.keys(params['allSubmitFields']).length == 1 && setIsFirstLoadingTip(true)
       setIsLoading(true)
       const response = await axios.get(authConfig.backEndApiHost + backEndApi, {
         headers: {
@@ -217,7 +217,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp }: AddTableT
         },
         params: newAllFilters
       }).then(res => {
-        params['page'] == 0 && params['searchFieldName'] == '' && setIsFirstLoadingTip(false)
+        params['page'] == 0 && params['searchFieldName'] == '' && Object.keys(params['allSubmitFields']).length == 1 && setIsFirstLoadingTip(false)
         const data = res.data
         if(data && data.isEncrypted == "1" && data.data)  {
           const i = data.data.slice(0, 32);
@@ -316,7 +316,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp }: AddTableT
 
       //setFilter(response.init_default.filter)
       //setPageSize(response.init_default.pageNumber) //不能开启此项
-      params['page'] == 0 && params['searchFieldName'] == '' && setIsFirstLoadingTip(false)
+      params['page'] == 0 && params['searchFieldName'] == '' && Object.keys(params['allSubmitFields']).length == 1 && setIsFirstLoadingTip(false)
       setIsLoading(false);
       setIsLoadingTip(false);
       setPageCount(response.init_default.pageCount)
@@ -430,6 +430,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp }: AddTableT
     setAllRows([])
     setPage(0)
     setIsLoadingTipDisabled(false)
+    setForceUpdate(Math.random())
   }, [])
 
   const multiReviewHandleFilter = useCallback((action: string, multiReviewInputValue: string, selectedRows: GridRowId[], CSRF_TOKEN:string) => {
