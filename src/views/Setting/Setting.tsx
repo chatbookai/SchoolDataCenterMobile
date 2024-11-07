@@ -81,7 +81,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
     setAppItemId(item.path.replace('/apps/', ''))
     setCounter(counter + 1)
     setPageModel('EngineeModelApp')
-    setLeftIcon('mdi:arrow-left-thin')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle(item.title)
     setTitleOriginal(item.title)
     setRightButtonText('')
@@ -93,7 +93,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
     console.log("actionactionactionaction", action)
     setPreviousPageModel((preV: any)=>[...preV, action])
     setPageModel('EngineeModelApp')
-    setLeftIcon('mdi:arrow-left-thin')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle(title)
     setRightButtonText('')
     setRightButtonIcon('')
@@ -188,7 +188,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   const handleClickSecurityPrivacyButton = () => {
     setCounter(counter + 1)
     setPageModel('SecurityPrivacy')
-    setLeftIcon('mdi:arrow-left-thin')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle('Security & Privacy')
     setRightButtonText('')
     setRightButtonIcon('')
@@ -197,7 +197,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   const handleClickBasicDataButton = () => {
     setCounter(counter + 1)
     setPageModel('BasicData')
-    setLeftIcon('mdi:arrow-left-thin')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle('基础数据')
     setRightButtonText('')
     setRightButtonIcon('')
@@ -206,7 +206,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   const handleClickSystemSettingButton = () => {
     setCounter(counter + 1)
     setPageModel('SystemSetting')
-    setLeftIcon('mdi:arrow-left-thin')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle('系统设置')
     setRightButtonText('')
     setRightButtonIcon('')
@@ -215,7 +215,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   const handleClickGeneralButton = () => {
     setCounter(counter + 1)
     setPageModel('General')
-    setLeftIcon('mdi:arrow-left-thin')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle('General Setting')
     setRightButtonText('')
     setRightButtonIcon('')
@@ -224,7 +224,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   const handleClickLanguageButton = () => {
     setCounter(counter + 1)
     setPageModel('Language')
-    setLeftIcon('mdi:arrow-left-thin')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle(t('Language') as string)
     setRightButtonText(t('') as string)
     setRightButtonIcon('')
@@ -233,7 +233,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   const handleClickThemeButton = () => {
     setCounter(counter + 1)
     setPageModel('Theme')
-    setLeftIcon('mdi:arrow-left-thin')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle('Theme')
     setRightButtonText('')
     setRightButtonIcon('')
@@ -257,7 +257,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
 
   const handleClickTermsOfUseButton = () => {
     setPageModel('TermsOfUse')
-    setLeftIcon('mdi:arrow-left-thin')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle('Terms of Use')
     setRightButtonText('')
     setRightButtonIcon('')
@@ -265,7 +265,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
 
   const handleClickPrivacyPolicyButton = () => {
     setPageModel('PrivacyPolicy')
-    setLeftIcon('mdi:arrow-left-thin')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle('Privacy Policy')
     setRightButtonText('')
     setRightButtonIcon('')

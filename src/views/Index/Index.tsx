@@ -144,7 +144,7 @@ const Index = ({ menuArray, setMenuArray }: any) => {
     setAppItemId(item.path.replace('/apps/', ''))
     setCounter(counter + 1)
     setPageModel('EngineeModelApp')
-    setLeftIcon('mdi:arrow-left-thin')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle(item.title)
     setRightButtonText('')
     setRightButtonIcon('')

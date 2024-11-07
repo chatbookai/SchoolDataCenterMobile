@@ -136,7 +136,7 @@ const Login = ({ setCurrentTab }: any) => {
   const handleClickTermsOfUseButton = () => {
     setHeaderHidden(false)
     setPageModel('TermsOfUse')
-    setLeftIcon('mdi:arrow-left-thin')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle('使用协议')
     setRightButtonText('')
     setRightButtonIcon('')
@@ -145,7 +145,7 @@ const Login = ({ setCurrentTab }: any) => {
   const handleClickPrivacyPolicyButton = () => {
     setHeaderHidden(false)
     setPageModel('PrivacyPolicy')
-    setLeftIcon('mdi:arrow-left-thin')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle('隐私政策')
     setRightButtonText('')
     setRightButtonIcon('')
