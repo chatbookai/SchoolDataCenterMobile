@@ -168,7 +168,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
       setAddEditActionName('init_default')
     }
   }, [actionInMobileApp])
-  console.log("actionInMobileApp actionInMobileApp 162", actionInMobileApp, forceUpdate)
+  console.log("actionInMobileApp ++ 162", actionInMobileApp, forceUpdate)
 
   const handleIsLoadingTipChange = (status: boolean, showText: string) => {
     setIsLoadingTip(status)
@@ -606,15 +606,17 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
   }
 
   const togglePageActionDrawer = (action: string, id: string, CSRF_TOKEN: string) => {
-    setAddEditActionName(action)
-    setCSRF_TOKEN(CSRF_TOKEN)
     switch (action) {
       case 'edit_default':
+        setAddEditActionName(action)
+        setCSRF_TOKEN(CSRF_TOKEN)
         setAddEditActionId(id)
         setAddEditActionOpen(!addEditActionOpen)
         handleActionInMobileApp(action, store.edit_default.titletext)
         break;
       case 'view_default':
+        setAddEditActionName(action)
+        setCSRF_TOKEN(CSRF_TOKEN)
         setAddEditActionId(id)
         setViewActionOpen(!viewActionOpen)
         setEditViewCounter(0)
@@ -622,8 +624,8 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
         break;
       case 'delete_array':
         setSelectedRows([id])
+        setCSRF_TOKEN(CSRF_TOKEN)
         handleMultiOpenDialog("delete_array")
-        handleActionInMobileApp(action, 'Title')
         break;
     }
     if (action != "edit_default" && action.indexOf("edit_default") != -1) {

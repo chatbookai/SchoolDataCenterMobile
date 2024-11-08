@@ -244,9 +244,7 @@ const IndexTableHeaderMobile = (props: TableHeaderProps) => {
               {searchFieldArray ?
                 <Grid item sm={12} sx={{width: 'calc(100%)'}}>
                   <FormControl fullWidth>
-                    <Tooltip title="Alt+f">
-                      <Button variant='contained' type='submit'>{button_search}</Button>
-                    </Tooltip>
+                    <Button variant='contained' type='submit'>{button_search}</Button>
                   </FormControl>
                 </Grid>
                 : ''}

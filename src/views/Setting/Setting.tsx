@@ -100,20 +100,30 @@ const Setting = ({ handleLogout, menuArray }: any) => {
       setPreviousPageModel((preV: any)=>[preV[0]])
     }
     else { //当在页面列表里面时, 点击查看, 编辑, 新建时的操作处理
-      console.log("actionactionactionaction", action, "actionInMobileApp", actionInMobileApp)
-      setPreviousPageModel((preV: any)=>[...preV, action])
-      setPageModel('EngineeModelApp')
-      setLeftIcon('ic:twotone-keyboard-arrow-left')
-      setTitle(title)
-      setRightButtonText('')
+      console.log("actionactionactionaction", action, "--actionInMobileApp", actionInMobileApp)
       if(action == 'add_default') {
         setRightButtonIcon('')
+        setPreviousPageModel((preV: any)=>[...preV, action])
+        setPageModel('EngineeModelApp')
+        setLeftIcon('ic:twotone-keyboard-arrow-left')
+        setTitle(title)
+        setRightButtonText('')
       }
       if(action == 'edit_default') {
         setRightButtonIcon('')
+        setPreviousPageModel((preV: any)=>[...preV, action])
+        setPageModel('EngineeModelApp')
+        setLeftIcon('ic:twotone-keyboard-arrow-left')
+        setTitle(title)
+        setRightButtonText('')
       }
       if(action == 'view_default') {
         setRightButtonIcon('')
+        setPreviousPageModel((preV: any)=>[...preV, action])
+        setPageModel('EngineeModelApp')
+        setLeftIcon('ic:twotone-keyboard-arrow-left')
+        setTitle(title)
+        setRightButtonText('')
       }
     }
   }
