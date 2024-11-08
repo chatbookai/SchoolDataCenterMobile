@@ -31,7 +31,7 @@ interface TableHeaderProps {
   filter: any[]
   handleFilterChange: (field: any, value: string) => void
   handleFilter: (val: string) => void
-  toggleAddTableDrawer: () => void
+  toggleAddTableDrawer: (val: string) => void
   toggleImportTableDrawer: () => void
   toggleExportTableDrawer: () => void
   value: string

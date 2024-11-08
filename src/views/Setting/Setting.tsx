@@ -95,21 +95,26 @@ const Setting = ({ handleLogout, menuArray }: any) => {
     setPreviousPageModel((preV: any)=>[...preV, previousModel])
   }
 
-  const handleActionInMobileApp = (action: string, title: string) => {
-    console.log("actionactionactionaction", action, "actionInMobileApp", actionInMobileApp)
-    setPreviousPageModel((preV: any)=>[...preV, action])
-    setPageModel('EngineeModelApp')
-    setLeftIcon('ic:twotone-keyboard-arrow-left')
-    setTitle(title)
-    setRightButtonText('')
-    if(action == 'add_default') {
-      setRightButtonIcon('')
+  const handleActionInMobileApp = (action: string, title: string, formAction = '') => {
+    if(formAction == 'GoPageList')  { //当新建或编辑的表单提交以后, 会返回一个值, 表示已经提交, 这个时候需要返回到页面列表
+      setPreviousPageModel((preV: any)=>[preV[0]])
     }
-    if(action == 'edit_default') {
-      setRightButtonIcon('')
-    }
-    if(action == 'view_default') {
-      setRightButtonIcon('')
+    else { //当在页面列表里面时, 点击查看, 编辑, 新建时的操作处理
+      console.log("actionactionactionaction", action, "actionInMobileApp", actionInMobileApp)
+      setPreviousPageModel((preV: any)=>[...preV, action])
+      setPageModel('EngineeModelApp')
+      setLeftIcon('ic:twotone-keyboard-arrow-left')
+      setTitle(title)
+      setRightButtonText('')
+      if(action == 'add_default') {
+        setRightButtonIcon('')
+      }
+      if(action == 'edit_default') {
+        setRightButtonIcon('')
+      }
+      if(action == 'view_default') {
+        setRightButtonIcon('')
+      }
     }
   }
 

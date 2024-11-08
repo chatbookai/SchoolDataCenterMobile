@@ -26,7 +26,7 @@ interface AddOrEditTableType {
   action: string
   addEditStructInfo: any
   open: boolean
-  toggleAddTableDrawer: () => void
+  toggleAddTableDrawer: (val: string) => void
   addUserHandleFilter: (mobileEditPageIdEnableValue: boolean) => void
   backEndApi: string
   editViewCounter: number
@@ -45,7 +45,7 @@ const AddOrEditTable = (props: AddOrEditTableType) => {
   const { externalId, id, action, addEditStructInfo, open, toggleAddTableDrawer, addUserHandleFilter, backEndApi, editViewCounter, IsGetStructureFromEditDefault, addEditViewShowInWindow, CSRF_TOKEN, dataGridLanguageCode, dialogMaxWidth, toggleImagesPreviewListDrawer, handleIsLoadingTipChange, setForceUpdate } = props
 
   const handleClose = () => {
-    toggleAddTableDrawer()
+    toggleAddTableDrawer('HandleClose')
   }
 
   const addEditStructInfoNew = {...addEditStructInfo}

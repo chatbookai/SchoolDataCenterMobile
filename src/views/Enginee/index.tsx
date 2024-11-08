@@ -168,7 +168,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
       setAddEditActionName('init_default')
     }
   }, [actionInMobileApp])
-  console.log("actionInMobileApp actionInMobileApp 162", actionInMobileApp)
+  console.log("actionInMobileApp actionInMobileApp 162", actionInMobileApp, forceUpdate)
 
   const handleIsLoadingTipChange = (status: boolean, showText: string) => {
     setIsLoadingTip(status)
@@ -572,24 +572,27 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
     });
   }
 
-  const toggleAddTableDrawer = () => {
+  const toggleAddTableDrawer = (TableAction: string) => {
     setAddEditActionName('add_default')
     setAddEditActionOpen(!addEditActionOpen)
-
-    //add_default的操作,不在此处, 在移动端的上级页面中定义
-    //handleActionInMobileApp('add_default', store.edit_default.titletext)
+    console.log("TableActionAdd", TableAction)
+    if(TableAction == 'SubmitSuccess')  {
+      handleActionInMobileApp('', '', 'GoPageList')
+    }
   }
 
-  const toggleEditTableDrawer = () => {
+  const toggleEditTableDrawer = (TableAction: string) => {
     setAddEditActionName('edit_default')
     setAddEditActionOpen(!addEditActionOpen)
-    handleActionInMobileApp('edit_default', store.edit_default.titletext)
+    console.log("TableActionEdit", TableAction)
+    if(TableAction == 'SubmitSuccess')  {
+      handleActionInMobileApp('', '', 'GoPageList')
+    }
   }
 
   const toggleViewTableDrawer = () => {
     setAddEditActionName('view_default')
     setViewActionOpen(!viewActionOpen)
-    handleActionInMobileApp('view_default', store.view_default.titletext)
   }
 
   const toggleImagesPreviewDrawer = () => {
@@ -1207,7 +1210,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
               {store.init_default.filter && store.init_default.filter.length == 0 && store.add_default && store.add_default.allFields && isMobileData && store.init_default.button_add && store.init_default.MobileEndShowSearch == 'No' && (
                 <Grid sx={{ pr: 3, pb: 0, pt: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Grid sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-                    <Button variant='outlined' size='small' onClick={toggleAddTableDrawer}>{store.init_default.button_add}</Button>
+                    <Button variant='outlined' size='small' onClick={()=>toggleAddTableDrawer('AddButton')}>{store.init_default.button_add}</Button>
                   </Grid>
                 </Grid>
               )}

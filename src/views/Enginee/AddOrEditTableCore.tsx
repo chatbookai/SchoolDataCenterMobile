@@ -152,7 +152,7 @@ interface AddOrEditTableType {
     action: string
     addEditStructInfo: any
     open: boolean
-    toggleAddTableDrawer: () => void
+    toggleAddTableDrawer: (value: string) => void
     addUserHandleFilter: (mobileEditPageIdEnableValue: boolean) => void
     backEndApi: string
     editViewCounter: number
@@ -557,7 +557,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
         handleIsLoadingTipChange(true, addEditStructInfo2.ImportLoading)
         const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
         if (!storedToken) {
-            toggleAddTableDrawer()
+            toggleAddTableDrawer('TokenError')
             reset()
 
             return
@@ -699,10 +699,9 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                     setAllFiles({})
                     setAllDates({})
                     setForceUpdate(Math.random())
-                    console.log("Math.random()", Math.random())
 
                     //setDefaultValuesNew({})
-                    toggleAddTableDrawer()
+                    toggleAddTableDrawer('SubmitSuccess')
                     reset()
                     addUserHandleFilter(action == 'edit_default' ? true : false);
                 }
@@ -714,10 +713,9 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                     setAllFiles({})
                     setAllDates({})
                     setForceUpdate(Math.random())
-                    console.log("Math.random()", Math.random())
 
                     //setDefaultValuesNew({})
-                    toggleAddTableDrawer()
+                    toggleAddTableDrawer('SubmitError')
                     reset()
                     addUserHandleFilter(action == 'edit_default' ? true : false);
                 }
@@ -740,7 +738,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                 setAllDates({})
 
                 //setDefaultValuesNew({})
-                toggleAddTableDrawer()
+                toggleAddTableDrawer('NetworkError')
                 reset()
             });
 
@@ -762,7 +760,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
         setAllDates({})
 
         //setDefaultValuesNew({})
-        toggleAddTableDrawer()
+        toggleAddTableDrawer('HandleClose')
         reset()
     }
 
