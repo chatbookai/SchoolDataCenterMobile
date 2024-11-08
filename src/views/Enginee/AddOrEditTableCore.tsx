@@ -1093,7 +1093,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                     <Grid item xs={12} sm={12} container justifyContent="space-around">
                         <Box sx={{ mt: 6, mb: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                             <CircularProgress />
-                            <Typography>{addEditStructInfo2.loading}</Typography>
+                            <Typography sx={{pt:5, pb:5}}>{addEditStructInfo2.loading}</Typography>
                         </Box>
                     </Grid>
                 ) : (
@@ -1124,7 +1124,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                                                         }
                                                     }
                                                     else if ((FieldArray.show || fieldArrayShow[FieldArray.name]) && (FieldArray.type == "input" || FieldArray.type == "email" || FieldArray.type == "number")) {
-                                                        if ((action.indexOf("add_default") != -1 || action.indexOf("edit_default") != -1) && defaultValuesNew[FieldArray.name] != undefined) {
+                                                        if ((action.indexOf("add_default") != -1 || action.indexOf("edit_default") != -1) && defaultValuesNew[FieldArray.name] != undefined && defaultValuesNew[FieldArray.name] ) {
                                                             setValue(FieldArray.name, defaultValuesNew[FieldArray.name])
                                                         }
 

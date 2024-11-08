@@ -489,7 +489,7 @@ const ViewTableCore = (props: ViewTableType) => {
         <Grid item xs={12} sm={12} container justifyContent="space-around">
           <Box sx={{ mt: 6, mb: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
               <CircularProgress />
-              <Typography sx={{pt:5,pb:5}}>正在加载中</Typography>
+              <Typography sx={{pt:5, pb:5}}>正在加载中</Typography>
           </Box>
         </Grid>
       )}
