@@ -55,6 +55,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   const [TitleOriginal, setTitleOriginal] = useState<string>(t('Setting') as string)
   const [RightButtonText, setRightButtonText] = useState<string>('')
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
+  const [RightButtonIconOriginal, setRightButtonIconOriginal] = useState<string>('')
 
   const [languageValue, setLanguageValue] = useState<string>(getUserLanguage())
   const [themeValue, setThemeValue] = useState<string>(settings.mode)
@@ -77,6 +78,11 @@ const Setting = ({ handleLogout, menuArray }: any) => {
     {name:'Light', value:'light'}
   ]
 
+  const handleSetRightButtonIconOriginal = (RightButtonIconOriginal: string) => {
+    setRightButtonIconOriginal(RightButtonIconOriginal)
+    setRightButtonIcon(RightButtonIconOriginal)
+  }
+
   const handleGoAppItem = (item: any, previousModel: string) => {
     setAppItemId(item.path.replace('/apps/', ''))
     setCounter(counter + 1)
@@ -90,21 +96,20 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   }
 
   const handleActionInMobileApp = (action: string, title: string) => {
-    console.log("actionactionactionaction", action)
+    console.log("actionactionactionaction", action, "actionInMobileApp", actionInMobileApp)
     setPreviousPageModel((preV: any)=>[...preV, action])
     setPageModel('EngineeModelApp')
     setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle(title)
     setRightButtonText('')
-    setRightButtonIcon('')
-    if(actionInMobileApp == 'add_default') {
-      setActionInMobileApp(String(Math.random()))
+    if(action == 'add_default') {
+      setRightButtonIcon('')
     }
-    if(actionInMobileApp == 'edit_default') {
-      setActionInMobileApp(String(Math.random()))
+    if(action == 'edit_default') {
+      setRightButtonIcon('')
     }
-    if(actionInMobileApp == 'view_default') {
-      setActionInMobileApp(String(Math.random()))
+    if(action == 'view_default') {
+      setRightButtonIcon('')
     }
   }
 
@@ -114,7 +119,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
     setLeftIcon('')
     setTitle('Setting')
     setRightButtonText('QR')
-    setRightButtonIcon('')
+    setRightButtonIcon(RightButtonIconOriginal)
   }
 
   console.log("pageModel", pageModel, previousPageModel)
@@ -123,6 +128,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
     switch(pageModel) {
       case 'Setting':
         handleWalletGoHome()
+        setRightButtonIcon('')
         break
       case 'General':
       case 'Support':
@@ -131,30 +137,37 @@ const Setting = ({ handleLogout, menuArray }: any) => {
       case 'SystemSetting':
       case 'LowCode':
         handleWalletGoHome()
+        setRightButtonIcon('')
         break
       case 'Language':
         handleClickGeneralButton()
+        setRightButtonIcon('')
         break
       case 'Theme':
         handleClickGeneralButton()
+        setRightButtonIcon('')
         break
       case 'PrivacyPolicy':
       case 'TermsOfUse':
         handleClickSecurityPrivacyButton()
+        setRightButtonIcon('')
         break
       case 'EngineeModelApp':
         if(previousPageModel.at(-1) == 'add_default') { // sub module redirect
           setActionInMobileApp(String(Math.random()))
+          setRightButtonIcon(RightButtonIconOriginal)
           setTitle(TitleOriginal)
           previousPageModel.pop()
         }
         else if(previousPageModel.at(-1) == 'edit_default') { // sub module redirect
           setActionInMobileApp(String(Math.random()))
+          setRightButtonIcon(RightButtonIconOriginal)
           setTitle(TitleOriginal)
           previousPageModel.pop()
         }
         else if(previousPageModel.at(-1) == 'view_default') { // sub module redirect
           setActionInMobileApp(String(Math.random()))
+          setRightButtonIcon(RightButtonIconOriginal)
           setTitle(TitleOriginal)
           previousPageModel.pop()
         }
@@ -171,8 +184,11 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   }
 
   const RightButtonOnClick = () => {
+    console.log("RightButtonOnClick:", pageModel)
+    console.log("RightButtonOnClick:", actionInMobileApp)
     switch(pageModel) {
-        case 'Contacts':
+        case 'EngineeModelApp':
+          setActionInMobileApp('add_default')
           break
       }
   }
@@ -847,7 +863,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
 
             {pageModel == 'EngineeModelApp' && appItemId && (
               <>
-                <EngineeModelApp backEndApi={`apps/apps_${appItemId}.php`} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} />
+                <EngineeModelApp backEndApi={`apps/apps_${appItemId}.php`} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} />
               </>
             )}
 

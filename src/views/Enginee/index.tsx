@@ -97,6 +97,7 @@ interface AddTableType{
   externalId: string
   handleActionInMobileApp: any
   actionInMobileApp: string
+  handleSetRightButtonIconOriginal: any
 }
 
 const ImgStyled = styled('img')(() => ({
@@ -105,7 +106,7 @@ const ImgStyled = styled('img')(() => ({
   borderRadius: 4
 }))
 
-const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMobileApp }: AddTableType) => {
+const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMobileApp, handleSetRightButtonIconOriginal }: AddTableType) => {
   // ** Props
   const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
 
@@ -236,6 +237,10 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
             const ResJson = JSON.parse(DecryptDataAES256GCMData)
             console.log("DecryptDataAES256GCMData ResJson", ResJson)
 
+            if(ResJson && ResJson.add_default && ResJson.add_default.allFields)   {
+              handleSetRightButtonIconOriginal('ic:sharp-add-circle-outline')
+            }
+
             return ResJson
           }
           catch(Error: any) {
@@ -245,6 +250,9 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
           }
         }
         else {
+          if(data && data.add_default && data.add_default.allFields)   {
+            handleSetRightButtonIconOriginal('ic:sharp-add-circle-outline')
+          }
 
           return data
         }
@@ -559,15 +567,13 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
   const toggleAddTableDrawer = () => {
     setAddEditActionName('add_default')
     setAddEditActionOpen(!addEditActionOpen)
-    handleActionInMobileApp('add_default', 'Title')
-    handleActionInMobileApp('view_default', store.edit_default.titletext)
+    handleActionInMobileApp('add_default', store.edit_default.titletext)
   }
 
   const toggleEditTableDrawer = () => {
     setAddEditActionName('edit_default')
     setAddEditActionOpen(!addEditActionOpen)
-    handleActionInMobileApp('edit_default', 'Title')
-    handleActionInMobileApp('view_default', store.edit_default.titletext)
+    handleActionInMobileApp('edit_default', store.edit_default.titletext)
   }
 
   const toggleViewTableDrawer = () => {
