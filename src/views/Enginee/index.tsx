@@ -155,11 +155,14 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
 
   //在移动端时,当处理在查看,编辑,新增,删除页面时, 返回到列表页面. 左上角的返回按钮事件是在这个页面的父页面, 需要在此进行获得这个状态的改变
   useEffect(() => {
-    console.log("actionInMobileApp actionInMobileApp", actionInMobileApp)
-    if(actionInMobileApp)  {
+    if(actionInMobileApp == 'add_default')  {
+      setAddEditActionName('add_default')
+    }
+    else if(actionInMobileApp)  {
       setAddEditActionName('init_default')
     }
   }, [actionInMobileApp])
+  console.log("actionInMobileApp actionInMobileApp 162", actionInMobileApp)
 
   const handleIsLoadingTipChange = (status: boolean, showText: string) => {
     setIsLoadingTip(status)

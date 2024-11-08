@@ -190,8 +190,8 @@ const ViewTableCore = (props: ViewTableType) => {
               <Typography variant='body2'>{store.view_default.titlememo ? store.view_default.titlememo : ''}</Typography>
             </Box>
           )}
-          <Card key={"AllFieldsMode"}>
-            <CardContent sx={{ px: { xs: 9, sm: 12 } }}>
+          <Card key={"AllFieldsMode"} sx={{mt: 0}}>
+            <CardContent sx={{ px: { xs: 9, sm: 12 }, mt: 0 }}>
               <Grid container spacing={6} sx={{pt: '10px'}}>
                 <Table>
                   <TableBody>

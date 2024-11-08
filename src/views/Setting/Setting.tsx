@@ -184,11 +184,13 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   }
 
   const RightButtonOnClick = () => {
-    console.log("RightButtonOnClick:", pageModel)
-    console.log("RightButtonOnClick:", actionInMobileApp)
+    console.log("RightButtonOnClick: 162", pageModel)
+    console.log("RightButtonOnClick: 162", actionInMobileApp)
     switch(pageModel) {
         case 'EngineeModelApp':
           setActionInMobileApp('add_default')
+          setPreviousPageModel((preV: any)=>[...preV, 'add_default'])
+          setRightButtonIcon('')
           break
       }
   }

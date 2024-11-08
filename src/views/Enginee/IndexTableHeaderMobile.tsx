@@ -53,7 +53,7 @@ interface TableHeaderProps {
 const IndexTableHeaderMobile = (props: TableHeaderProps) => {
 
   // ** Props
-  const { filter, handleFilterChange, handleFilter, toggleAddTableDrawer, toggleImportTableDrawer, toggleExportTableDrawer, searchFieldText, searchFieldArray, selectedRows, multireview, multiReviewHandleFilter, button_search, button_add, isAddButton, isImportButton, isExportButton, CSRF_TOKEN, MobileEndShowSearch, MobileEndShowGroupFilter } = props
+  const { filter, handleFilterChange, handleFilter, toggleAddTableDrawer, toggleImportTableDrawer, toggleExportTableDrawer, searchFieldText, searchFieldArray, selectedRows, multireview, multiReviewHandleFilter, button_search, CSRF_TOKEN, MobileEndShowSearch, MobileEndShowGroupFilter } = props
   const defaultValuesInitial = { "searchFieldName": searchFieldArray && searchFieldArray[0] && searchFieldArray[0].value ? searchFieldArray[0].value : undefined, "searchFieldValue": "", "multiReviewInputName": "" }
 
   //console.log("IndexTableHeaderMobile props", props)
@@ -185,14 +185,7 @@ const IndexTableHeaderMobile = (props: TableHeaderProps) => {
                 )
 
               })}
-              {isAddButton && MobileEndShowSearch=='No' ?
-              <Grid item sm={3} xs={6}>
-                <Tooltip title="Alt+a">
-                  <Button sx={{ ml: 0, mb: 0 }} onClick={toggleAddTableDrawer} variant='contained'>{button_add}</Button>
-                </Tooltip>
-              </Grid>
-              :
-              null}
+
             </Grid>
           </CardContent>
           : ''
@@ -255,15 +248,6 @@ const IndexTableHeaderMobile = (props: TableHeaderProps) => {
                       <Button variant='contained' type='submit'>{button_search}</Button>
                     </Tooltip>
                   </FormControl>
-                </Grid>
-                : ''}
-              {isAddButton || isImportButton || isExportButton ?
-                <Grid item sm={4} xs={6}>
-                  {isAddButton ?
-                  <Tooltip title="Alt+a">
-                    <Button sx={{ ml: 3, mb: 2 }} onClick={toggleAddTableDrawer} variant='contained'>{button_add}</Button>
-                  </Tooltip>
-                  : ''}
                 </Grid>
                 : ''}
             </Grid>
