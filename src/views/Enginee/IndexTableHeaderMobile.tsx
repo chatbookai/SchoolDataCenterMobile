@@ -64,7 +64,7 @@ const IndexTableHeaderMobile = (props: TableHeaderProps) => {
   useEffect(() => {
 
     //Mousetrap.bind(['alt+f', 'command+f'], handleSubmit(onSubmit));
-    Mousetrap.bind(['alt+a', 'command+a'], toggleAddTableDrawer);
+    Mousetrap.bind(['alt+a', 'command+a'], ()=>toggleAddTableDrawer(''));
     Mousetrap.bind(['alt+i', 'command+i'], toggleImportTableDrawer);
     Mousetrap.bind(['alt+e', 'command+e'], toggleExportTableDrawer);
 

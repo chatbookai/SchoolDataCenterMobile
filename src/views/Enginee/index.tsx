@@ -572,11 +572,11 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
     });
   }
 
-  const toggleAddTableDrawer = (TableAction: string) => {
+  const toggleAddTableDrawer = (TableAction = '') => {
     setAddEditActionName('add_default')
     setAddEditActionOpen(!addEditActionOpen)
     console.log("TableActionAdd", TableAction)
-    if(TableAction == 'SubmitSuccess')  {
+    if(TableAction == 'SubmitSuccess')  { //新建和编辑表单提交以后返回一个成功的操作
       handleActionInMobileApp('', '', 'GoPageList')
     }
   }
