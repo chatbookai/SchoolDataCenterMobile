@@ -19,6 +19,7 @@ import { DecryptDataAES256GCM } from 'src/configs/functions'
 
 import EngineeModelApp from "src/views/Enginee/index"
 
+import { useTranslation } from 'react-i18next'
 
 const ContentWrapper = styled('main')(({ theme }) => ({
   flexGrow: 1,
@@ -33,16 +34,23 @@ const ContentWrapper = styled('main')(({ theme }) => ({
 
 const Index = ({ menuArray, setMenuArray }: any) => {
   // ** Hook
+  const { t } = useTranslation()
   const contentHeightFixed = {}
   const [counter, setCounter] = useState<number>(0)
 
   const [pageModel, setPageModel] = useState<string>('MainSetting')
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
-  const [Title, setTitle] = useState<string>('应用')
+  const [Title, setTitle] = useState<string>(t('应用') as string)
   const [RightButtonText, setRightButtonText] = useState<string>('')
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
   const [appItemId, setAppItemId] = useState<string>('')
+
+  const [previousPageModel, setPreviousPageModel] = useState<string[]>([])
+  const [TitleOriginal, setTitleOriginal] = useState<string>(t('应用') as string)
+  const [RightButtonIconOriginal, setRightButtonIconOriginal] = useState<string>('')
+
+  const [actionInMobileApp, setActionInMobileApp] = useState<string>('20241108')
 
   useEffect(() => {
     handleGetMainMenus()
@@ -108,31 +116,6 @@ const Index = ({ menuArray, setMenuArray }: any) => {
     });
   }
 
-  const handleWalletGoHome = () => {
-    setRefreshWalletData(refreshWalletData+1)
-    setPageModel('MainSetting')
-    setLeftIcon('')
-    setTitle('应用')
-    setRightButtonText('')
-    setRightButtonIcon('')
-  }
-
-  const LeftIconOnClick = () => {
-    switch(pageModel) {
-      case 'MainSetting':
-      case 'EngineeModelApp':
-        handleWalletGoHome()
-        break
-    }
-  }
-
-  const RightButtonOnClick = () => {
-    switch(pageModel) {
-        case 'Contacts':
-          break
-      }
-  }
-
   const [refreshWalletData, setRefreshWalletData] = useState<number>(0)
 
   useEffect(() => {
@@ -140,15 +123,109 @@ const Index = ({ menuArray, setMenuArray }: any) => {
     setRightButtonIcon('')
   }, []);
 
-  const handleGoAppItem = (item: any) => {
-    setAppItemId(item.path.replace('/apps/', ''))
+  const handleSetRightButtonIconOriginal = (RightButtonIconOriginal: string) => {
+    setRightButtonIconOriginal(RightButtonIconOriginal)
+    setRightButtonIcon(RightButtonIconOriginal)
+  }
+
+  const handleGoAppItem = (item: any, previousModel: string) => {
+    console.log("itemitem", item)
+    setAppItemId(item.path.replace('/apps/', '').replace('/tab/apps_', ''))
     setCounter(counter + 1)
     setPageModel('EngineeModelApp')
     setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle(item.title)
+    setTitleOriginal(item.title)
     setRightButtonText('')
     setRightButtonIcon('')
+    setPreviousPageModel((preV: any)=>[...preV, previousModel])
   }
+
+  const handleActionInMobileApp = (action: string, title: string, formAction = '') => {
+    if(formAction == 'GoPageList')  { //当新建或编辑的表单提交以后, 会返回一个值, 表示已经提交, 这个时候需要返回到页面列表
+      setPreviousPageModel((preV: any)=>[preV[0]])
+    }
+    else { //当在页面列表里面时, 点击查看, 编辑, 新建时的操作处理
+      console.log("actionactionactionaction", action, "--actionInMobileApp", actionInMobileApp)
+      if(action == 'add_default') {
+        setRightButtonIcon('')
+        setPreviousPageModel((preV: any)=>[...preV, action])
+        setPageModel('EngineeModelApp')
+        setLeftIcon('ic:twotone-keyboard-arrow-left')
+        setTitle(title)
+        setRightButtonText('')
+      }
+      if(action == 'edit_default') {
+        setRightButtonIcon('')
+        setPreviousPageModel((preV: any)=>[...preV, action])
+        setPageModel('EngineeModelApp')
+        setLeftIcon('ic:twotone-keyboard-arrow-left')
+        setTitle(title)
+        setRightButtonText('')
+      }
+      if(action == 'view_default') {
+        setRightButtonIcon('')
+        setPreviousPageModel((preV: any)=>[...preV, action])
+        setPageModel('EngineeModelApp')
+        setLeftIcon('ic:twotone-keyboard-arrow-left')
+        setTitle(title)
+        setRightButtonText('')
+      }
+    }
+  }
+
+  const handleWalletGoHome = () => {
+    setRefreshWalletData(refreshWalletData+1)
+    setPageModel('MainSetting')
+    setLeftIcon('')
+    setTitle('应用')
+    setRightButtonText('')
+    setRightButtonIcon(RightButtonIconOriginal)
+  }
+
+
+  const LeftIconOnClick = () => {
+    switch(pageModel) {
+      case 'MainSetting':
+        handleWalletGoHome()
+        setRightButtonIcon('')
+        break
+      case 'EngineeModelApp':
+        if(previousPageModel.at(-1) == 'add_default') { // sub module redirect
+          setActionInMobileApp(String(Math.random()))
+          setRightButtonIcon(RightButtonIconOriginal)
+          setTitle(TitleOriginal)
+          previousPageModel.pop()
+        }
+        else if(previousPageModel.at(-1) == 'edit_default') { // sub module redirect
+          setActionInMobileApp(String(Math.random()))
+          setRightButtonIcon(RightButtonIconOriginal)
+          setTitle(TitleOriginal)
+          previousPageModel.pop()
+        }
+        else if(previousPageModel.at(-1) == 'view_default') { // sub module redirect
+          setActionInMobileApp(String(Math.random()))
+          setRightButtonIcon(RightButtonIconOriginal)
+          setTitle(TitleOriginal)
+          previousPageModel.pop()
+        }
+        break
+    }
+  }
+
+  const RightButtonOnClick = () => {
+    console.log("RightButtonOnClick: 163", pageModel)
+    console.log("RightButtonOnClick: 163", actionInMobileApp)
+    switch(pageModel) {
+        case 'EngineeModelApp':
+          setActionInMobileApp('add_default')
+          setPreviousPageModel((preV: any)=>[...preV, 'add_default']) //行为栈,新增加一个新建页面
+          setRightButtonIcon('') //当点击右上角的新建按钮,进行新建页面时,需要暂时不显示右上角的新建按钮. 当回到列表页面时,需要显示出来.
+          break
+      }
+  }
+
+  console.log("pageModel", pageModel, previousPageModel)
 
   return (
     <Fragment>
@@ -190,7 +267,7 @@ const Index = ({ menuArray, setMenuArray }: any) => {
                         {menuItem.children && menuItem.children.map((item: any, index: number) => (
                           <Grid item xs={3} key={index}>
                             <Box textAlign="center" sx={{my: 0}}>
-                              <img src={authConfig.AppLogo} alt={item.title} style={{ width: '45px', height: '45px' }} onClick={()=>handleGoAppItem(item)}/>
+                              <img src={authConfig.AppLogo} alt={item.title} style={{ width: '45px', height: '45px' }} onClick={()=>handleGoAppItem(item, pageModel)}/>
                               <Typography variant="body2"
                                 sx={{
                                   my: 0,
@@ -198,7 +275,7 @@ const Index = ({ menuArray, setMenuArray }: any) => {
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis'
                                 }}
-                                onClick={()=>handleGoAppItem(item)}
+                                onClick={()=>handleGoAppItem(item, pageModel)}
                               >{item.title}</Typography>
                             </Box>
                           </Grid>
@@ -215,7 +292,7 @@ const Index = ({ menuArray, setMenuArray }: any) => {
 
             {pageModel == 'EngineeModelApp' && appItemId && (
               <>
-                <EngineeModelApp backEndApi={`apps/apps_${appItemId}.php`} externalId='' handleActionInMobileApp={null} actionInMobileApp={''} handleSetRightButtonIconOriginal={null} />
+                <EngineeModelApp backEndApi={`apps/apps_${appItemId}.php`} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} />
               </>
             )}
 
@@ -224,5 +301,6 @@ const Index = ({ menuArray, setMenuArray }: any) => {
     </Fragment>
   )
 }
+
 
 export default Index

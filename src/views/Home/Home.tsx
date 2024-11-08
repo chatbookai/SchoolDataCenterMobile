@@ -54,7 +54,7 @@ const Home = () => {
     }
     loadingFirstTime();
 
-    const intervalId = setInterval(refreshUserToken, 6000);
+    const intervalId = setInterval(refreshUserToken, 3600000); // 1 hour refresh the user token
 
     return () => {
       clearInterval(intervalId);
