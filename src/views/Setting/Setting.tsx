@@ -189,8 +189,8 @@ const Setting = ({ handleLogout, menuArray }: any) => {
     switch(pageModel) {
         case 'EngineeModelApp':
           setActionInMobileApp('add_default')
-          setPreviousPageModel((preV: any)=>[...preV, 'add_default'])
-          setRightButtonIcon('')
+          setPreviousPageModel((preV: any)=>[...preV, 'add_default']) //行为栈,新增加一个新建页面
+          setRightButtonIcon('') //当点击右上角的新建按钮,进行新建页面时,需要暂时不显示右上角的新建按钮. 当回到列表页面时,需要显示出来.
           break
       }
   }
