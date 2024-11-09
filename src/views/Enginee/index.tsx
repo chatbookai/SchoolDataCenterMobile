@@ -244,6 +244,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
           const k = AccessKey;
           console.log("kkkkkk1234", k)
           const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
+          console.log("kkkkkk1234", DecryptDataAES256GCMData)
           try{
             const ResJson = JSON.parse(DecryptDataAES256GCMData)
             console.log("DecryptDataAES256GCMData ResJson", ResJson)
@@ -578,7 +579,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
     setAddEditActionName('add_default')
     setAddEditActionOpen(!addEditActionOpen)
     console.log("TableActionAdd", TableAction)
-    if(TableAction == 'SubmitSuccess')  { //新建和编辑表单提交以后返回一个成功的操作
+    if(TableAction == 'SubmitSuccess' && handleActionInMobileApp)  { //新建和编辑表单提交以后返回一个成功的操作
       handleActionInMobileApp('', '', 'GoPageList')
     }
   }
@@ -587,7 +588,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
     setAddEditActionName('edit_default')
     setAddEditActionOpen(!addEditActionOpen)
     console.log("TableActionEdit", TableAction)
-    if(TableAction == 'SubmitSuccess')  {
+    if(TableAction == 'SubmitSuccess' && handleActionInMobileApp)  {
       handleActionInMobileApp('', '', 'GoPageList')
     }
   }
@@ -614,7 +615,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
         setCSRF_TOKEN(CSRF_TOKEN)
         setAddEditActionId(id)
         setAddEditActionOpen(!addEditActionOpen)
-        handleActionInMobileApp(action, store.edit_default.titletext)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default.titletext)
         break;
       case 'view_default':
         setAddEditActionName(action)
@@ -622,7 +623,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
         setAddEditActionId(id)
         setViewActionOpen(!viewActionOpen)
         setEditViewCounter(0)
-        handleActionInMobileApp(action, store.view_default.titletext)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.view_default.titletext)
         break;
       case 'delete_array':
         setSelectedRows([id])
