@@ -214,6 +214,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
     const [activeTab, setActiveTab] = useState<string>('detailsTab')
 
     const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
+    const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
 
     ///console.log("AddtionalParams======================================",action)
 
@@ -238,7 +239,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                         const i = data.data.slice(0, 32);
                         const t = data.data.slice(-32);
                         const e = data.data.slice(32, -32);
-                        const k = authConfig.k;
+                        const k = AccessKey;
                         const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
                         try{
                             dataJson = JSON.parse(DecryptDataAES256GCMData)
@@ -556,6 +557,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
         setIsSubmitLoading(true)
         handleIsLoadingTipChange(true, addEditStructInfo2.ImportLoading)
         const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
+        const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
         if (!storedToken) {
             toggleAddTableDrawer('TokenError')
             reset()
@@ -675,7 +677,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                     const i = data.data.slice(0, 32);
                     const t = data.data.slice(-32);
                     const e = data.data.slice(32, -32);
-                    const k = authConfig.k;
+                    const k = AccessKey;
                     const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
                     try{
                         dataJson = JSON.parse(DecryptDataAES256GCMData)

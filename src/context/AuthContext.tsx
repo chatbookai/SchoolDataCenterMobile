@@ -37,6 +37,7 @@ const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
       const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
+      const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
       if (storedToken && storedToken!=undefined) {
         setLoading(true)
         await axios
@@ -52,7 +53,7 @@ const AuthProvider = ({ children }: Props) => {
                 const i = data.data.slice(0, 32);
                 const t = data.data.slice(-32);
                 const e = data.data.slice(32, -32);
-                const k = authConfig.k;
+                const k = AccessKey;
                 const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
                 try{
                     dataJson = JSON.parse(DecryptDataAES256GCMData)
@@ -100,7 +101,7 @@ const AuthProvider = ({ children }: Props) => {
             const i = data.data.slice(0, 32);
             const t = data.data.slice(-32);
             const e = data.data.slice(32, -32);
-            const k = authConfig.k;
+            const k = AccessKey;
             const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
             try{
                 dataJson = JSON.parse(DecryptDataAES256GCMData)
@@ -159,7 +160,7 @@ const AuthProvider = ({ children }: Props) => {
               const i = data.data.slice(0, 32);
               const t = data.data.slice(-32);
               const e = data.data.slice(32, -32);
-              const k = authConfig.k;
+              const k = AccessKey;
               const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
               try{
                   dataJson = JSON.parse(DecryptDataAES256GCMData)
@@ -177,11 +178,14 @@ const AuthProvider = ({ children }: Props) => {
 
           if(dataJson.status == 'ok' && dataJson.accessToken) {
             window.localStorage.setItem(authConfig.storageTokenKeyName, dataJson.accessToken)
-
             setUser({ ...dataJson.userData })
           }
-          else {
+
+          if(dataJson.status == 'ok' && dataJson.accessKey) {
+            window.localStorage.setItem(authConfig.storageAccessKeyName, dataJson.accessKey)
+            setUser({ ...dataJson.userData })
           }
+
         })
     }
   }

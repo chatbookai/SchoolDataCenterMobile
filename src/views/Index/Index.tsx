@@ -71,6 +71,7 @@ const Index = ({ menuArray, setMenuArray }: any) => {
     }
     const backEndApi = authConfig.indexMenuspath
     const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
+    const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
     axios.get(authConfig.backEndApiHost + backEndApi, { headers: { Authorization: storedToken } }).then(res => {
       let dataJson: any = null
       const data = res.data
@@ -78,7 +79,7 @@ const Index = ({ menuArray, setMenuArray }: any) => {
           const i = data.data.slice(0, 32);
           const t = data.data.slice(-32);
           const e = data.data.slice(32, -32);
-          const k = authConfig.k;
+          const k = AccessKey;
           const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
           try{
               dataJson = JSON.parse(DecryptDataAES256GCMData)

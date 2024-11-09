@@ -16,7 +16,7 @@ if(hostname == 'localhost' || hostname == '127.0.0.1')   {
   AppMarkId = 'dandian'
 }
 
-APP_URL = "https://fdzz.dandian.net/api/"
+//APP_URL = "https://fdzz.dandian.net/api/"
 AppMarkId = 'fdzz'
 
 const config = {
@@ -33,6 +33,7 @@ const config = {
   refreshEndpoint: APP_URL+'jwt.php?action=refresh',
   registerEndpoint: APP_URL+'jwt/register',
   storageTokenKeyName: 'accessToken',
+  storageAccessKeyName: 'accessKey',
   storageMainMenus: 'mainMenus',
   onTokenExpiration: 'refreshToken', // logout | refreshToken
   backEndApiHost: APP_URL,

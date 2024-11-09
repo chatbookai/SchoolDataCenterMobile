@@ -109,6 +109,7 @@ const ImgStyled = styled('img')(() => ({
 const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMobileApp, handleSetRightButtonIconOriginal }: AddTableType) => {
   // ** Props
   const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
+  const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
 
   // ** State
   const [isLoading, setIsLoading] = useState(false);
@@ -240,7 +241,8 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
           const i = data.data.slice(0, 32);
           const t = data.data.slice(-32);
           const e = data.data.slice(32, -32);
-          const k = authConfig.k;
+          const k = AccessKey;
+          console.log("kkkkkk1234", k)
           const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
           try{
             const ResJson = JSON.parse(DecryptDataAES256GCMData)
@@ -1191,7 +1193,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
         { (store.init_default.ApprovalNodeFields && store.init_default.ApprovalNodeFields.AllNodes && store.init_default.ApprovalNodeFields.CurrentNode && store.init_default.ApprovalNodeFields.ApprovalNodeTitle) || (store.init_default?.ApprovalNodeFields?.DebugSql) ?
           (
           <Grid item xs={12} sx={{mt: 2}}>
-            <IndexBottomFlowNode ApprovalNodeFields={store.init_default.ApprovalNodeFields.AllNodes} ApprovalNodeCurrentField={store.init_default.ApprovalNodeFields.CurrentNode} ActiveStep={store.init_default.ApprovalNodeFields.ActiveStep} ApprovalNodeTitle={store.init_default.ApprovalNodeFields.ApprovalNodeTitle} DebugSql={store.init_default.ApprovalNodeFields.DebugSql} Memo={store.init_default.ApprovalNodeFields.Memo} />
+            <IndexBottomFlowNode ApprovalNodeFields={store.init_default.ApprovalNodeFields.AllNodes} ApprovalNodeCurrentField={store.init_default.ApprovalNodeFields.CurrentNode} ActiveStep={store.init_default.ApprovalNodeFields.ActiveStep} ApprovalNodeTitle={store.init_default.ApprovalNodeFields.ApprovalNodeTitle} DebugSql={store.init_default?.ApprovalNodeFields?.DebugSql} Memo={store.init_default.ApprovalNodeFields.Memo} />
           </Grid>
           )
           : ''
@@ -1469,10 +1471,10 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
               )}
             </Grid>
           </Fragment>
-          { (store.init_default.ApprovalNodeFields && store.init_default.ApprovalNodeFields.AllNodes && store.init_default.ApprovalNodeFields.CurrentNode && store.init_default.ApprovalNodeFields.ApprovalNodeTitle) || (store.init_default.ApprovalNodeFields.DebugSql) ?
+          { (store.init_default.ApprovalNodeFields && store.init_default.ApprovalNodeFields.AllNodes && store.init_default.ApprovalNodeFields.CurrentNode && store.init_default.ApprovalNodeFields.ApprovalNodeTitle) || (store.init_default?.ApprovalNodeFields?.DebugSql) ?
             (
             <Grid item xs={12} sx={{mt: 2}}>
-              <IndexBottomFlowNode ApprovalNodeFields={store.init_default.ApprovalNodeFields.AllNodes} ApprovalNodeCurrentField={store.init_default.ApprovalNodeFields.CurrentNode} ActiveStep={store.init_default.ApprovalNodeFields.ActiveStep} ApprovalNodeTitle={store.init_default.ApprovalNodeFields.ApprovalNodeTitle} DebugSql={store.init_default.ApprovalNodeFields.DebugSql} Memo={store.init_default.ApprovalNodeFields.Memo} />
+              <IndexBottomFlowNode ApprovalNodeFields={store.init_default.ApprovalNodeFields.AllNodes} ApprovalNodeCurrentField={store.init_default.ApprovalNodeFields.CurrentNode} ActiveStep={store.init_default.ApprovalNodeFields.ActiveStep} ApprovalNodeTitle={store.init_default.ApprovalNodeFields.ApprovalNodeTitle} DebugSql={store.init_default?.ApprovalNodeFields?.DebugSql} Memo={store.init_default.ApprovalNodeFields.Memo} />
             </Grid>
             )
             : ''

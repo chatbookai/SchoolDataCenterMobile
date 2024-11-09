@@ -112,6 +112,7 @@ const ViewTableCore = (props: ViewTableType) => {
   //console.log("newTableRowData--------------------------------", newTableRowData)
 
   const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
+  const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
 
   useEffect(() => {
     if (action == "view_default" && editViewCounter > 0) {
@@ -128,7 +129,7 @@ const ViewTableCore = (props: ViewTableType) => {
               const i = data.data.slice(0, 32);
               const t = data.data.slice(-32);
               const e = data.data.slice(32, -32);
-              const k = authConfig.k;
+              const k = AccessKey;
               const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
               try{
                   dataJson = JSON.parse(DecryptDataAES256GCMData)
