@@ -98,6 +98,7 @@ const AuthProvider = ({ children }: Props) => {
         let dataJson: any = null
         const data = response.data
         if(data && data.isEncrypted == "1" && data.data)  {
+            const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
             const i = data.data.slice(0, 32);
             const t = data.data.slice(-32);
             const e = data.data.slice(32, -32);
@@ -122,9 +123,8 @@ const AuthProvider = ({ children }: Props) => {
         //console.log("dataJson.userData",dataJson.userData)
         //console.log("JSON.stringify(dataJson.userData)",JSON.stringify(dataJson.userData))
         if(dataJson.userData!=undefined && dataJson.accessToken!=undefined)  {
-          true
-            ? window.localStorage.setItem(authConfig.storageTokenKeyName, dataJson.accessToken)
-            : null
+          window.localStorage.setItem(authConfig.storageTokenKeyName, dataJson.accessToken)
+          window.localStorage.setItem(authConfig.storageAccessKeyName, dataJson.accessKey)
           setUser({ ...dataJson.userData })
           true ? window.localStorage.setItem('userData', JSON.stringify(dataJson.userData)) : null
           true ? window.localStorage.setItem('GO_SYSTEM', JSON.stringify(dataJson.GO_SYSTEM)) : null
@@ -157,6 +157,7 @@ const AuthProvider = ({ children }: Props) => {
           let dataJson: any = null
           const data = response.data
           if(data && data.isEncrypted == "1" && data.data)  {
+              const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
               const i = data.data.slice(0, 32);
               const t = data.data.slice(-32);
               const e = data.data.slice(32, -32);
