@@ -1083,7 +1083,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
     return (
         <Fragment>
             {isMobileData == false && titletext && titletext != "" && !isLoading && (
-                <Box sx={{ mb: 8, textAlign: 'center' }}>
+                <Box sx={{ mb: 2, textAlign: 'center' }}>
                     <Typography variant='h5' sx={{ mb: 3 }}>
                         {titletext}
                     </Typography>
@@ -1103,14 +1103,13 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                         {allFieldsMode && allFieldsMode.map((allFieldsModeItem: any, allFieldsModeIndex: number) => {
 
                             return (
-                                        <Grid container spacing={5} key={allFieldsModeIndex}>
+                                        <Grid container spacing={5} key={allFieldsModeIndex} sx={{mt: 0}}>
                                             {allFields && allFields[allFieldsModeItem.value] && allFields[allFieldsModeItem.value].map((FieldArray: any, FieldArray_index: number) => {
 
                                                 //开始根据表单中每个字段的类型,进行不同的渲染,此部分比较复杂,注意代码改动.
                                                 //Start to render differently according to the type of each field in the form
                                                 //this part is more complicated, pay attention to the code changes.
                                                 //console.log("defaultValuesNew[FieldArray.name]-----", FieldArray)
-                                                <Fragment>2222</Fragment>
                                                 let FieldShowStatusItem = 0
                                                 if(addEditStructInfo2 && addEditStructInfo2.model && addEditStructInfo2.model == "Loop" && FieldArray_index == fieldIdValue) {
                                                     FieldShowStatusItem = 1
@@ -4094,12 +4093,12 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
 
                                                         return (
                                                             <Grid item xs={FieldArray.rules.xs} sm={FieldArray.rules.sm} key={"AllFields_" + FieldArray_index}>
-                                                                <FormControl fullWidth sx={{ mb: 0 }}>
+                                                                <FormControl fullWidth sx={{ mb: 0, mt: -1 }}>
                                                                     <Controller
                                                                         name={FieldArray.name}
                                                                         control={control}
                                                                         render={({ field: { value, onChange } }) => (
-                                                                            <Box sx={{ width: 380 }}>
+                                                                            <Box sx={{ whiteSpace: 'nowrap' }}>
                                                                                 <Typography sx={{ fontWeight: 500 }}>{FieldArray.label}</Typography>
                                                                                 <Switch
                                                                                     size={componentsize}
@@ -4878,11 +4877,11 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                         )}
 
                         {((addEditStructInfo2.submittext && addEditStructInfo2.submittext) || (addEditStructInfo2.canceltext && addEditStructInfo2.canceltext)) && ((singleModelCounter == (fieldIdValue+1) ) || FieldShowStatus == 2) ?
-                            <Grid item xs={12} sm={12} container justifyContent="space-around" sx={{ pt: 4 }}>
+                            <Grid item xs={12} sm={12} container justifyContent="space-around" sx={{ pt: 2 }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                                     {addEditStructInfo2.submittext && addEditStructInfo2.submittext != "" ?
                                         <Tooltip title="Alt+s">
-                                            <Button size={isMobileData == true ? 'medium' : componentsize} disabled={isSubmitLoading} type='submit' variant='contained' sx={{ width: isMobileData == true ? '100%' : '' }}>
+                                            <Button size={isMobileData == true ? 'medium' : componentsize} disabled={isSubmitLoading} type='submit' variant='contained' sx={{ width: isMobileData == true ? '100%' : '', whiteSpace: 'nowrap' }}>
                                                 {isSubmitLoading ? (
                                                     <CircularProgress
                                                         sx={{

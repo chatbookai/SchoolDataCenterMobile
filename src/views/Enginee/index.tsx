@@ -131,6 +131,8 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
   const [CSRF_TOKEN_MAP, setCSRF_TOKEN_MAP] = useState<any>({})
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
+  const [isGetStructureFromEditDefault, setIsGetStructureFromEditDefault] = useState<number>(0);
+
   const [filterMultiColumns, setFilterMultiColumns] = useState<GridFilterModel>()
   const [searchFieldName, setSearchFieldName] = useState<string>('')
   const [searchFieldValue, setSearchFieldValue] = useState<string>('')
@@ -237,7 +239,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
       }).then(res => {
         params['page'] == 0 && params['searchFieldName'] == '' && Object.keys(params['allSubmitFields']).length == 1 && setIsFirstLoadingTip(false)
         const data = res.data
-        if(data && data.isEncrypted == "1" && data.data)  {
+        if(data && data.data && data.isEncrypted == "1")  {
           const i = data.data.slice(0, 32);
           const t = data.data.slice(-32);
           const e = data.data.slice(32, -32);
@@ -249,7 +251,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
             const ResJson = JSON.parse(DecryptDataAES256GCMData)
             console.log("DecryptDataAES256GCMData ResJson", ResJson)
 
-            if(ResJson && ResJson.add_default && ResJson.add_default.allFields)   {
+            if(ResJson && ResJson.add_default && ResJson.add_default.allFields && handleSetRightButtonIconOriginal)   {
               handleSetRightButtonIconOriginal('ic:sharp-add-circle-outline')
             }
 
@@ -262,13 +264,15 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
           }
         }
         else {
-          if(data && data.add_default && data.add_default.allFields)   {
+          if(data && data.add_default && data.add_default.allFields && handleSetRightButtonIconOriginal)   {
             handleSetRightButtonIconOriginal('ic:sharp-add-circle-outline')
           }
 
           return data
         }
       })
+
+      setIsGetStructureFromEditDefault(response.init_action.IsGetStructureFromEditDefault)
 
       if(response && response.init_action.action.indexOf("view_default") != -1) {
         setAddEditActionName(response.init_action.action)
@@ -611,6 +615,48 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
         setAddEditActionId(id)
         setAddEditActionOpen(!addEditActionOpen)
         handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default.titletext)
+        break;
+      case 'edit_default_1':
+        setAddEditActionName(action)
+        setCSRF_TOKEN(CSRF_TOKEN)
+        setAddEditActionId(id)
+        setAddEditActionOpen(!addEditActionOpen)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_1.titletext)
+        break;
+      case 'edit_default_2':
+        setAddEditActionName(action)
+        setCSRF_TOKEN(CSRF_TOKEN)
+        setAddEditActionId(id)
+        setAddEditActionOpen(!addEditActionOpen)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_2.titletext)
+        break;
+      case 'edit_default_3':
+        setAddEditActionName(action)
+        setCSRF_TOKEN(CSRF_TOKEN)
+        setAddEditActionId(id)
+        setAddEditActionOpen(!addEditActionOpen)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_3.titletext)
+        break;
+      case 'edit_default_4':
+        setAddEditActionName(action)
+        setCSRF_TOKEN(CSRF_TOKEN)
+        setAddEditActionId(id)
+        setAddEditActionOpen(!addEditActionOpen)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_4.titletext)
+        break;
+      case 'edit_default_5':
+        setAddEditActionName(action)
+        setCSRF_TOKEN(CSRF_TOKEN)
+        setAddEditActionId(id)
+        setAddEditActionOpen(!addEditActionOpen)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_5.titletext)
+        break;
+      case 'edit_default_6':
+        setAddEditActionName(action)
+        setCSRF_TOKEN(CSRF_TOKEN)
+        setAddEditActionId(id)
+        setAddEditActionOpen(!addEditActionOpen)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_6.titletext)
         break;
       case 'view_default':
         setAddEditActionName(action)
@@ -1077,7 +1123,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
 
   return (
     <Grid container spacing={0}>
-      {isMobileData == false ?
+      {store.init_action.action == 'init_default' && isMobileData == false ?
       <Grid item xs={12}>
         <Card>
           {store.init_default.returnButton && store.init_default.returnButton.status ?
@@ -1489,9 +1535,9 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
         </Backdrop>
       )}
 
-      {store && store.import_default && store.import_default.defaultValues && addEditActionName.indexOf("import_default") != -1 ? <AddOrEditTable externalId={Number(externalId)} id={addEditActionId} action={addEditActionName} addEditStructInfo={store.import_default} open={addEditActionOpen} toggleAddTableDrawer={toggleImportTableDrawer} addUserHandleFilter={addUserHandleFilter} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} IsGetStructureFromEditDefault={0} addEditViewShowInWindow={addEditViewShowInWindow}  CSRF_TOKEN={CSRF_TOKEN} dataGridLanguageCode={store.init_default.dataGridLanguageCode} dialogMaxWidth={store.init_default.dialogMaxWidth} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} handleIsLoadingTipChange={handleIsLoadingTipChange} setForceUpdate={setForceUpdate}/> : ''}
-      {store && store.add_default && store.add_default.defaultValues && addEditActionName.indexOf("add_default") != -1 ? <AddOrEditTable externalId={Number(externalId)} id={addEditActionId} action={addEditActionName} addEditStructInfo={store.add_default} open={addEditActionOpen} toggleAddTableDrawer={toggleAddTableDrawer} addUserHandleFilter={addUserHandleFilter} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} IsGetStructureFromEditDefault={0} addEditViewShowInWindow={addEditViewShowInWindow}  CSRF_TOKEN={CSRF_TOKEN} dataGridLanguageCode={store.init_default.dataGridLanguageCode} dialogMaxWidth={store.init_default.dialogMaxWidth} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} handleIsLoadingTipChange={handleIsLoadingTipChange} setForceUpdate={setForceUpdate}/> : ''}
-      {store && store[addEditActionName] && store[addEditActionName]['defaultValues'] && addEditActionName.indexOf("edit_default") != -1 && addEditActionId!='' ? <AddOrEditTable externalId={Number(externalId)} id={addEditActionId} action={addEditActionName} addEditStructInfo={store[addEditActionName]} open={addEditActionOpen} toggleAddTableDrawer={toggleEditTableDrawer} addUserHandleFilter={addUserHandleFilter} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} IsGetStructureFromEditDefault={0} addEditViewShowInWindow={addEditViewShowInWindow}  CSRF_TOKEN={CSRF_TOKEN} dataGridLanguageCode={store.init_default.dataGridLanguageCode} dialogMaxWidth={store.init_default.dialogMaxWidth} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} handleIsLoadingTipChange={handleIsLoadingTipChange} setForceUpdate={setForceUpdate}/> : ''}
+      {store && store.import_default && store.import_default.defaultValues && addEditActionName.indexOf("import_default") != -1 ? <AddOrEditTable externalId={Number(externalId)} id={addEditActionId} action={addEditActionName} addEditStructInfo={store.import_default} open={addEditActionOpen} toggleAddTableDrawer={toggleImportTableDrawer} addUserHandleFilter={addUserHandleFilter} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} IsGetStructureFromEditDefault={isGetStructureFromEditDefault} addEditViewShowInWindow={addEditViewShowInWindow}  CSRF_TOKEN={CSRF_TOKEN} dataGridLanguageCode={store.init_default.dataGridLanguageCode} dialogMaxWidth={store.init_default.dialogMaxWidth} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} handleIsLoadingTipChange={handleIsLoadingTipChange} setForceUpdate={setForceUpdate}/> : ''}
+      {store && store.add_default && store.add_default.defaultValues && addEditActionName.indexOf("add_default") != -1 ? <AddOrEditTable externalId={Number(externalId)} id={addEditActionId} action={addEditActionName} addEditStructInfo={store.add_default} open={addEditActionOpen} toggleAddTableDrawer={toggleAddTableDrawer} addUserHandleFilter={addUserHandleFilter} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} IsGetStructureFromEditDefault={isGetStructureFromEditDefault} addEditViewShowInWindow={addEditViewShowInWindow}  CSRF_TOKEN={CSRF_TOKEN} dataGridLanguageCode={store.init_default.dataGridLanguageCode} dialogMaxWidth={store.init_default.dialogMaxWidth} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} handleIsLoadingTipChange={handleIsLoadingTipChange} setForceUpdate={setForceUpdate}/> : ''}
+      {store && store[addEditActionName] && store[addEditActionName]['defaultValues'] && addEditActionName.indexOf("edit_default") != -1 && addEditActionId!='' ? <AddOrEditTable externalId={Number(externalId)} id={addEditActionId} action={addEditActionName} addEditStructInfo={store[addEditActionName]} open={addEditActionOpen} toggleAddTableDrawer={toggleEditTableDrawer} addUserHandleFilter={addUserHandleFilter} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} IsGetStructureFromEditDefault={isGetStructureFromEditDefault} addEditViewShowInWindow={addEditViewShowInWindow}  CSRF_TOKEN={CSRF_TOKEN} dataGridLanguageCode={store.init_default.dataGridLanguageCode} dialogMaxWidth={store.init_default.dialogMaxWidth} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} handleIsLoadingTipChange={handleIsLoadingTipChange} setForceUpdate={setForceUpdate}/> : ''}
       {store && store.view_default && store.view_default.defaultValues && addEditActionName.indexOf("view_default") != -1 && addEditActionId!='' ? <ViewTable externalId={Number(externalId)} id={addEditActionId} action={addEditActionName} pageJsonInfor={store[addEditActionName]} open={viewActionOpen} toggleViewTableDrawer={toggleViewTableDrawer} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} addEditViewShowInWindow={addEditViewShowInWindow} CSRF_TOKEN={CSRF_TOKEN} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} dialogMaxWidth={store.init_default.dialogMaxWidth} /> : ''}
       <ImagesPreview open={imagesPreviewOpen} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={imagesPreviewList} imagesType={imagesType} />
     </Grid >
