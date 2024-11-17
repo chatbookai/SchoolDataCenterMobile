@@ -12,7 +12,7 @@ import Container from '@mui/material/Container'
 import authConfig from '../../configs/auth'
 
 import { styled } from '@mui/material/styles'
-import Header from '../Layout/Header'
+import Header from '../Home/Header'
 
 import axios from 'axios'
 import { DecryptDataAES256GCM } from 'src/configs/functions'

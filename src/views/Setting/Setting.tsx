@@ -17,7 +17,7 @@ import authConfig from '../../configs/auth'
 import { useSettings } from '../../@core/hooks/useSettings'
 
 import { styled } from '@mui/material/styles'
-import Header from '../Layout/Header'
+import Header from '../Home/Header'
 import TermsofUse from './TermsofUse'
 import PrivacyPolicy from './PrivacyPolicy'
 

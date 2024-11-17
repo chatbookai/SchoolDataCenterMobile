@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography'
 
 import { useAuth } from 'src/hooks/useAuth'
 
-import Footer from '../Layout/Footer'
+import Footer from './Footer'
 import Setting from '../Setting/Setting'
 import Index from '../Index/Index'
 import Login from '../Login/Login'
@@ -91,7 +91,6 @@ const Home = () => {
       {currentTab == "Setting" && (<Setting handleLogout={handleLogout} menuArray={menuArray} />)}
       {currentTab == "Index" && (<Index menuArray={menuArray} setMenuArray={setMenuArray} />)}
       {currentTab != "Loading" && currentTab != "Login" && (<Footer Hidden={false} setCurrentTab={setCurrentTab} currentTab={currentTab} />)}
-
     </Fragment>
   )
 }

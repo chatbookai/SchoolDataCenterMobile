@@ -30,7 +30,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { setLocale } from 'yup';
 import AddOrEditTableLanguage from 'src/types/forms/AddOrEditTableLanguage';
 
-import Header from '../Layout/Header'
+import Header from '../Home/Header'
 import TermsofUse from '../Setting/TermsofUse'
 import PrivacyPolicy from '../Setting/PrivacyPolicy'
 import CustomAvatar from 'src/@core/components/mui/avatar'
