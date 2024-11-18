@@ -63,6 +63,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
 
   const [actionInMobileApp, setActionInMobileApp] = useState<string>('20241108')
 
+  const myProfileMenus = menuArray && menuArray.length > 0 && menuArray.filter((Item: any) => Item && Item.title && Item.title == '我的事务')
   const basicDataMenus = menuArray && menuArray.length > 0 && menuArray.filter((Item: any) => Item && Item.title && Item.title == '基础数据')
   const systemSettingMenus = menuArray && menuArray.length > 0 && menuArray.filter((Item: any) => Item && Item.title && Item.title == '系统设置')
 
@@ -84,7 +85,13 @@ const Setting = ({ handleLogout, menuArray }: any) => {
   }
 
   const handleGoAppItem = (item: any, previousModel: string) => {
-    setAppItemId(item.path.replace('/apps/', ''))
+    console.log("itemitem", item)
+    if(item.path.startsWith('/apps/')) {
+      setAppItemId(`apps/apps_${item.path.replace('/apps/', '').replace('/tab/apps_', '')}.php`)
+    }
+    else if(item.path.startsWith('/user/password')) {
+      setAppItemId(`user_password.php`)
+    }
     setCounter(counter + 1)
     setPageModel('EngineeModelApp')
     setLeftIcon('ic:twotone-keyboard-arrow-left')
@@ -148,6 +155,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
       case 'General':
       case 'Support':
       case 'SecurityPrivacy':
+      case 'MyProfile':
       case 'BasicData':
       case 'SystemSetting':
       case 'LowCode':
@@ -194,6 +202,10 @@ const Setting = ({ handleLogout, menuArray }: any) => {
           handleClickBasicDataButton()
           previousPageModel.pop()
         }
+        else if(previousPageModel.at(-1) == 'MyProfile') {
+          handleClickMyProfileButton()
+          previousPageModel.pop()
+        }
         break
     }
   }
@@ -223,6 +235,15 @@ const Setting = ({ handleLogout, menuArray }: any) => {
     setPageModel('SecurityPrivacy')
     setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle('Security & Privacy')
+    setRightButtonText('')
+    setRightButtonIcon('')
+  }
+
+  const handleClickMyProfileButton = () => {
+    setCounter(counter + 1)
+    setPageModel('MyProfile')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
+    setTitle('我的事务')
     setRightButtonText('')
     setRightButtonIcon('')
   }
@@ -371,43 +392,44 @@ const Setting = ({ handleLogout, menuArray }: any) => {
                             </Box>
                           </Card>
                         </Grid>
-                        <Grid item xs={12} sx={{ py: 1 }}>
-                          <Card>
-                            <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
-                              <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>handleClickSecurityPrivacyButton()}>
-                                <Icon icon='mdi:security-lock-outline' fontSize={34} />
-                              </IconButton>
-                              <Box sx={{ cursor: 'pointer', ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickSecurityPrivacyButton()}
-                                >
-                                <Typography sx={{
-                                  color: 'text.primary',
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  whiteSpace: 'nowrap',
-                                }}
-                                >
-                                  {t('Security & Privacy')}
-                                </Typography>
-                                <Box sx={{ display: 'flex'}}>
-                                  <Typography variant='body2' sx={{
-                                    color: `secondary.primary`,
+                        {myProfileMenus && myProfileMenus[0] && (
+                          <Grid item xs={12} sx={{ py: 1 }}>
+                            <Card>
+                              <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                                <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>handleClickMyProfileButton()}>
+                                  <Icon icon={myProfileMenus[0]['icon']} fontSize={34} />
+                                </IconButton>
+                                <Box sx={{ ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickMyProfileButton()}>
+                                  <Typography sx={{
+                                    color: 'text.primary',
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis',
                                     whiteSpace: 'nowrap',
-                                    flex: 1
-                                  }}>
-                                    {t('Management applications, etc')}
+                                  }}
+                                  >
+                                    {myProfileMenus[0]['title']}
                                   </Typography>
+                                  <Box sx={{ display: 'flex'}}>
+                                    <Typography variant='body2' sx={{
+                                      color: `secondary.primary`,
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      whiteSpace: 'nowrap',
+                                      flex: 1
+                                    }}>
+                                      {'个人资料,修改密码,访问日志等'}
+                                    </Typography>
+                                  </Box>
+                                </Box>
+                                <Box textAlign="right">
+                                  <IconButton sx={{ p: 0 }} onClick={()=>handleClickMyProfileButton()}>
+                                      <Icon icon='mdi:chevron-right' fontSize={30} />
+                                  </IconButton>
                                 </Box>
                               </Box>
-                              <Box textAlign="right">
-                                <IconButton sx={{ p: 0 }} onClick={()=>handleClickSecurityPrivacyButton()}>
-                                    <Icon icon='mdi:chevron-right' fontSize={30} />
-                                </IconButton>
-                              </Box>
-                            </Box>
-                          </Card>
-                        </Grid>
+                            </Card>
+                          </Grid>
+                        )}
                         {basicDataMenus && basicDataMenus[0] && (
                           <Grid item xs={12} sx={{ py: 1 }}>
                             <Card>
@@ -485,6 +507,43 @@ const Setting = ({ handleLogout, menuArray }: any) => {
                             </Card>
                           </Grid>
                         )}
+                        <Grid item xs={12} sx={{ py: 1 }}>
+                          <Card>
+                            <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                              <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>handleClickSecurityPrivacyButton()}>
+                                <Icon icon='mdi:security-lock-outline' fontSize={34} />
+                              </IconButton>
+                              <Box sx={{ cursor: 'pointer', ml: 2.5, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickSecurityPrivacyButton()}
+                                >
+                                <Typography sx={{
+                                  color: 'text.primary',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap',
+                                }}
+                                >
+                                  {t('Security & Privacy')}
+                                </Typography>
+                                <Box sx={{ display: 'flex'}}>
+                                  <Typography variant='body2' sx={{
+                                    color: `secondary.primary`,
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    flex: 1
+                                  }}>
+                                    {t('Management applications, etc')}
+                                  </Typography>
+                                </Box>
+                              </Box>
+                              <Box textAlign="right">
+                                <IconButton sx={{ p: 0 }} onClick={()=>handleClickSecurityPrivacyButton()}>
+                                    <Icon icon='mdi:chevron-right' fontSize={30} />
+                                </IconButton>
+                              </Box>
+                            </Box>
+                          </Card>
+                        </Grid>
                         <Grid item xs={12} sx={{ py: 1 }}>
                           <Card>
                             <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
@@ -783,6 +842,53 @@ const Setting = ({ handleLogout, menuArray }: any) => {
               </Grid>
             )}
 
+            {pageModel == 'MyProfile' && (
+              <Grid container spacing={2}>
+                <Grid item xs={12} sx={{height: 'calc(100%)'}}>
+                    <Grid container spacing={2}>
+                        {myProfileMenus && myProfileMenus[0] && myProfileMenus[0]['children'] && myProfileMenus[0]['children'].length > 0 && myProfileMenus[0]['children'].map((Item: any, Index: number)=>(
+                          <Grid item xs={12} sx={{ py: 1 }} key={Index}>
+                            <Card>
+                              <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                                  <IconButton sx={{ p: 0 }} onClick={()=>handleGoAppItem(Item, pageModel)}>
+                                    <Icon icon={'mdi:'+Item.Menu_Three_Icon} fontSize={38} />
+                                  </IconButton>
+                                  <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleGoAppItem(Item, pageModel)} >
+                                      <Typography sx={{
+                                      color: 'text.primary',
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      whiteSpace: 'nowrap',
+                                      }}
+                                      >
+                                      {Item.title}
+                                      </Typography>
+                                      <Box sx={{ display: 'flex'}}>
+                                      <Typography variant='body2' sx={{
+                                          color: `secondary.primary`,
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis',
+                                          whiteSpace: 'nowrap',
+                                          flex: 1
+                                      }}>
+                                          {Item.title}
+                                      </Typography>
+                                      </Box>
+                                  </Box>
+                                  <Box textAlign="right">
+                                      <IconButton sx={{ p: 0 }} onClick={()=>handleGoAppItem(Item, pageModel)}>
+                                          <Icon icon='mdi:chevron-right' fontSize={30} />
+                                      </IconButton>
+                                  </Box>
+                              </Box>
+                            </Card>
+                          </Grid>
+                        ))}
+                    </Grid>
+                </Grid>
+              </Grid>
+            )}
+
             {pageModel == 'BasicData' && (
               <Grid container spacing={2}>
                 <Grid item xs={12} sx={{height: 'calc(100%)'}}>
@@ -880,7 +986,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
 
             {pageModel == 'EngineeModelApp' && appItemId && (
               <>
-                <EngineeModelApp backEndApi={`apps/apps_${appItemId}.php`} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} />
+                <EngineeModelApp backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} />
               </>
             )}
 

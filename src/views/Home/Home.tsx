@@ -11,6 +11,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import Footer from './Footer'
 import Setting from '../Setting/Setting'
 import Index from '../Index/Index'
+import Application from '../Application/Application'
 import Login from '../Login/Login'
 import { useTranslation } from 'react-i18next'
 import authConfig from '../../configs/auth'
@@ -90,6 +91,7 @@ const Home = () => {
       {currentTab == "Login" && (<Login setCurrentTab={setCurrentTab} />)}
       {currentTab == "Setting" && (<Setting handleLogout={handleLogout} menuArray={menuArray} />)}
       {currentTab == "Index" && (<Index menuArray={menuArray} setMenuArray={setMenuArray} />)}
+      {currentTab == "Application" && (<Application menuArray={menuArray} setMenuArray={setMenuArray} />)}
       {currentTab != "Loading" && currentTab != "Login" && (<Footer Hidden={false} setCurrentTab={setCurrentTab} currentTab={currentTab} />)}
     </Fragment>
   )
