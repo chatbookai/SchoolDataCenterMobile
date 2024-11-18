@@ -51,8 +51,11 @@ const Application = ({ menuArray, setMenuArray }: any) => {
   const [previousPageModel, setPreviousPageModel] = useState<string[]>([])
   const [TitleOriginal, setTitleOriginal] = useState<string>(t('应用') as string)
   const [RightButtonIconOriginal, setRightButtonIconOriginal] = useState<string>('')
+  const [allpath, setAllpath] = useState<any[]>([])
 
   const [actionInMobileApp, setActionInMobileApp] = useState<string>('20241108')
+
+  console.log("allpath", allpath)
 
   useEffect(() => {
     handleGetMainMenus()
@@ -134,21 +137,38 @@ const Application = ({ menuArray, setMenuArray }: any) => {
   const handleGoAppItem = (item: any, previousModel: string) => {
     console.log("itemitem", item)
     if(item.path.startsWith('/apps/')) {
-      setAppItemId(`apps/apps_${item.path.replace('/apps/', '').replace('/tab/apps_', '')}.php`)
+      setAppItemId(`apps/apps_${item.path.replace('/apps/', '')}.php`)
       setPageModel('EngineeModelApp')
+      setAllpath([])
     }
-    else if(item.path.startsWith('/user/password')) {
-      setAppItemId(`user_password.php`)
+    else if(item.path.startsWith('/tab/apps_')) {
+      setAppItemId(`apps/apps_${item.path.replace('/tab/apps_', '')}.php`)
       setPageModel('EngineeModelApp')
+      setAllpath(item.children)
     }
     else if(item.path.startsWith('/dashboards/analyticsstudent')) {
       setAppItemId(`charts/dashboard_deyu_geren_banji.php`)
       setPageModel('AnalyticsStudent')
+      setAllpath([])
     }
     else if(item.path.startsWith('/dashboards/analyticsclass')) {
       setAppItemId(`charts/dashboard_deyu_banji_banji.php`)
       setPageModel('AnalyticsClass')
+      setAllpath([])
     }
+
+    setCounter(counter + 1)
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
+    setTitle(item.title)
+    setTitleOriginal(item.title)
+    setRightButtonText('')
+    setRightButtonIcon('')
+    setPreviousPageModel((preV: any)=>[...preV, previousModel])
+  }
+
+  const handleGoAppItemFromSubMenu = (item: any, previousModel: string) => {
+    console.log("handleGoAppItemFromSubMenu", item)
+    setAppItemId(`apps/apps_${item.id}.php`)
     setCounter(counter + 1)
     setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle(item.title)
@@ -317,7 +337,31 @@ const Application = ({ menuArray, setMenuArray }: any) => {
               </Container>
             )}
 
-            {pageModel == 'EngineeModelApp' && appItemId && (
+            {pageModel == 'EngineeModelApp' && appItemId && allpath.length > 0 && (
+              <>
+                <Grid container spacing={2} mb={2}>
+                  {allpath && allpath.map((item: any, index: number) => (
+                    <Grid item xs={3} key={index}>
+                      <Box textAlign="center" sx={{my: 0}}>
+                        <img src={authConfig.AppLogo} alt={item.title} style={{ width: '45px', height: '45px' }} onClick={()=>handleGoAppItemFromSubMenu(item, pageModel)}/>
+                        <Typography variant="body2"
+                          sx={{
+                            my: 0,
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis'
+                          }}
+                          onClick={()=>handleGoAppItemFromSubMenu(item, pageModel)}
+                        >{item.title}</Typography>
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+                <EngineeModelApp backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} />
+              </>
+            )}
+
+            {pageModel == 'EngineeModelApp' && appItemId && allpath.length == 0 && (
               <>
                 <EngineeModelApp backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} />
               </>

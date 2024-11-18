@@ -393,7 +393,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
     console.log("mobileEditPageId > -1 && mobileEditPageIdEnable ? mobileEditPageId : pageCount", pageCount)
     console.log("mobileEditPageId 111111", searchFieldName, searchFieldValue, allSubmitFields, page, pageSize, pageCount, sortMethod, sortColumn, forceUpdate, filterMultiColumns, externalId)
     setMobileEditPageIdEnable(false);
-  }, [dispatch, searchFieldName, searchFieldValue, allSubmitFields, page, pageSize, sortMethod, sortColumn, forceUpdate, filterMultiColumns, externalId])
+  }, [dispatch, backEndApi, searchFieldName, searchFieldValue, allSubmitFields, page, pageSize, sortMethod, sortColumn, forceUpdate, filterMultiColumns, externalId])
 
   const [isGetNextPageData, setIsGetNextPageData] = useState<boolean>(false)
 

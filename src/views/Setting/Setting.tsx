@@ -69,9 +69,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
 
   const LanguageArray = [
     {name:'English', value:'en'},
-    {name:'Chinese', value:'zh-CN'},
-    {name:'Korean', value:'Kr'},
-    {name:'Russia', value:'Ru'}
+    {name:'Chinese', value:'zh-CN'}
   ]
 
   const themeArray = [
