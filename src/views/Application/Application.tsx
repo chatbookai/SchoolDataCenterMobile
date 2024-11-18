@@ -18,6 +18,8 @@ import axios from 'axios'
 import { DecryptDataAES256GCM } from 'src/configs/functions'
 
 import EngineeModelApp from "src/views/Enginee/index"
+import AnalyticsStudent from "src/views/Chart/AnalyticsStudent"
+import AnalyticsClass from "src/views/Chart/AnalyticsClass"
 
 import { useTranslation } from 'react-i18next'
 
@@ -133,18 +135,21 @@ const Application = ({ menuArray, setMenuArray }: any) => {
     console.log("itemitem", item)
     if(item.path.startsWith('/apps/')) {
       setAppItemId(`apps/apps_${item.path.replace('/apps/', '').replace('/tab/apps_', '')}.php`)
+      setPageModel('EngineeModelApp')
     }
     else if(item.path.startsWith('/user/password')) {
       setAppItemId(`user_password.php`)
+      setPageModel('EngineeModelApp')
     }
     else if(item.path.startsWith('/dashboards/analyticsstudent')) {
       setAppItemId(`charts/dashboard_deyu_geren_banji.php`)
+      setPageModel('AnalyticsStudent')
     }
     else if(item.path.startsWith('/dashboards/analyticsclass')) {
       setAppItemId(`charts/dashboard_deyu_banji_banji.php`)
+      setPageModel('AnalyticsClass')
     }
     setCounter(counter + 1)
-    setPageModel('EngineeModelApp')
     setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle(item.title)
     setTitleOriginal(item.title)
@@ -152,6 +157,8 @@ const Application = ({ menuArray, setMenuArray }: any) => {
     setRightButtonIcon('')
     setPreviousPageModel((preV: any)=>[...preV, previousModel])
   }
+
+  console.log("appItemId", appItemId, pageModel)
 
   const handleActionInMobileApp = (action: string, title: string, formAction = '') => {
     if(formAction == 'GoPageList')  { //当新建或编辑的表单提交以后, 会返回一个值, 表示已经提交, 这个时候需要返回到页面列表
@@ -203,6 +210,8 @@ const Application = ({ menuArray, setMenuArray }: any) => {
         handleWalletGoHome()
         setRightButtonIcon('')
         break
+      case 'AnalyticsStudent':
+      case 'AnalyticsClass':
       case 'EngineeModelApp':
         if(previousPageModel.at(-1) == 'add_default') { // sub module redirect
           setActionInMobileApp(String(Math.random()))
@@ -311,6 +320,18 @@ const Application = ({ menuArray, setMenuArray }: any) => {
             {pageModel == 'EngineeModelApp' && appItemId && (
               <>
                 <EngineeModelApp backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} />
+              </>
+            )}
+
+            {pageModel == 'AnalyticsStudent' && appItemId && (
+              <>
+                <AnalyticsStudent  />
+              </>
+            )}
+
+            {pageModel == 'AnalyticsClass' && appItemId && (
+              <>
+                <AnalyticsClass  />
               </>
             )}
 
