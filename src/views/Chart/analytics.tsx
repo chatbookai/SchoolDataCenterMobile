@@ -11,17 +11,17 @@ import Box from '@mui/material/Box'
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 
 // ** Demo Components Imports
-import ApexLineChart from 'src/views/charts/apex-charts/ApexLineChart'
-import ApexDonutChart from 'src/views/charts/apex-charts/ApexDonutChart'
-import ApexRadialBarChart from 'src/views/charts/apex-charts/ApexRadialBarChart'
+import ApexLineChart from './apex-charts/ApexLineChart'
+import ApexDonutChart from './apex-charts/ApexDonutChart'
+import ApexRadialBarChart from './apex-charts/ApexRadialBarChart'
 
-import AnalyticsTrophy from 'src/views/dashboards/analytics/AnalyticsTrophy'
-import AnalyticsSalesByCountries from 'src/views/dashboards/analytics/AnalyticsSalesByCountries'
-import AnalyticsDepositWithdraw from 'src/views/dashboards/analytics/AnalyticsDepositWithdraw'
-import AnalyticsTransactionsCard from 'src/views/dashboards/analytics/AnalyticsTransactionsCard'
+import AnalyticsTrophy from ./analytics/AnalyticsTrophy'
+import AnalyticsSalesByCountries from ./analytics/AnalyticsSalesByCountries'
+import AnalyticsDepositWithdraw from ./analytics/AnalyticsDepositWithdraw'
+import AnalyticsTransactionsCard from ./analytics/AnalyticsTransactionsCard'
 
-import AnalyticsWeeklyOverview from 'src/views/dashboards/analytics/AnalyticsWeeklyOverview'
-import AnalyticsPerformance from 'src/views/dashboards/analytics/AnalyticsPerformance'
+import AnalyticsWeeklyOverview from ./analytics/AnalyticsWeeklyOverview'
+import AnalyticsPerformance from ./analytics/AnalyticsPerformance'
 
 
 
@@ -44,7 +44,7 @@ const AnalyticsDashboard = () => {
   const toggleSetClassName = (classNameTemp: string) => {
     setClassName(classNameTemp)
   }
-  
+
   const handleOptionsMenuItemClick = (Item: string) => {
     setOptionsMenuItem(Item)
   }
@@ -69,7 +69,7 @@ const AnalyticsDashboard = () => {
           setIsLoading(false)
           setClassName(res.data.defaultValue)
       })
-    }    
+    }
   }, [className, auth, optionsMenuItem])
 
   const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
@@ -156,10 +156,10 @@ const AnalyticsDashboard = () => {
                       }
 
                     })}
-                    
+
                   </Grid>
                 )}
-      
+
     </ApexChartWrapper>
   )
 }
