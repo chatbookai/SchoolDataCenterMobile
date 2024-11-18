@@ -46,7 +46,7 @@ const Home = () => {
       setLoadingText(t('Login Tip') as string)
       setTimeout(() => {
         if (user) {
-          setCurrentTab("Index")
+          setCurrentTab("Application")
         }
         else {
           setCurrentTab("Login")

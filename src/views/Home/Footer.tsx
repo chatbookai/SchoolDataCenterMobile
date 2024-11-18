@@ -15,7 +15,7 @@ const Footer = (props: any) => {
   const { t } = useTranslation()
   const { footer, setCurrentTab } = props
 
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(2);
 
   if (footer === 'hidden') {
     return null
