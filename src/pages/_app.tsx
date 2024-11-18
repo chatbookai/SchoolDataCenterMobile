@@ -125,9 +125,9 @@ const App = (props: ExtendedAppProps) => {
           />
           <meta name='keywords' content='单点科技 & 数据中心' />
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-          <link rel="icon" type="image/png" href="/icons/{authConfig.AppMarkId}/icon16.png" sizes="16x16" />
-          <link rel="icon" type="image/png" href="/icons/{authConfig.AppMarkId}/icon32.png" sizes="32x32" />
-          <link rel="icon" type="image/png" href="/icons/{authConfig.AppMarkId}/icon48.png" sizes="48x48" />
+          <link rel="icon" type="image/png" href={`/icons/${authConfig.AppMarkId}/icon16.png`} sizes="16x16" />
+          <link rel="icon" type="image/png" href={`/icons/${authConfig.AppMarkId}/icon32.png`} sizes="32x32" />
+          <link rel="icon" type="image/png" href={`/icons/${authConfig.AppMarkId}/icon48.png`} sizes="48x48" />
         </Head>
 
         <AuthProvider>
