@@ -24,7 +24,7 @@ interface DataType {
 }
 
 const AnalyticsWeeklyOverview = (props: DataType) => {
-  
+
   const { data, handleOptionsMenuItemClick } = props
   const [selectedItem, setSelectedItem] = useState<string>("")
 
@@ -37,7 +37,7 @@ const AnalyticsWeeklyOverview = (props: DataType) => {
   }, [data.TopRightOptions])
 
   const router = useRouter();
-  
+
   // ** Hook
   const theme = useTheme()
 
@@ -50,9 +50,7 @@ const AnalyticsWeeklyOverview = (props: DataType) => {
       bar: {
         borderRadius: 9,
         distributed: true,
-        columnWidth: '40%',
-        endingShape: 'rounded',
-        startingShape: 'rounded'
+        columnWidth: '40%'
       }
     },
     stroke: {

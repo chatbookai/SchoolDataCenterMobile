@@ -15,13 +15,13 @@ import ApexLineChart from './apex-charts/ApexLineChart'
 import ApexDonutChart from './apex-charts/ApexDonutChart'
 import ApexRadialBarChart from './apex-charts/ApexRadialBarChart'
 
-import AnalyticsTrophy from ./analytics/AnalyticsTrophy'
-import AnalyticsSalesByCountries from ./analytics/AnalyticsSalesByCountries'
-import AnalyticsDepositWithdraw from ./analytics/AnalyticsDepositWithdraw'
-import AnalyticsTransactionsCard from ./analytics/AnalyticsTransactionsCard'
+import AnalyticsTrophy from './analytics/AnalyticsTrophy'
+import AnalyticsSalesByCountries from './analytics/AnalyticsSalesByCountries'
+import AnalyticsDepositWithdraw from './analytics/AnalyticsDepositWithdraw'
+import AnalyticsTransactionsCard from './analytics/AnalyticsTransactionsCard'
 
-import AnalyticsWeeklyOverview from ./analytics/AnalyticsWeeklyOverview'
-import AnalyticsPerformance from ./analytics/AnalyticsPerformance'
+import AnalyticsWeeklyOverview from './analytics/AnalyticsWeeklyOverview'
+import AnalyticsPerformance from './analytics/AnalyticsPerformance'
 
 
 
