@@ -166,7 +166,7 @@ const Application = ({ menuArray, setMenuArray }: any) => {
     setPreviousPageModel((preV: any)=>[...preV, previousModel])
   }
 
-  const handleGoAppItemFromSubMenu = (item: any, previousModel: string) => {
+  const handleGoAppItemFromSubMenu = (item: any) => {
     console.log("handleGoAppItemFromSubMenu", item)
     setAppItemId(`apps/apps_${item.id}.php`)
     setCounter(counter + 1)
@@ -175,7 +175,7 @@ const Application = ({ menuArray, setMenuArray }: any) => {
     setTitleOriginal(item.title)
     setRightButtonText('')
     setRightButtonIcon('')
-    setPreviousPageModel((preV: any)=>[...preV, previousModel])
+    setPreviousPageModel((preV: any)=>[preV[0]])
   }
 
   console.log("appItemId", appItemId, pageModel)
@@ -183,6 +183,7 @@ const Application = ({ menuArray, setMenuArray }: any) => {
   const handleActionInMobileApp = (action: string, title: string, formAction = '') => {
     if(formAction == 'GoPageList')  { //当新建或编辑的表单提交以后, 会返回一个值, 表示已经提交, 这个时候需要返回到页面列表
       setPreviousPageModel((preV: any)=>[preV[0]])
+      console.log("handleActionInMobileApp", action, "--actionInMobileApp", actionInMobileApp)
     }
     else { //当在页面列表里面时, 点击查看, 编辑, 新建时的操作处理
       console.log("actionactionactionaction", action, "--actionInMobileApp", actionInMobileApp)
@@ -224,7 +225,7 @@ const Application = ({ menuArray, setMenuArray }: any) => {
 
 
   const LeftIconOnClick = () => {
-    console.log("pageModel66666", pageModel, previousPageModel)
+    console.log("pageModel66666", pageModel, previousPageModel, "actionInMobileApp", actionInMobileApp)
     switch(pageModel) {
       case 'MainApplication':
         handleWalletGoHome()
@@ -343,7 +344,7 @@ const Application = ({ menuArray, setMenuArray }: any) => {
                   {allpath && allpath.map((item: any, index: number) => (
                     <Grid item xs={3} key={index}>
                       <Box textAlign="center" sx={{my: 0}}>
-                        <img src={authConfig.AppLogo} alt={item.title} style={{ width: '45px', height: '45px' }} onClick={()=>handleGoAppItemFromSubMenu(item, pageModel)}/>
+                        <img src={authConfig.AppLogo} alt={item.title} style={{ width: '45px', height: '45px' }} onClick={()=>handleGoAppItemFromSubMenu(item)}/>
                         <Typography variant="body2"
                           sx={{
                             my: 0,
@@ -351,7 +352,7 @@ const Application = ({ menuArray, setMenuArray }: any) => {
                             overflow: 'hidden',
                             textOverflow: 'ellipsis'
                           }}
-                          onClick={()=>handleGoAppItemFromSubMenu(item, pageModel)}
+                          onClick={()=>handleGoAppItemFromSubMenu(item)}
                         >{item.title}</Typography>
                       </Box>
                     </Grid>

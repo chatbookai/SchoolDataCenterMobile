@@ -5,14 +5,14 @@ const hostname = os.hostname()
 let APP_URL = '/api/'
 let AppName = "单点职校数据中心"
 let indexDashboardPath = "/dashboards/analytics"
-let indexMenuspath = "auth/menus.php"
+let indexMenuspath = "auth/menusMobile.php"
 let AppMarkId = 'dandian'
 
 if(hostname == 'localhost' || hostname == '127.0.0.1')   {
   APP_URL = "http://localhost:80/api/"
   AppName = "单点职校数据中心"
   indexDashboardPath = "/dashboards/analytics"
-  indexMenuspath = "auth/menus.php"
+  indexMenuspath = "auth/menusMobile.php"
   AppMarkId = 'dandian'
 }
 
