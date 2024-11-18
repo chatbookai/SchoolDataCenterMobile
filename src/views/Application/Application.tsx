@@ -20,6 +20,8 @@ import { DecryptDataAES256GCM } from 'src/configs/functions'
 import EngineeModelApp from "src/views/Enginee/index"
 import AnalyticsStudent from "src/views/Chart/AnalyticsStudent"
 import AnalyticsClass from "src/views/Chart/AnalyticsClass"
+import StatisticsStudentsbyClass from "src/views/Chart/StatisticsStudentsbyClass"
+import StatisticsStudentsbyIndividual from "src/views/Chart/StatisticsStudentsbyIndividual"
 
 import { useTranslation } from 'react-i18next'
 
@@ -156,6 +158,16 @@ const Application = ({ menuArray, setMenuArray }: any) => {
       setPageModel('AnalyticsClass')
       setAllpath([])
     }
+    else if(item.path.startsWith('/dashboards/StatisticsStudentsbyClass')) {
+      setAppItemId(`charts/StatisticsStudentsbyClass.php`)
+      setPageModel('StatisticsStudentsbyClass')
+      setAllpath([])
+    }
+    else if(item.path.startsWith('/dashboards/StatisticsStudentsbyIndividual')) {
+      setAppItemId(`charts/StatisticsStudentsbyIndividual.php`)
+      setPageModel('StatisticsStudentsbyIndividual')
+      setAllpath([])
+    }
 
     setCounter(counter + 1)
     setLeftIcon('ic:twotone-keyboard-arrow-left')
@@ -233,6 +245,8 @@ const Application = ({ menuArray, setMenuArray }: any) => {
         break
       case 'AnalyticsStudent':
       case 'AnalyticsClass':
+      case 'StatisticsStudentsbyClass':
+      case 'StatisticsStudentsbyIndividual':
       case 'EngineeModelApp':
         if(previousPageModel.at(-1) == 'add_default') { // sub module redirect
           setActionInMobileApp(String(Math.random()))
@@ -379,6 +393,21 @@ const Application = ({ menuArray, setMenuArray }: any) => {
                 <AnalyticsClass  />
               </>
             )}
+
+            {pageModel == 'StatisticsStudentsbyClass' && appItemId && (
+              <>
+                <StatisticsStudentsbyClass  />
+              </>
+            )}
+
+            {pageModel == 'StatisticsStudentsbyIndividual' && appItemId && (
+              <>
+                <StatisticsStudentsbyIndividual  />
+              </>
+            )}
+
+
+
 
         </ContentWrapper>
       </Box>
