@@ -259,7 +259,7 @@ const Index = ({ menuArray, setMenuArray }: any) => {
 
                   return (
                     <Fragment key={menuIndex}>
-                    {menuItem && menuItem.title && !['基础数据','系统设置','低代码平台'].includes(menuItem.title) && (
+                    {menuItem && menuItem.title && !['基础数据','系统设置','低代码平台','我的事务'].includes(menuItem.title) && (
                       <Box my={2} key={menuIndex}>
                         <Typography variant="h6" sx={{ py: 0.5, pl: 2, borderRadius: '5px', mb: 2, fontSize: '16px' }}>
                           {menuItem.title}
