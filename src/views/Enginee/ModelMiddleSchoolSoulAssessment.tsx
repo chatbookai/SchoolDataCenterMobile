@@ -171,18 +171,30 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
                   </Typography>
                 </Box>
                 <div>
-                  <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '0.5rem' }}>
-                      <Typography variant='body2' sx={{ marginRight: '1rem' }}>学号:</Typography>
-                      <Typography variant='body2' sx={{ marginRight: '1rem' }}>{data['用户信息']['学号']}</Typography>
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '0.5rem' }}>
-                      <Typography variant='body2' sx={{ marginRight: '1rem' }}>姓名:</Typography>
-                      <Typography variant='body2' sx={{ marginRight: '1rem' }}>{data['用户信息']['姓名']}</Typography>
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'row' }}>
-                      <Typography variant='body2' sx={{ marginRight: '1rem' }}>班级:</Typography>
-                      <Typography variant='body2' sx={{ marginRight: '1rem' }}>{data['用户信息']['班级']}</Typography>
-                  </div>
+                  {data['用户信息']['学号'] && data['用户信息']['学号'] != "" && (
+                    <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '0.5rem' }}>
+                        <Typography variant='body2' sx={{ marginRight: '1rem' }}>学号:</Typography>
+                        <Typography variant='body2' sx={{ marginRight: '1rem' }}>{data['用户信息']['学号']}</Typography>
+                    </div>
+                  )}
+                  {data['用户信息']['用户名'] && data['用户信息']['用户名'] != "" && (
+                    <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '0.5rem' }}>
+                        <Typography variant='body2' sx={{ marginRight: '1rem' }}>用户名:</Typography>
+                        <Typography variant='body2' sx={{ marginRight: '1rem' }}>{data['用户信息']['用户名']}</Typography>
+                    </div>
+                  )}
+                  {data['用户信息']['姓名'] && data['用户信息']['姓名'] != "" && (
+                    <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '0.5rem' }}>
+                        <Typography variant='body2' sx={{ marginRight: '1rem' }}>姓名:</Typography>
+                        <Typography variant='body2' sx={{ marginRight: '1rem' }}>{data['用户信息']['姓名']}</Typography>
+                    </div>
+                  )}
+                  {data['用户信息']['班级'] && data['用户信息']['班级'] != "" && (
+                    <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '0.5rem' }}>
+                        <Typography variant='body2' sx={{ marginRight: '1rem' }}>班级:</Typography>
+                        <Typography variant='body2' sx={{ marginRight: '1rem' }}>{data['用户信息']['班级']}</Typography>
+                    </div>
+                  )}
                 </div>
               </Box>
             </Grid>
@@ -200,7 +212,7 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
                         <Typography variant='body2'>测评时间:</Typography>
                       </MUITableCell>
                       <MUITableCell>
-                        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+                        <Typography variant='body2' >
                         {data['用户信息']['测评时间']}
                         </Typography>
                       </MUITableCell>
@@ -210,7 +222,7 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
                         <Typography variant='body2'>测评用时:</Typography>
                       </MUITableCell>
                       <MUITableCell>
-                        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+                        <Typography variant='body2' >
                         {data['用户信息']['使用时间']}
                         </Typography>
                       </MUITableCell>
@@ -220,11 +232,23 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
                         <Typography variant='body2'>咨询师:</Typography>
                       </MUITableCell>
                       <MUITableCell>
-                        <Typography variant='body2' sx={{ fontWeight: 600 }}>
+                        <Typography variant='body2' >
                         {data['用户信息']['咨询师'] ?? '无'}
                         </Typography>
                       </MUITableCell>
                     </TableRow>
+                    {data['DeepSeek'] == "" && (
+                        <TableRow>
+                          <MUITableCell>
+                            <Typography variant='body2'>AI状态:</Typography>
+                          </MUITableCell>
+                          <MUITableCell>
+                            <Typography variant='body2' sx={{ color: 'info.main', fontSize: '0.825rem' }}>
+                              人工智能分析生成中,请耐心等待5分钟.
+                            </Typography>
+                          </MUITableCell>
+                        </TableRow>
+                      )}
                   </TableBody>
                 </Table>
               </Box>
@@ -309,22 +333,22 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
                 {data && data['因子分析'] && data['因子分析'].length > 0 && data['因子分析'].map((item: any, index: number)=>{
 
                   return (
-                    <TableContainer key={index} sx={{mb: 3}}>
+                    <TableContainer key={index} sx={{mb: 2}}>
                       <Table>
                         <TableHead>
                           <TableRow>
-                            <TableCell colSpan={4}>
+                            <TableCell colSpan={4} sx={{m: 0, pb: 1}}>
                               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <div>
-                                  <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '0.5rem' }}>
+                                  <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '0.3rem' }}>
                                       <Typography sx={{ marginRight: '1rem', whiteSpace: 'nowrap' }}>{index+1} 因子名称:</Typography>
                                       <Typography sx={{ marginRight: '1rem' }}>{item['名称']}</Typography>
                                   </div>
-                                  <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '0.5rem' }}>
+                                  <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '0.3rem' }}>
                                       <Typography variant='body2' sx={{ marginRight: '1rem', whiteSpace: 'nowrap' }}>因子分数:</Typography>
                                       <Typography variant='body2' sx={{ marginRight: '1rem' }}>{item['测评分数']}</Typography>
                                   </div>
-                                  <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '0.5rem' }}>
+                                  <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '0.3rem' }}>
                                       <Typography variant='body2' sx={{ marginRight: '1rem', whiteSpace: 'nowrap' }}>因子解释:</Typography>
                                       <Typography variant='body2' sx={{ marginRight: '1rem' }}>{item['因子解释']}</Typography>
                                   </div>
@@ -335,23 +359,22 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
                         </TableHead>
                         <TableHead>
                           <TableRow>
-                            <TableCell>项目</TableCell>
-                            <TableCell style={{ whiteSpace: 'nowrap' }}>选项</TableCell>
-                            <TableCell style={{ whiteSpace: 'nowrap' }}>分值</TableCell>
+                            <TableCell sx={{ py: 1, width: '70%' }} >项目</TableCell>
+                            <TableCell sx={{ py: 1, width: '15%', whiteSpace: 'nowrap' }}>选项</TableCell>
+                            <TableCell sx={{ py: 1, width: '15%', whiteSpace: 'nowrap' }}>分值</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
                           {item && item['测评明细'] && item['测评明细'].length > 0 && item['测评明细'].map((Ceping: any, IndexCeping: number)=>{
 
                             return (
-                              <TableRow key={IndexCeping}>
-                                <TableCell sx={{width: '70%'}}>{Ceping['测评项目']}</TableCell>
-                                <TableCell sx={{width: '15%', whiteSpace: 'nowrap'}}>{Ceping['测评选项']}</TableCell>
-                                <TableCell sx={{width: '15%', whiteSpace: 'nowrap'}}>{Ceping['测评分值']}</TableCell>
+                              <TableRow key={IndexCeping} sx={{ py: 1 }}>
+                                <TableCell sx={{m: 0, p: 1, width: '70%'}}>{Ceping['测评项目']}</TableCell>
+                                <TableCell sx={{m: 0, p: 1, width: '15%', whiteSpace: 'nowrap'}}>{Ceping['测评选项']}</TableCell>
+                                <TableCell sx={{m: 0, p: 1, width: '15%', whiteSpace: 'nowrap'}}>{Ceping['测评分值']}</TableCell>
                               </TableRow>
                             )
                           })}
-
                         </TableBody>
                       </Table>
                     </TableContainer>
@@ -381,6 +404,11 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
                         <Typography sx={{ color: 'action.active', fontSize: '0.825rem' }}>
                             <ReactMarkdown>{data['DeepSeek'].replace('\n', '  \n')}</ReactMarkdown>
                         </Typography>
+                        {data['DeepSeek'] == "" && (
+                          <Typography sx={{ color: 'info.main', fontSize: '0.825rem' }}>
+                            人工智能分析生成中,请耐心等待5分钟.
+                          </Typography>
+                        )}
                       </CardContent>
                     </Card>
                   </Grid>
