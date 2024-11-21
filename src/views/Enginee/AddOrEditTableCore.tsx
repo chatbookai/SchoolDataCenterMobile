@@ -2440,7 +2440,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                                                         return (
                                                             <Grid item xs={FieldArray.rules.xs} sm={FieldArray.rules.sm} key={"AllFields_" + FieldArray_index}>
                                                                 <FormControl fullWidth sx={{ mb: 0 }}>
-                                                                    <FormLabel>{FieldArray.label}</FormLabel>
+                                                                    <FormLabel sx={{ color: 'text.primary' }}>{FieldArray.label}</FormLabel>
                                                                     <Controller
                                                                         name={FieldArray.name}
                                                                         control={control}
@@ -4868,11 +4868,28 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
 
                         {singleModelCounter > 0 && FieldShowStatus == 1 && (
                             <Grid item xs={12} sm={12} container sx={{ pt: 4, ml: 1 }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                    <Typography variant='body2' sx={{ mb: 0 }}>
-                                        Total: {fieldIdValue+1} / {singleModelCounter}
-                                    </Typography>
-                                </Box>
+                              <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                  <Typography variant='body2' sx={{ mb: 0 }}>
+                                    {addEditStructInfo2.processtext ? addEditStructInfo2.processtext : 'Total'}: {fieldIdValue+1} / {singleModelCounter}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                  <Typography variant='body2' sx={{ mb: 0 }}>
+                                    {addEditStructInfo2.titlememo ? addEditStructInfo2.titlememo : ''}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                  <Typography variant='body2' sx={{ mb: 0 }}>
+                                    {addEditStructInfo2.titlememo1 ? addEditStructInfo2.titlememo1 : ''}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                  <Typography variant='body2' sx={{ mb: 0 }}>
+                                    {addEditStructInfo2.titlememo2 ? addEditStructInfo2.titlememo2 : ''}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
                             </Grid>
                         )}
 
@@ -4897,7 +4914,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                                         </Tooltip>
                                         : ''
                                     }
-                                    {addEditStructInfo2.canceltext && addEditStructInfo2.canceltext != "" ?
+                                    {isMobileData == false && addEditStructInfo2.canceltext && addEditStructInfo2.canceltext != "" ?
                                         <Tooltip title="Alt+c">
                                             <Button size='small' sx={{ml: 3}} disabled={isSubmitLoading} variant='outlined' color='secondary' onClick={handleClose}>
                                                 {addEditStructInfo2.canceltext}
