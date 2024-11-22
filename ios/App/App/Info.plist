@@ -49,5 +49,17 @@
 	<true/>
   <key>ITSAppUsesNonExemptEncryption</key>
   <false/>
+
+  <key>NSFileProviderDomainIdentifier</key>
+  <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+  <key>NSFileProviderPresenceProvider</key>
+  <true/>
+  <key>NSFileProviderPresenceAuthorization</key>
+  <string>full</string>
+  <key>NSFileProviderDomainUsageDescription</key>
+  <string>我们需要访问您的文件系统来保存文件。</string>
+  <key>NSFileProviderDomainUsageDescriptionUI</key>
+  <string>我们需要访问您的文件系统来保存文件。</string>
+
 </dict>
 </plist>
