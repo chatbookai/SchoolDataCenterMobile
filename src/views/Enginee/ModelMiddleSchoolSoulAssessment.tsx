@@ -138,8 +138,8 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
 
     // 5. 使用 Share 插件分享文件
     await Share.share({
-      title: '心理测评报告',
-      text: '这是我的心理测评报告，分享给你！',
+      title: filePath,
+      text: filePath,
       url: filePath, // 分享文件路径
       dialogTitle: '分享图片',
     });
