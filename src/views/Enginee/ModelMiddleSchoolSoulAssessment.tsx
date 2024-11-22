@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, Fragment } from 'react'
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 
 // ** MUI Imports
 import Button from '@mui/material/Button'
@@ -83,11 +83,12 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
 
       // 保存文件到设备的本地存储
       const fileName = `psychological_report_${Date.now()}.png`;
+
+      const fileBlob = new Blob([uint8Array], { type: 'image/png' });
       const savedFile = await Filesystem.writeFile({
-          path: fileName,
-          data: uint8Array,
-          directory: Directory.Documents,
-          encoding: Encoding.UTF8,
+        path: fileName,
+        data: fileBlob,
+        directory: Directory.Documents,
       });
 
       console.log('File saved:', savedFile);
@@ -99,6 +100,7 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
       downloadLink.download = fileName;
       downloadLink.textContent = '点击下载图片';
       document.body.appendChild(downloadLink);
+
     } catch (error) {
         console.error('Error generating or saving image:', error);
     }
