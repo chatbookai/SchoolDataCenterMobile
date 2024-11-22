@@ -157,8 +157,8 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
 
   if (data) {
     return (
-      <Card>
-        <CardContent>
+      <Card sx={{m: 0, p: 0}}>
+        <CardContent sx={{p: 3, pl: 4}}>
           <Grid container>
             <Grid item sm={6} xs={12} sx={{ mb: { sm: 0, xs: 4 } }}>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -237,18 +237,42 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
                         </Typography>
                       </MUITableCell>
                     </TableRow>
-                    {data['DeepSeek'] == "" && (
-                        <TableRow>
-                          <MUITableCell>
-                            <Typography variant='body2'>AI状态:</Typography>
-                          </MUITableCell>
-                          <MUITableCell>
-                            <Typography variant='body2' sx={{ color: 'info.main', fontSize: '0.825rem' }}>
-                              人工智能分析生成中,请耐心等待5分钟.
-                            </Typography>
-                          </MUITableCell>
-                        </TableRow>
-                      )}
+                    {data['DeepSeek'] == "" && data['测评时间'] == null && (
+                      <TableRow>
+                        <MUITableCell>
+                          <Typography variant='body2'>测评状态:</Typography>
+                        </MUITableCell>
+                        <MUITableCell>
+                          <Typography variant='body2' sx={{ color: 'info.main', fontSize: '0.825rem' }}>
+                            未开始测评
+                          </Typography>
+                        </MUITableCell>
+                      </TableRow>
+                    )}
+                    {data['DeepSeek'] == "" && data['测评时间'] != null && (
+                      <TableRow>
+                        <MUITableCell>
+                          <Typography variant='body2'>AI状态:</Typography>
+                        </MUITableCell>
+                        <MUITableCell>
+                          <Typography variant='body2' sx={{ color: 'info.main', fontSize: '0.825rem' }}>
+                            人工智能分析生成中,请耐心等待5分钟.
+                          </Typography>
+                        </MUITableCell>
+                      </TableRow>
+                    )}
+                    {data['DeepSeek'] != "" && data['测评时间'] != null && (
+                      <TableRow>
+                        <MUITableCell>
+                          <Typography variant='body2'>AI状态:</Typography>
+                        </MUITableCell>
+                        <MUITableCell>
+                          <Typography variant='body2' sx={{ color: 'primary.main', fontSize: '0.825rem' }}>
+                            人工智能分析完成.
+                          </Typography>
+                        </MUITableCell>
+                      </TableRow>
+                    )}
                   </TableBody>
                 </Table>
               </Box>
@@ -404,7 +428,7 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
                         <Typography sx={{ color: 'action.active', fontSize: '0.825rem' }}>
                             <ReactMarkdown>{data['DeepSeek'].replace('\n', '  \n')}</ReactMarkdown>
                         </Typography>
-                        {data['DeepSeek'] == "" && (
+                        {data['DeepSeek'] == "" && data['测评时间'] != null && (
                           <Typography sx={{ color: 'info.main', fontSize: '0.825rem' }}>
                             人工智能分析生成中,请耐心等待5分钟.
                           </Typography>
