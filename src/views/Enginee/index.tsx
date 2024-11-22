@@ -95,9 +95,11 @@ const StyledLink = styled(Link)(({ theme }) => ({
 interface AddTableType{
   backEndApi: string
   externalId: string
-  handleActionInMobileApp?: any
+  handleActionInMobileApp?(action: string, title: string, formAction: string) : void
   actionInMobileApp?: string
   handleSetRightButtonIconOriginal?: any
+  viewPageShareStatus?: boolean
+  handSetViewPageShareStatus?: any
 }
 
 const ImgStyled = styled('img')(() => ({
@@ -106,7 +108,7 @@ const ImgStyled = styled('img')(() => ({
   borderRadius: 4
 }))
 
-const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMobileApp, handleSetRightButtonIconOriginal }: AddTableType) => {
+const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMobileApp, handleSetRightButtonIconOriginal, viewPageShareStatus, handSetViewPageShareStatus }: AddTableType) => {
   // ** Props
   const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
   const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
@@ -616,49 +618,49 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
         setCSRF_TOKEN(CSRF_TOKEN)
         setAddEditActionId(id)
         setAddEditActionOpen(!addEditActionOpen)
-        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default.titletext)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default.titletext, '')
         break;
       case 'edit_default_1':
         setAddEditActionName(action)
         setCSRF_TOKEN(CSRF_TOKEN)
         setAddEditActionId(id)
         setAddEditActionOpen(!addEditActionOpen)
-        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_1.titletext)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_1.titletext, '')
         break;
       case 'edit_default_2':
         setAddEditActionName(action)
         setCSRF_TOKEN(CSRF_TOKEN)
         setAddEditActionId(id)
         setAddEditActionOpen(!addEditActionOpen)
-        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_2.titletext)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_2.titletext, '')
         break;
       case 'edit_default_3':
         setAddEditActionName(action)
         setCSRF_TOKEN(CSRF_TOKEN)
         setAddEditActionId(id)
         setAddEditActionOpen(!addEditActionOpen)
-        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_3.titletext)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_3.titletext, '')
         break;
       case 'edit_default_4':
         setAddEditActionName(action)
         setCSRF_TOKEN(CSRF_TOKEN)
         setAddEditActionId(id)
         setAddEditActionOpen(!addEditActionOpen)
-        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_4.titletext)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_4.titletext, '')
         break;
       case 'edit_default_5':
         setAddEditActionName(action)
         setCSRF_TOKEN(CSRF_TOKEN)
         setAddEditActionId(id)
         setAddEditActionOpen(!addEditActionOpen)
-        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_5.titletext)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_5.titletext, '')
         break;
       case 'edit_default_6':
         setAddEditActionName(action)
         setCSRF_TOKEN(CSRF_TOKEN)
         setAddEditActionId(id)
         setAddEditActionOpen(!addEditActionOpen)
-        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_6.titletext)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.edit_default_6.titletext, '')
         break;
       case 'view_default':
         setAddEditActionName(action)
@@ -666,7 +668,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
         setAddEditActionId(id)
         setViewActionOpen(!viewActionOpen)
         setEditViewCounter(0)
-        handleActionInMobileApp && handleActionInMobileApp(action, store.view_default.titletext)
+        handleActionInMobileApp && handleActionInMobileApp(action, store.view_default.titletext, '')
         break;
       case 'delete_array':
         setSelectedRows([id])
@@ -1539,7 +1541,7 @@ const UserList = ({ backEndApi, externalId, handleActionInMobileApp, actionInMob
 
       {store && store[addEditActionName] && store[addEditActionName]['defaultValues'] && addEditActionName.indexOf("edit_default") != -1 && addEditActionId!='' ? <AddOrEditTable externalId={Number(externalId)} id={addEditActionId} action={addEditActionName} addEditStructInfo={store[addEditActionName]} open={addEditActionOpen} toggleAddTableDrawer={toggleEditTableDrawer} addUserHandleFilter={addUserHandleFilter} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} IsGetStructureFromEditDefault={isGetStructureFromEditDefault} addEditViewShowInWindow={addEditViewShowInWindow}  CSRF_TOKEN={CSRF_TOKEN} dataGridLanguageCode={store.init_default.dataGridLanguageCode} dialogMaxWidth={store.init_default.dialogMaxWidth} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} handleIsLoadingTipChange={handleIsLoadingTipChange} setForceUpdate={setForceUpdate}/> : ''}
 
-      {store && store.view_default && store.view_default.defaultValues && addEditActionName.indexOf("view_default") != -1 && addEditActionId!='' ? <ViewTable externalId={Number(externalId)} id={addEditActionId} action={addEditActionName} pageJsonInfor={store[addEditActionName]} open={viewActionOpen} toggleViewTableDrawer={toggleViewTableDrawer} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} addEditViewShowInWindow={addEditViewShowInWindow} CSRF_TOKEN={CSRF_TOKEN} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} dialogMaxWidth={store.init_default.dialogMaxWidth} /> : ''}
+      {store && store.view_default && store.view_default.defaultValues && addEditActionName.indexOf("view_default") != -1 && addEditActionId!='' ? <ViewTable externalId={Number(externalId)} id={addEditActionId} action={addEditActionName} pageJsonInfor={store[addEditActionName]} open={viewActionOpen} toggleViewTableDrawer={toggleViewTableDrawer} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} addEditViewShowInWindow={addEditViewShowInWindow} CSRF_TOKEN={CSRF_TOKEN} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} dialogMaxWidth={store.init_default.dialogMaxWidth} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}/> : ''}
       <ImagesPreview open={imagesPreviewOpen} toggleImagesPreviewDrawer={toggleImagesPreviewDrawer} imagesList={imagesPreviewList} imagesType={imagesType} />
     </Grid >
   )

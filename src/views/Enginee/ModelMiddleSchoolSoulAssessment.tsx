@@ -29,14 +29,26 @@ import axios from 'axios'
 
 import html2canvas from 'html2canvas'
 
+import { Capacitor } from '@capacitor/core'
 import { Share } from '@capacitor/share'
-import ShareIcon from '@mui/icons-material/Share'
+
+import Icon from 'src/@core/components/icon'
+import { Dialog, DialogContent, DialogActions, } from '@mui/material';
+import SaveIcon from '@mui/icons-material/Save';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
+import CircularProgress from '@mui/material/CircularProgress'
+import Backdrop from '@mui/material/Backdrop'
+
+const platform = Capacitor.getPlatform();
 
 interface Props {
   dataOriginal: any
   modelOriginal: string
   id: string
   backEndApi: string
+  viewPageShareStatus: boolean | undefined
+  handSetViewPageShareStatus?: any
 }
 
 const MUITableCell = styled(TableCell)<TableCellBaseProps>(({ theme }) => ({
@@ -48,21 +60,21 @@ const MUITableCell = styled(TableCell)<TableCellBaseProps>(({ theme }) => ({
 }))
 
 
-const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, backEndApi }: Props) => {
+const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, backEndApi, viewPageShareStatus, handSetViewPageShareStatus }: Props) => {
   // ** Hook
   const theme = useTheme()
 
   const [data, setData] = useState<any>(dataOriginal)
   const [model, setModel] = useState<any>(modelOriginal)
   const [printModel, setPrintModel] = useState<string>("print")
-  const [disabledButton, setDisabledButton] = useState<boolean>(false)
 
   const isMobileData = isMobile()
 
   const printRef = useRef<HTMLDivElement>(null);
 
+  const [loading, setLoading] = useState<boolean>(false)
+
   const handleDownloadImage = async () => {
-    setDisabledButton(true)
 
     try {
       const element = printRef.current;
@@ -73,44 +85,48 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
       });
       const imageBase64Text = canvas.toDataURL('image/png');
 
-      // 将 dataURL 转换为 Blob
-      const response = await fetch(imageBase64Text);
-      const blob = await response.blob();
+      if (platform === 'android' || platform === 'ios') {
+        // 将 dataURL 转换为 Blob
+        const response = await fetch(imageBase64Text);
+        const blob = await response.blob();
 
-      // 将 Blob 转换为 ArrayBuffer
-      const arrayBuffer = await blob.arrayBuffer();
-      const uint8Array = new Uint8Array(arrayBuffer);
+        // 将 Blob 转换为 ArrayBuffer
+        const arrayBuffer = await blob.arrayBuffer();
+        const uint8Array = new Uint8Array(arrayBuffer);
 
-      // 保存文件到设备的本地存储
-      const fileName = `psychological_report_${Date.now()}.png`;
+        // 保存文件到设备的本地存储
+        const fileName = `psychological_report_${Date.now()}.png`;
+        const fileBlob = new Blob([uint8Array], { type: 'image/png' });
+        const savedFile = await Filesystem.writeFile({
+          path: fileName,
+          data: fileBlob,
+          directory: Directory.Documents,
+        });
+        console.log('File saved:', savedFile);
+        const fileUrl = savedFile.uri;
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.download = fileName;
+        link.textContent = '点击下载图片 android ios';
+        document.body.appendChild(link);
+      }
 
-      const fileBlob = new Blob([uint8Array], { type: 'image/png' });
-      const savedFile = await Filesystem.writeFile({
-        path: fileName,
-        data: fileBlob,
-        directory: Directory.Documents,
-      });
-
-      console.log('File saved:', savedFile);
-
-      // 生成下载链接
-      const fileUrl = savedFile.uri;
-      const downloadLink = document.createElement('a');
-      downloadLink.href = fileUrl;
-      downloadLink.download = fileName;
-      downloadLink.textContent = '点击下载图片';
-      document.body.appendChild(downloadLink);
+      if (platform === 'web') {
+        if (!previewImage) return;
+        const fileName = `${data['测评名称']}(${data['用户信息']['姓名']}-${data['用户信息']['测评时间']}).png`;
+        const link = document.createElement('a');
+        link.href = previewImage;
+        link.download = fileName;
+        link.click();
+      }
 
     } catch (error) {
         console.error('Error generating or saving image:', error);
     }
 
-    setDisabledButton(false)
   };
 
-  const handleShareImage = async () => {
-
-    //setDisabledButton(true)
+  const handleShareImageToOther = async () => {
 
     const element = printRef.current;
     const canvas = await html2canvas(element as HTMLElement, {
@@ -136,17 +152,20 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
     // 4. 获取文件路径（Capacitor 文件 URL）
     const filePath = fileResult.uri;
 
-    // 5. 使用 Share 插件分享文件
-    await Share.share({
-      title: filePath,
-      text: filePath,
-      url: filePath, // 分享文件路径
-      dialogTitle: '分享图片',
-    });
+    if (platform === 'android' || platform === 'ios') {
+
+      // 5. 使用 Share 插件分享文件
+      await Share.share({
+        title: filePath,
+        text: filePath,
+        url: filePath, // 分享文件路径
+        dialogTitle: '分享图片',
+      });
+
+    }
 
     //URL.revokeObjectURL(blobUrl);
 
-    setDisabledButton(false)
   };
 
   useEffect(() => {
@@ -252,9 +271,105 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
     }
   }, [series, options]);
 
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+
+  const handleGenerateShareImage = async () => {
+    setLoading(true)
+    if (!printRef.current) return;
+    const canvas = await html2canvas(printRef.current, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: false,
+    });
+    const dataURL = canvas.toDataURL('image/png');
+    setPreviewImage(dataURL);
+    setLoading(false)
+  };
+
+  const handleShareToWeChat = async () => {
+    if (!previewImage) return;
+    try {
+      if (platform === 'android' || platform === 'ios') {
+        await Share.share({
+          title: 'Check out this image!',
+          text: 'I generated this image using my app.',
+          url: previewImage,
+          dialogTitle: 'Share this image',
+        });
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
+  };
+
+  interface ShareDialogProps {
+    previewImage: string | null;
+    onClose: () => void;
+    onSave: () => void;
+    onShareToWeChat: () => void;
+    onMoreOptions: () => void;
+  }
+
+  const ShareDialog: React.FC<ShareDialogProps> = ({
+    previewImage,
+    onClose,
+    onSave,
+    onShareToWeChat,
+    onMoreOptions,
+  }) => {
+    return (
+      <Dialog open={!!previewImage} onClose={onClose}>
+        <DialogContent sx={{mb: 1}}>
+          {previewImage && <img src={previewImage} alt="Preview" style={{ width: '100%' }} />}
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: 'center', mb: 1, pb: 1, mx: 3 }}>
+          <Button startIcon={<SaveIcon />} onClick={onSave}>
+            保存
+          </Button>
+          <Button startIcon={<Icon icon={'ic:baseline-wechat'} />} onClick={onShareToWeChat}>
+            微信
+          </Button>
+          <Button startIcon={<MoreHorizIcon />} onClick={onMoreOptions}>
+            更多
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  };
+
+  useEffect(() => {
+    if (viewPageShareStatus) {
+      handleGenerateShareImage()
+    }
+  }, [viewPageShareStatus]);
+
+  console.log("viewPageShareStatus", viewPageShareStatus)
+
   if (data) {
     return (
       <Fragment>
+        {viewPageShareStatus == true && (
+          <Fragment>
+            <ShareDialog
+              previewImage={previewImage}
+              onClose={() => {
+                setPreviewImage(null)
+                handSetViewPageShareStatus(false)
+              }}
+              onSave={handleDownloadImage}
+              onShareToWeChat={handleShareToWeChat}
+              onMoreOptions={handleShareImageToOther}
+            />
+          </Fragment>
+        )}
+        {loading && (
+          <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={true}
+          >
+            <CircularProgress color="inherit" size={45}/>
+          </Backdrop>
+        )}
         <div ref={printRef}>
           <Card sx={{m: 0, p: 0}}>
             <CardContent sx={{p: 3, pl: 4}}>
@@ -570,8 +685,6 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
 
           </Card>
         </div>
-        <Button sx={{mt: 5}} disabled={disabledButton} variant="contained" startIcon={<ShareIcon />} fullWidth onClick={async ()=>handleDownloadImage()}>下载</Button>
-        <Button sx={{mt: 5}} disabled={disabledButton} variant="contained" startIcon={<ShareIcon />} fullWidth onClick={async ()=>handleShareImage()}>分享</Button>
       </Fragment>
     )
   } else {

@@ -50,6 +50,8 @@ const Application = ({ menuArray, setMenuArray }: any) => {
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
   const [appItemId, setAppItemId] = useState<string>('')
 
+  const [viewPageShareStatus, setViewPageShareStatus] = useState<boolean>(false)
+
   const [previousPageModel, setPreviousPageModel] = useState<string[]>([])
   const [TitleOriginal, setTitleOriginal] = useState<string>(t('应用') as string)
   const [RightButtonIconOriginal, setRightButtonIconOriginal] = useState<string>('')
@@ -235,19 +237,20 @@ const Application = ({ menuArray, setMenuArray }: any) => {
     setRightButtonIcon(RightButtonIconOriginal)
   }
 
-
   const LeftIconOnClick = () => {
     console.log("pageModel66666", pageModel, previousPageModel, "actionInMobileApp", actionInMobileApp)
     switch(pageModel) {
       case 'MainApplication':
         handleWalletGoHome()
         setRightButtonIcon('')
+        setViewPageShareStatus(false)
         break
       case 'AnalyticsStudent':
       case 'AnalyticsClass':
       case 'StatisticsStudentsbyClass':
       case 'StatisticsStudentsbyIndividual':
       case 'EngineeModelApp':
+        setViewPageShareStatus(false)
         if(previousPageModel.at(-1) == 'add_default') { // sub module redirect
           setActionInMobileApp(String(Math.random()))
           setRightButtonIcon(RightButtonIconOriginal)
@@ -265,6 +268,7 @@ const Application = ({ menuArray, setMenuArray }: any) => {
           setRightButtonIcon(RightButtonIconOriginal)
           setTitle(TitleOriginal)
           previousPageModel.pop()
+          handleSetRightButtonIconOriginal('') //这一行需要放到这个位置,不能上移
         }
         else if(previousPageModel.at(-1) == 'MainApplication') {
           handleWalletGoHome()
@@ -280,11 +284,24 @@ const Application = ({ menuArray, setMenuArray }: any) => {
     console.log("RightButtonOnClick: 163", actionInMobileApp)
     switch(pageModel) {
         case 'EngineeModelApp':
-          setActionInMobileApp('add_default')
-          setPreviousPageModel((preV: any)=>[...preV, 'add_default']) //行为栈,新增加一个新建页面
-          setRightButtonIcon('') //当点击右上角的新建按钮,进行新建页面时,需要暂时不显示右上角的新建按钮. 当回到列表页面时,需要显示出来.
+          if(RightButtonIcon == 'ic:sharp-add-circle-outline')   {
+            setActionInMobileApp('add_default')
+            setPreviousPageModel((preV: any)=>[...preV, 'add_default']) //行为栈,新增加一个新建页面
+            setRightButtonIcon('') //当点击右上角的新建按钮,进行新建页面时,需要暂时不显示右上角的新建按钮. 当回到列表页面时,需要显示出来.
+          }
+          else if(RightButtonIcon == 'material-symbols:ios-share')   {
+            setViewPageShareStatus(true)
+
+            //setActionInMobileApp('add_default')
+            //setPreviousPageModel((preV: any)=>[...preV, 'add_default']) //行为栈,新增加一个新建页面
+            //setRightButtonIcon('') //当点击右上角的新建按钮,进行新建页面时,需要暂时不显示右上角的新建按钮. 当回到列表页面时,需要显示出来.
+          }
           break
       }
+  }
+
+  const handSetViewPageShareStatus = (NewStatus: boolean) => {
+    setViewPageShareStatus(NewStatus)
   }
 
   console.log("pageModel-----", pageModel, previousPageModel)
@@ -372,13 +389,13 @@ const Application = ({ menuArray, setMenuArray }: any) => {
                     </Grid>
                   ))}
                 </Grid>
-                <EngineeModelApp backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} />
+                <EngineeModelApp backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus} />
               </>
             )}
 
             {pageModel == 'EngineeModelApp' && appItemId && allpath.length == 0 && (
               <>
-                <EngineeModelApp backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} />
+                <EngineeModelApp backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus} />
               </>
             )}
 
@@ -405,9 +422,6 @@ const Application = ({ menuArray, setMenuArray }: any) => {
                 <StatisticsStudentsbyIndividual  />
               </>
             )}
-
-
-
 
         </ContentWrapper>
       </Box>

@@ -60,6 +60,9 @@ interface ViewTableType {
   pageJsonInfor: {}
   CSRF_TOKEN: string
   toggleImagesPreviewListDrawer: (imagesPreviewList: string[], imagetype: string[]) => void
+  handleSetRightButtonIconOriginal?: any
+  viewPageShareStatus?: boolean
+  handSetViewPageShareStatus?: any
 }
 
 const ImgStyled = styled('img')(({ theme }) => ({
@@ -81,7 +84,7 @@ const CustomLink = styled(Link)({
 
 const ViewTableCore = (props: ViewTableType) => {
   // ** Props
-  const { externalId, id, action, toggleViewTableDrawer, backEndApi, editViewCounter, CSRF_TOKEN, toggleImagesPreviewListDrawer } = props
+  const { externalId, id, action, toggleViewTableDrawer, backEndApi, editViewCounter, CSRF_TOKEN, toggleImagesPreviewListDrawer, handleSetRightButtonIconOriginal, viewPageShareStatus, handSetViewPageShareStatus } = props
   console.log("externalId props", externalId)
 
   const isMobileData = isMobile()
@@ -124,6 +127,12 @@ const ViewTableCore = (props: ViewTableType) => {
           const data = res.data
           if(data && data.model) {
             setModel(data.model)
+            if(data.model == "测评模式")  {
+              handleSetRightButtonIconOriginal('material-symbols:ios-share')
+            }
+            else {
+              handleSetRightButtonIconOriginal('')
+            }
           }
           if(data && data.isEncrypted == "1" && data.data)  {
               const i = data.data.slice(0, 32);
@@ -178,7 +187,7 @@ const ViewTableCore = (props: ViewTableType) => {
     <Fragment>
       {isLoading == false && model && model == "测评模式" && (
         <Fragment>
-          <ModelMiddleSchoolSoulAssessment modelOriginal={model} dataOriginal={defaultValuesView} id={id} backEndApi={backEndApi}/>
+          <ModelMiddleSchoolSoulAssessment modelOriginal={model} dataOriginal={defaultValuesView} id={id} backEndApi={backEndApi} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}/>
         </Fragment>
       )}
       {isLoading == false && model == "" && (
