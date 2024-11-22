@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, Fragment } from 'react'
-import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 
 // ** MUI Imports
 import Button from '@mui/material/Button'
@@ -118,16 +118,33 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
       useCORS: true, // 允许跨域图片
       allowTaint: false, // 不允许跨域图片污染
     });
-    const imageBase64Text = canvas.toDataURL('image/png');
 
-    const blob = await (await fetch(imageBase64Text)).blob();
-    const blobUrl = URL.createObjectURL(blob);
-    await Share.share({
-      title: '分享心理测评报告',
-      url: blobUrl,
-      dialogTitle: '分享图片'
+    const imageBase64 = canvas.toDataURL('image/png');
+
+    // 2. 将 Base64 数据转为二进制字符串
+    const base64Data = imageBase64.split(',')[1];
+
+    // 3. 使用 Filesystem 保存图片到本地
+    const fileName = `shared-image-${Date.now()}.png`;
+    const fileResult = await Filesystem.writeFile({
+      path: fileName,
+      data: base64Data,
+      directory: Directory.Cache, // 缓存目录，适合临时文件
+      encoding: Encoding.UTF8,
     });
-    URL.revokeObjectURL(blobUrl);
+
+    // 4. 获取文件路径（Capacitor 文件 URL）
+    const filePath = fileResult.uri;
+
+    // 5. 使用 Share 插件分享文件
+    await Share.share({
+      title: '心理测评报告',
+      text: '这是我的心理测评报告，分享给你！',
+      url: filePath, // 分享文件路径
+      dialogTitle: '分享图片',
+    });
+
+    //URL.revokeObjectURL(blobUrl);
 
     setDisabledButton(false)
   };

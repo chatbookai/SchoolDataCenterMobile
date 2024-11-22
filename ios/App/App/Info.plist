@@ -61,5 +61,11 @@
   <key>NSFileProviderDomainUsageDescriptionUI</key>
   <string>我们需要访问您的文件系统来保存文件。</string>
 
+  <key>UIFileSharingEnabled</key>
+  <true/>
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>需要访问您的相册以保存和分享图片。</string>
+
+
 </dict>
 </plist>
