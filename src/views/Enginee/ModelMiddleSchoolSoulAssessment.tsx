@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, Fragment } from 'react'
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 
 // ** MUI Imports
 import Button from '@mui/material/Button'
@@ -62,17 +63,46 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
 
   const handleDownloadImage = async () => {
     setDisabledButton(true)
-    const element = printRef.current;
-    const canvas = await html2canvas(element as HTMLElement, {
-      scale: 2, // 提高分辨率
-      useCORS: true, // 允许跨域图片
-      allowTaint: false, // 不允许跨域图片污染
-    });
-    const dataURL = canvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.href = dataURL;
-    link.download = 'page.png';
-    link.click();
+
+    try {
+      const element = printRef.current;
+      const canvas = await html2canvas(element as HTMLElement, {
+          scale: 2, // 提高分辨率
+          useCORS: true, // 允许跨域图片
+          allowTaint: false, // 不允许跨域图片污染
+      });
+      const imageBase64Text = canvas.toDataURL('image/png');
+
+      // 将 dataURL 转换为 Blob
+      const response = await fetch(imageBase64Text);
+      const blob = await response.blob();
+
+      // 将 Blob 转换为 ArrayBuffer
+      const arrayBuffer = await blob.arrayBuffer();
+      const uint8Array = new Uint8Array(arrayBuffer);
+
+      // 保存文件到设备的本地存储
+      const fileName = `psychological_report_${Date.now()}.png`;
+      const savedFile = await Filesystem.writeFile({
+          path: fileName,
+          data: uint8Array,
+          directory: Directory.Documents,
+          encoding: Encoding.UTF8,
+      });
+
+      console.log('File saved:', savedFile);
+
+      // 生成下载链接
+      const fileUrl = savedFile.uri;
+      const downloadLink = document.createElement('a');
+      downloadLink.href = fileUrl;
+      downloadLink.download = fileName;
+      downloadLink.textContent = '点击下载图片';
+      document.body.appendChild(downloadLink);
+    } catch (error) {
+        console.error('Error generating or saving image:', error);
+    }
+
     setDisabledButton(false)
   };
 
