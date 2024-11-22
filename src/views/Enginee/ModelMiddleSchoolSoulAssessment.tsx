@@ -363,10 +363,7 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
           </Fragment>
         )}
         {loading && (
-          <Backdrop
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={true}
-          >
+          <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={true} >
             <CircularProgress color="inherit" size={45}/>
           </Backdrop>
         )}

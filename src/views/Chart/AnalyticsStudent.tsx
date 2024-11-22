@@ -84,7 +84,7 @@ const AnalyticsDashboard = () => {
                         </Box>
                     </Grid>
                 ) : (
-                  <Grid container spacing={6}>
+                  <Grid container spacing={3}>
                     {dashboardData && dashboardData.map( (item: any, index: number)=> {
                       if(item.type=="AnalyticsTrophy") {
                         return (

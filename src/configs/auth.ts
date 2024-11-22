@@ -3,14 +3,14 @@ import os from 'os'
 const hostname = os.hostname()
 
 let APP_URL = '/api/'
-let AppName = "单点职校数据中心"
+let AppName = "单点数据中心"
 let indexDashboardPath = "/dashboards/analytics"
 let indexMenuspath = "auth/menusMobile.php"
 let AppMarkId = 'dandian'
 
 if(hostname == 'localhost' || hostname == '127.0.0.1')   {
   APP_URL = "http://localhost:80/api/"
-  AppName = "单点职校数据中心"
+  AppName = "单点数据中心"
   indexDashboardPath = "/dashboards/analytics"
   indexMenuspath = "auth/menusMobile.php"
   AppMarkId = 'dandian'
@@ -37,8 +37,7 @@ const config = {
   storageMainMenus: 'mainMenus',
   onTokenExpiration: 'refreshToken', // logout | refreshToken
   backEndApiHost: APP_URL,
-  indexDashboardPath: indexDashboardPath,
-  k: "fbae1da1c3f10b1ce0c75c8f5d3319d0"
+  indexDashboardPath: indexDashboardPath
 
 }
 

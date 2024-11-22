@@ -18,10 +18,7 @@ import axios from 'axios'
 import { DecryptDataAES256GCM } from 'src/configs/functions'
 
 import EngineeModelApp from "src/views/Enginee/index"
-import AnalyticsStudent from "src/views/Chart/AnalyticsStudent"
-import AnalyticsClass from "src/views/Chart/AnalyticsClass"
-import StatisticsStudentsbyClass from "src/views/Chart/StatisticsStudentsbyClass"
-import StatisticsStudentsbyIndividual from "src/views/Chart/StatisticsStudentsbyIndividual"
+import ShareDialog from "src/views/Chart/ShareDialog"
 
 import { useTranslation } from 'react-i18next'
 
@@ -144,39 +141,47 @@ const Application = ({ menuArray, setMenuArray }: any) => {
       setAppItemId(`apps/apps_${item.path.replace('/apps/', '')}.php`)
       setPageModel('EngineeModelApp')
       setAllpath([])
+      setRightButtonText('')
+      setRightButtonIcon('')
+      handleSetRightButtonIconOriginal('')
     }
     else if(item.path.startsWith('/tab/apps_')) {
       setAppItemId(`apps/apps_${item.path.replace('/tab/apps_', '')}.php`)
       setPageModel('EngineeModelApp')
       setAllpath(item.children)
+      setRightButtonText('')
+      setRightButtonIcon('')
+      handleSetRightButtonIconOriginal('')
     }
     else if(item.path.startsWith('/dashboards/analyticsstudent')) {
       setAppItemId(`charts/dashboard_deyu_geren_banji.php`)
       setPageModel('AnalyticsStudent')
       setAllpath([])
+      handleSetRightButtonIconOriginal('material-symbols:ios-share')
     }
     else if(item.path.startsWith('/dashboards/analyticsclass')) {
       setAppItemId(`charts/dashboard_deyu_banji_banji.php`)
       setPageModel('AnalyticsClass')
       setAllpath([])
+      handleSetRightButtonIconOriginal('material-symbols:ios-share')
     }
     else if(item.path.startsWith('/dashboards/StatisticsStudentsbyClass')) {
       setAppItemId(`charts/StatisticsStudentsbyClass.php`)
       setPageModel('StatisticsStudentsbyClass')
       setAllpath([])
+      handleSetRightButtonIconOriginal('material-symbols:ios-share')
     }
     else if(item.path.startsWith('/dashboards/StatisticsStudentsbyIndividual')) {
       setAppItemId(`charts/StatisticsStudentsbyIndividual.php`)
       setPageModel('StatisticsStudentsbyIndividual')
       setAllpath([])
+      handleSetRightButtonIconOriginal('material-symbols:ios-share')
     }
 
     setCounter(counter + 1)
     setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle(item.title)
     setTitleOriginal(item.title)
-    setRightButtonText('')
-    setRightButtonIcon('')
     setPreviousPageModel((preV: any)=>[...preV, previousModel])
   }
 
@@ -283,6 +288,10 @@ const Application = ({ menuArray, setMenuArray }: any) => {
     console.log("RightButtonOnClick: 163", pageModel)
     console.log("RightButtonOnClick: 163", actionInMobileApp)
     switch(pageModel) {
+        case 'AnalyticsStudent':
+        case 'AnalyticsClass':
+        case 'StatisticsStudentsbyClass':
+        case 'StatisticsStudentsbyIndividual':
         case 'EngineeModelApp':
           if(RightButtonIcon == 'ic:sharp-add-circle-outline')   {
             setActionInMobileApp('add_default')
@@ -401,25 +410,25 @@ const Application = ({ menuArray, setMenuArray }: any) => {
 
             {pageModel == 'AnalyticsStudent' && appItemId && (
               <>
-                <AnalyticsStudent  />
+                <ShareDialog pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
               </>
             )}
 
             {pageModel == 'AnalyticsClass' && appItemId && (
               <>
-                <AnalyticsClass  />
+                <ShareDialog pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
               </>
             )}
 
             {pageModel == 'StatisticsStudentsbyClass' && appItemId && (
               <>
-                <StatisticsStudentsbyClass  />
+                <ShareDialog pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
               </>
             )}
 
             {pageModel == 'StatisticsStudentsbyIndividual' && appItemId && (
               <>
-                <StatisticsStudentsbyIndividual  />
+                <ShareDialog pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
               </>
             )}
 

@@ -1,12 +1,12 @@
 <p align="center">
 	<img alt="logo" src="https://www.dandian.net/cn/wp-content/uploads/20171021044351_57.png">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">单点职校数据中心 移动端</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">单点数据中心 移动端</h1>
 <h4 align="center">职校智慧大脑数据中台整体解决方案</h4>
 
 ## 平台简介
 
-单点职校数据中心是针对职业院校的一款智慧大脑院校中台，按【全国职业教育智慧大脑院校中台-中职数据标准及接口规范】标准进行开发。
+单点数据中心是针对职业院校的一款智慧大脑院校中台，按【全国职业教育智慧大脑院校中台-中职数据标准及接口规范】标准进行开发。
 
 * 前端采用React，NextJS，MUI，DataGrid。
 * 后端采用PHP，MYSQL。
