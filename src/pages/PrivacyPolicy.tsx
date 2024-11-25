@@ -3,10 +3,13 @@ import React, { ReactNode } from 'react';
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 import PrivacyPolicyModel from '../views/Setting/PrivacyPolicy'
+import { getConfig } from 'src/configs/auth'
 
 const PrivacyPolicy = () => {
 
-  return <PrivacyPolicyModel />
+  const authConfig = getConfig('@dandian')
+
+  return <PrivacyPolicyModel authConfig={authConfig} />
 }
 
 PrivacyPolicy.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
