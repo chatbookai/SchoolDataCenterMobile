@@ -33,7 +33,7 @@ import { Capacitor } from '@capacitor/core'
 import { Share } from '@capacitor/share'
 
 import Icon from 'src/@core/components/icon'
-import { Dialog, DialogContent, DialogActions, } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
@@ -318,22 +318,35 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
     onMoreOptions,
   }) => {
     return (
-      <Dialog open={!!previewImage} onClose={onClose}>
-        <DialogContent sx={{mb: 1}}>
-          {previewImage && <img src={previewImage} alt="Preview" style={{ width: '100%' }} />}
-        </DialogContent>
-        <DialogActions sx={{ justifyContent: 'center', mb: 1, pb: 1, mx: 3 }}>
-          <Button startIcon={<SaveIcon />} onClick={onSave}>
-            保存
-          </Button>
-          <Button startIcon={<Icon icon={'ic:baseline-wechat'} />} onClick={onShareToWeChat}>
-            微信
-          </Button>
-          <Button startIcon={<MoreHorizIcon />} onClick={onMoreOptions}>
-            更多
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Fragment>
+        {data && data.sharedModel && data.sharedModel.title && (
+          <Dialog open={!!previewImage} onClose={onClose}>
+            <DialogTitle sx={{ textAlign: 'left', my: 1, py: 1, mx: 1, px: 2 }}>
+              <Typography variant='body2' sx={{ marginRight: '1rem' }}>{data.sharedModel.title}</Typography>
+            </DialogTitle>
+            <DialogContent sx={{mb: 1}}>
+              {previewImage && <img src={previewImage} alt="Preview" style={{ width: '100%' }} />}
+            </DialogContent>
+            <DialogActions sx={{ justifyContent: 'center', mb: 1, pb: 1, mx: 3 }}>
+              {data.sharedModel.actions && data.sharedModel.actions.includes('Save') && (
+                <Button startIcon={<SaveIcon />} onClick={onSave}>
+                  保存
+                </Button>
+              )}
+              {data.sharedModel.actions && data.sharedModel.actions.includes('Wechat') && (
+                <Button startIcon={<Icon icon={'ic:baseline-wechat'} />} onClick={onShareToWeChat}>
+                  微信
+                </Button>
+              )}
+              {data.sharedModel.actions && data.sharedModel.actions.includes('More') && (
+                <Button startIcon={<MoreHorizIcon />} onClick={onMoreOptions}>
+                  更多
+                </Button>
+              )}
+            </DialogActions>
+          </Dialog>
+        )}
+      </Fragment>
     );
   };
 
