@@ -1,44 +1,39 @@
-import os from 'os'
 
-const hostname = os.hostname()
+const AppSchoolConfigMap: any    = {}
+AppSchoolConfigMap['dandian']    = ["https://fdzz.dandian.net/api/", '单点数据中心', "auth/menusMobile.php"]
+AppSchoolConfigMap['fdzyzz.com'] = ["https://fdzz.dandian.net/api/", '福鼎职业中专', "auth/menusMobile.php"]
+AppSchoolConfigMap['fjsmnx.com'] = ["https://fdzz.dandian.net/api/", '三明林业学校', "auth/menusMobile.php"]
 
-let APP_URL = '/api/'
-let AppName = "单点数据中心"
-let indexDashboardPath = "/dashboards/analytics"
-let indexMenuspath = "auth/menusMobile.php"
-let AppMarkId = 'dandian'
 
-if(hostname == 'localhost' || hostname == '127.0.0.1')   {
-  APP_URL = "http://localhost:80/api/"
-  AppName = "单点数据中心"
-  indexDashboardPath = "/dashboards/analytics"
-  indexMenuspath = "auth/menusMobile.php"
-  AppMarkId = 'dandian'
+export function getConfig(Username: string) {
+  const UsernameArray = Username.split('@')
+  const AppMarkId = UsernameArray[1] && AppSchoolConfigMap[UsernameArray[1]] ? UsernameArray[1] : 'dandian'
+  const APP_URL = AppSchoolConfigMap[AppMarkId][0]
+  const AppName = AppSchoolConfigMap[AppMarkId][1]
+  const indexMenuspath = AppSchoolConfigMap[AppMarkId][2]
+
+  return {
+    AppName: AppName,
+    AppLogo: '/icons/' + AppMarkId + '/icon256.png',
+    AppMarkId: AppMarkId,
+    AppSchoolConfigMap: AppSchoolConfigMap,
+    indexMenuspath: indexMenuspath,
+    meEndpoint: APP_URL + 'jwt.php?action=refresh',
+    loginEndpoint: APP_URL + 'jwt.php?action=login',
+    logoutEndpoint: APP_URL + 'jwt.php?action=logout',
+    refreshEndpoint: APP_URL + 'jwt.php?action=refresh',
+    registerEndpoint: APP_URL + 'jwt/register',
+    backEndApiHost: APP_URL
+  };
+
 }
 
-APP_URL = "https://fdzz.dandian.net/api/"
-AppMarkId = 'fdzz'
-
-const config = {
-  AppName: AppName,
-  AppLogo: '/icons/' + AppMarkId + '/icon256.png',
-  AppMarkId: AppMarkId,
+export const defaultConfig = {
   Github: 'https://github.com/chatbookai/SchoolDataCenter',
-  AppVersion: '20241030',
+  AppVersion: '20241125',
   defaultLanguage: 'zh-CN',
-  indexMenuspath: indexMenuspath,
-  meEndpoint: APP_URL+'jwt.php?action=refresh',
-  loginEndpoint: APP_URL+'jwt.php?action=login',
-  logoutEndpoint: APP_URL+'jwt.php?action=logout',
-  refreshEndpoint: APP_URL+'jwt.php?action=refresh',
-  registerEndpoint: APP_URL+'jwt/register',
   storageTokenKeyName: 'accessToken',
   storageAccessKeyName: 'accessKey',
   storageMainMenus: 'mainMenus',
   onTokenExpiration: 'refreshToken', // logout | refreshToken
-  backEndApiHost: APP_URL,
-  indexDashboardPath: indexDashboardPath
-
 }
-
-export default config;

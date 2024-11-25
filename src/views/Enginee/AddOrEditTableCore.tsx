@@ -56,7 +56,7 @@ import { DecryptDataAES256GCM } from 'src/configs/functions'
 import Repeater from 'src/@core/components/repeater'
 
 // ** Config
-import authConfig from 'src/configs/auth'
+import { defaultConfig } from 'src/configs/auth'
 
 // ** Third Party Imports
 import * as yup from 'yup'
@@ -147,6 +147,7 @@ const Transition = forwardRef(function Transition(
   })
 
 interface AddOrEditTableType {
+    authConfig: any
     externalId: number
     id: number | string
     action: string
@@ -167,7 +168,7 @@ interface AddOrEditTableType {
 
 const AddOrEditTableCore = (props: AddOrEditTableType) => {
     // ** Props
-    const { externalId, id, action, addEditStructInfo, toggleAddTableDrawer, addUserHandleFilter, backEndApi, editViewCounter, IsGetStructureFromEditDefault, AddtionalParams, CSRF_TOKEN, dataGridLanguageCode, toggleImagesPreviewListDrawer, handleIsLoadingTipChange, setForceUpdate } = props
+    const { authConfig, externalId, id, action, addEditStructInfo, toggleAddTableDrawer, addUserHandleFilter, backEndApi, editViewCounter, IsGetStructureFromEditDefault, AddtionalParams, CSRF_TOKEN, dataGridLanguageCode, toggleImagesPreviewListDrawer, handleIsLoadingTipChange, setForceUpdate } = props
 
     const i18n: any = {language: 'zh'}
 
@@ -213,8 +214,8 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
 
     const [activeTab, setActiveTab] = useState<string>('detailsTab')
 
-    const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
-    const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
+    const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
+    const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
 
     console.log("AddtionalParams======================================",action)
 
@@ -556,8 +557,8 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
         const toastId = toast.loading(addEditStructInfo2.submitloading)
         setIsSubmitLoading(true)
         handleIsLoadingTipChange(true, addEditStructInfo2.ImportLoading)
-        const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
-        const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
+        const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
+        const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
         if (!storedToken) {
             toggleAddTableDrawer('TokenError')
             reset()
@@ -2397,7 +2398,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                                                                                     <Box sx={{ display: 'flex', flexWrap: { xs: 'wrap', md: 'nowrap' } }}>
                                                                                         <TabContext value={activeTab}>
                                                                                         <TabPanel value='detailsTab' sx={{ flexGrow: 1 }}>
-                                                                                            <IndexJumpDialogWindow handleDialogWindowCloseWithParam={handleDialogWindowCloseWithParam} NewFieldName={NewFieldName} NewFieldCode={NewFieldCode} FieldArray={FieldArray} />
+                                                                                            <IndexJumpDialogWindow authConfig={authConfig} handleDialogWindowCloseWithParam={handleDialogWindowCloseWithParam} NewFieldName={NewFieldName} NewFieldCode={NewFieldCode} FieldArray={FieldArray} />
                                                                                         </TabPanel>
                                                                                         </TabContext>
                                                                                     </Box>
@@ -4784,7 +4785,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                                                                                         <Box sx={{ display: 'flex', flexWrap: { xs: 'wrap', md: 'nowrap' } }}>
                                                                                             <TabContext value={activeTab}>
                                                                                             <TabPanel value='detailsTab' sx={{ flexGrow: 1 }}>
-                                                                                                <IndexJumpDialogWindow handleDialogWindowCloseWithParam={handleDialogWindowCloseWithParam} NewFieldName={NewFieldName} NewFieldCode={NewFieldCode} FieldArray={FieldArray} />
+                                                                                                <IndexJumpDialogWindow authConfig={authConfig} handleDialogWindowCloseWithParam={handleDialogWindowCloseWithParam} NewFieldName={NewFieldName} NewFieldCode={NewFieldCode} FieldArray={FieldArray} />
                                                                                             </TabPanel>
                                                                                             </TabContext>
                                                                                         </Box>

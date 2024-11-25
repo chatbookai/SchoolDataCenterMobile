@@ -45,7 +45,7 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
-import authConfig from '../../configs/auth'
+import { getConfig } from 'src/configs/auth'
 import { useTranslation } from 'react-i18next'
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -89,7 +89,7 @@ interface FormData {
   termsofUse: boolean
 }
 
-const Login = ({ setCurrentTab }: any) => {
+const Login = ({ setCurrentTab, setAppMarkId, authConfig, setAuthConfig }: any) => {
   const { t } = useTranslation()
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
@@ -118,12 +118,19 @@ const Login = ({ setCurrentTab }: any) => {
       return encoded;
     }
 
-    auth.login({Data: base58Encode(base58Encode(JSON.stringify({ username, password, rememberMe: true }))), handleGoIndex, handleGoLogin}, () => {
+    const usernameArray = username.split('@')
+    const pureUsername  = usernameArray[0]
+    if(usernameArray[1])  {
+      setAppMarkId(usernameArray[1])
+      window.localStorage.setItem('AppMarkId', usernameArray[1])
+    }
+    auth.login({Data: base58Encode(base58Encode(JSON.stringify({ username: pureUsername, password, rememberMe: true }))), username, handleGoIndex, handleGoLogin}, () => {
       setError('username', {
         type: 'manual',
         message: '用户名或密码错误'
       })
     })
+
   }
 
   const [pageModel, setPageModel] = useState<string>('Login')
@@ -246,7 +253,10 @@ const Login = ({ setCurrentTab }: any) => {
                         label={t('Username')}
                         value={value}
                         onBlur={onBlur}
-                        onChange={onChange}
+                        onChange={(event) => {
+                          onChange(event); // 调用原有的 onChange 处理函数
+                          setAuthConfig(getConfig(event.target.value)); // 调用自定义的额外操作函数
+                        }}
                         error={Boolean(errors.username)}
                         placeholder=''
                       />

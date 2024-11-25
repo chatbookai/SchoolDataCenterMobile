@@ -14,7 +14,7 @@ import Index from '../Index/Index'
 import Application from '../Application/Application'
 import Login from '../Login/Login'
 import { useTranslation } from 'react-i18next'
-import authConfig from '../../configs/auth'
+import { getConfig, defaultConfig } from 'src/configs/auth'
 
 const Home = () => {
   const { t } = useTranslation()
@@ -25,6 +25,9 @@ const Home = () => {
   const [currentTab, setCurrentTab] = useState<string>('Loading')
   const [loadingText, setLoadingText] = useState<string>('')
   const [menuArray, setMenuArray] = useState<any[]>([])
+
+  const [appMarkId, setAppMarkId] = useState<string>('dandian')
+  const [authConfig, setAuthConfig] = useState<any>(getConfig('@'+appMarkId))
 
   useEffect(() => {
 
@@ -63,11 +66,13 @@ const Home = () => {
 
   }, []);
 
+  console.log("authConfig", authConfig)
+
   const handleLogout = () => {
     setLoadingText(t('Logout Tip') as string)
     window.localStorage.removeItem('userData')
     window.localStorage.removeItem('GO_SYSTEM')
-    window.localStorage.removeItem(authConfig.storageTokenKeyName)
+    window.localStorage.removeItem(defaultConfig.storageTokenKeyName)
     setCurrentTab("Login")
   }
 
@@ -88,11 +93,11 @@ const Home = () => {
             </Box>
         </Grid>
       )}
-      {currentTab == "Login" && (<Login setCurrentTab={setCurrentTab} />)}
-      {currentTab == "Setting" && (<Setting handleLogout={handleLogout} menuArray={menuArray} />)}
-      {currentTab == "Index" && (<Index menuArray={menuArray} setMenuArray={setMenuArray} />)}
-      {currentTab == "Application" && (<Application menuArray={menuArray} setMenuArray={setMenuArray} />)}
-      {currentTab != "Loading" && currentTab != "Login" && (<Footer Hidden={false} setCurrentTab={setCurrentTab} currentTab={currentTab} />)}
+      {currentTab == "Login" && (<Login setCurrentTab={setCurrentTab} setAppMarkId={setAppMarkId} authConfig={authConfig} setAuthConfig={setAuthConfig} />)}
+      {currentTab == "Setting" && (<Setting handleLogout={handleLogout} menuArray={menuArray} authConfig={authConfig} />)}
+      {currentTab == "Index" && (<Index menuArray={menuArray} setMenuArray={setMenuArray} authConfig={authConfig} />)}
+      {currentTab == "Application" && (<Application menuArray={menuArray} setMenuArray={setMenuArray} authConfig={authConfig} />)}
+      {currentTab != "Loading" && currentTab != "Login" && (<Footer Hidden={false} setCurrentTab={setCurrentTab} currentTab={currentTab} authConfig={authConfig} />)}
     </Fragment>
   )
 }

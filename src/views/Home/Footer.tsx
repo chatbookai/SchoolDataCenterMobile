@@ -8,12 +8,11 @@ import Icon from '../../@core/components/icon'
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 
-import authConfig from 'src/configs/auth'
 import { useTranslation } from 'react-i18next'
 
 const Footer = (props: any) => {
   const { t } = useTranslation()
-  const { footer, setCurrentTab } = props
+  const { footer, setCurrentTab, authConfig } = props
 
   const [value, setValue] = useState(2);
 

@@ -5,7 +5,7 @@ import { createContext, useEffect, useState, ReactNode } from 'react'
 import axios from 'axios'
 
 // ** Config
-import authConfig from 'src/configs/auth'
+import { getConfig, defaultConfig } from 'src/configs/auth'
 import { DecryptDataAES256GCM } from 'src/configs/functions'
 
 // ** Types
@@ -34,10 +34,12 @@ const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<UserDataType | null>(defaultProvider.user)
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
 
+  const [authConfig, setAuthConfig] = useState<any>(getConfig('@dandian'))
+
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
-      const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
-      const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
+      const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
+      const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
       if (storedToken && storedToken!=undefined) {
         setLoading(true)
         await axios
@@ -74,7 +76,7 @@ const AuthProvider = ({ children }: Props) => {
           .catch(() => {
             localStorage.removeItem('userData')
             localStorage.removeItem('refreshToken')
-            localStorage.removeItem(authConfig.storageTokenKeyName)
+            localStorage.removeItem(defaultConfig.storageTokenKeyName)
             localStorage.removeItem('GO_SYSTEM')
             setUser(null)
             setLoading(false)
@@ -89,8 +91,10 @@ const AuthProvider = ({ children }: Props) => {
   }, [])
 
   const handleLogin = (params: any, errorCallback?: ErrCallbackType) => {
+    const { Data, username, handleGoIndex } = params
 
-    const { Data, handleGoIndex } = params
+    setAuthConfig(getConfig(username));
+
     axios
       .post(authConfig.loginEndpoint, { Data })
       .then(async response => {
@@ -98,7 +102,7 @@ const AuthProvider = ({ children }: Props) => {
         let dataJson: any = null
         const data = response.data
         if(data && data.isEncrypted == "1" && data.data)  {
-            const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
+            const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
             const i = data.data.slice(0, 32);
             const t = data.data.slice(-32);
             const e = data.data.slice(32, -32);
@@ -118,13 +122,13 @@ const AuthProvider = ({ children }: Props) => {
             dataJson = data
         }
 
-        //console.log("authConfig.storageTokenKeyName",authConfig.storageTokenKeyName)
+        //console.log("defaultConfig.storageTokenKeyName",defaultConfig.storageTokenKeyName)
         //console.log("dataJson.accessToken",dataJson.accessToken)
         //console.log("dataJson.userData",dataJson.userData)
         //console.log("JSON.stringify(dataJson.userData)",JSON.stringify(dataJson.userData))
         if(dataJson.userData!=undefined && dataJson.accessToken!=undefined)  {
-          window.localStorage.setItem(authConfig.storageTokenKeyName, dataJson.accessToken)
-          window.localStorage.setItem(authConfig.storageAccessKeyName, dataJson.accessKey)
+          window.localStorage.setItem(defaultConfig.storageTokenKeyName, dataJson.accessToken)
+          window.localStorage.setItem(defaultConfig.storageAccessKeyName, dataJson.accessKey)
           setUser({ ...dataJson.userData })
           true ? window.localStorage.setItem('userData', JSON.stringify(dataJson.userData)) : null
           true ? window.localStorage.setItem('GO_SYSTEM', JSON.stringify(dataJson.GO_SYSTEM)) : null
@@ -138,7 +142,7 @@ const AuthProvider = ({ children }: Props) => {
           setUser(null)
           window.localStorage.removeItem('userData')
           window.localStorage.removeItem('GO_SYSTEM')
-          window.localStorage.removeItem(authConfig.storageTokenKeyName)
+          window.localStorage.removeItem(defaultConfig.storageTokenKeyName)
           if (errorCallback) errorCallback({})
         }
       })
@@ -148,7 +152,7 @@ const AuthProvider = ({ children }: Props) => {
   }
 
   const handleRefreshToken = () => {
-    const token = window.localStorage.getItem(authConfig.storageTokenKeyName)
+    const token = window.localStorage.getItem(defaultConfig.storageTokenKeyName)
     if(window && token)  {
       axios
         .post(authConfig.refreshEndpoint, {}, { headers: { Authorization: token, 'Content-Type': 'application/json'} })
@@ -157,7 +161,7 @@ const AuthProvider = ({ children }: Props) => {
           let dataJson: any = null
           const data = response.data
           if(data && data.isEncrypted == "1" && data.data)  {
-              const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
+              const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
               const i = data.data.slice(0, 32);
               const t = data.data.slice(-32);
               const e = data.data.slice(32, -32);
@@ -178,12 +182,12 @@ const AuthProvider = ({ children }: Props) => {
           }
 
           if(dataJson.status == 'ok' && dataJson.accessToken) {
-            window.localStorage.setItem(authConfig.storageTokenKeyName, dataJson.accessToken)
+            window.localStorage.setItem(defaultConfig.storageTokenKeyName, dataJson.accessToken)
             setUser({ ...dataJson.userData })
           }
 
           if(dataJson.status == 'ok' && dataJson.accessKey) {
-            window.localStorage.setItem(authConfig.storageAccessKeyName, dataJson.accessKey)
+            window.localStorage.setItem(defaultConfig.storageAccessKeyName, dataJson.accessKey)
             setUser({ ...dataJson.userData })
           }
 
@@ -195,7 +199,7 @@ const AuthProvider = ({ children }: Props) => {
     setUser(null)
     window.localStorage.removeItem('userData')
     window.localStorage.removeItem('GO_SYSTEM')
-    window.localStorage.removeItem(authConfig.storageTokenKeyName)
+    window.localStorage.removeItem(defaultConfig.storageTokenKeyName)
   }
 
   const handleRegister = (params: RegisterParams, errorCallback?: ErrCallbackType) => {

@@ -8,9 +8,6 @@ import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 
-// ** Config
-import authConfig from 'src/configs/auth'
-
 // ** Types
 import { ThemeColor } from 'src/@core/layouts/types'
 
@@ -28,13 +25,14 @@ interface DataType2 {
 }
 
 interface DataType {
+  authConfig: any
   data: {[key:string]:any}
   handleOptionsMenuItemClick: (Item: string) => void
 }
 
 const AnalyticsSalesByCountries = (props: DataType) => {
-  
-  const { data, handleOptionsMenuItemClick } = props
+
+  const { data, handleOptionsMenuItemClick, authConfig } = props
   const [selectedItem, setSelectedItem] = useState<string>("")
 
   useEffect(() => {

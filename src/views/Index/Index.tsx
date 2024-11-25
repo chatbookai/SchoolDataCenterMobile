@@ -7,10 +7,6 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 
-// ** MUI Imports
-//import Icon from '../../@core/components/icon'
-import authConfig from '../../configs/auth'
-
 import { styled } from '@mui/material/styles'
 import Header from '../Home/Header'
 
@@ -18,6 +14,9 @@ import axios from 'axios'
 import { DecryptDataAES256GCM } from 'src/configs/functions'
 
 import EngineeModelApp from "src/views/Enginee/index"
+import ShareDialog from "src/views/Chart/ShareDialog"
+
+import { defaultConfig } from 'src/configs/auth'
 
 import { useTranslation } from 'react-i18next'
 
@@ -32,13 +31,13 @@ const ContentWrapper = styled('main')(({ theme }) => ({
   }
 }))
 
-const Index = ({ menuArray, setMenuArray }: any) => {
+const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
   // ** Hook
   const { t } = useTranslation()
   const contentHeightFixed = {}
   const [counter, setCounter] = useState<number>(0)
 
-  const [pageModel, setPageModel] = useState<string>('MainSetting')
+  const [pageModel, setPageModel] = useState<string>('MainApplication')
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
   const [Title, setTitle] = useState<string>(t('应用') as string)
@@ -46,11 +45,16 @@ const Index = ({ menuArray, setMenuArray }: any) => {
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
   const [appItemId, setAppItemId] = useState<string>('')
 
+  const [viewPageShareStatus, setViewPageShareStatus] = useState<boolean>(false)
+
   const [previousPageModel, setPreviousPageModel] = useState<string[]>([])
   const [TitleOriginal, setTitleOriginal] = useState<string>(t('应用') as string)
   const [RightButtonIconOriginal, setRightButtonIconOriginal] = useState<string>('')
+  const [allpath, setAllpath] = useState<any[]>([])
 
   const [actionInMobileApp, setActionInMobileApp] = useState<string>('20241108')
+
+  console.log("allpath", allpath)
 
   useEffect(() => {
     handleGetMainMenus()
@@ -70,8 +74,8 @@ const Index = ({ menuArray, setMenuArray }: any) => {
       }
     }
     const backEndApi = authConfig.indexMenuspath
-    const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
-    const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
+    const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
+    const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
     axios.get(authConfig.backEndApiHost + backEndApi, { headers: { Authorization: storedToken } }).then(res => {
       let dataJson: any = null
       const data = res.data
@@ -131,20 +135,72 @@ const Index = ({ menuArray, setMenuArray }: any) => {
 
   const handleGoAppItem = (item: any, previousModel: string) => {
     console.log("itemitem", item)
-    setAppItemId(item.path.replace('/apps/', '').replace('/tab/apps_', ''))
+    if(item.path.startsWith('/apps/')) {
+      setAppItemId(`apps/apps_${item.path.replace('/apps/', '')}.php`)
+      setPageModel('EngineeModelApp')
+      setAllpath([])
+      setRightButtonText('')
+      setRightButtonIcon('')
+      handleSetRightButtonIconOriginal('')
+    }
+    else if(item.path.startsWith('/tab/apps_')) {
+      setAppItemId(`apps/apps_${item.path.replace('/tab/apps_', '')}.php`)
+      setPageModel('EngineeModelApp')
+      setAllpath(item.children)
+      setRightButtonText('')
+      setRightButtonIcon('')
+      handleSetRightButtonIconOriginal('')
+    }
+    else if(item.path.startsWith('/dashboards/analyticsstudent')) {
+      setAppItemId(`charts/dashboard_deyu_geren_banji.php`)
+      setPageModel('AnalyticsStudent')
+      setAllpath([])
+      handleSetRightButtonIconOriginal('material-symbols:ios-share')
+    }
+    else if(item.path.startsWith('/dashboards/analyticsclass')) {
+      setAppItemId(`charts/dashboard_deyu_banji_banji.php`)
+      setPageModel('AnalyticsClass')
+      setAllpath([])
+      handleSetRightButtonIconOriginal('material-symbols:ios-share')
+    }
+    else if(item.path.startsWith('/dashboards/StatisticsStudentsbyClass')) {
+      setAppItemId(`charts/StatisticsStudentsbyClass.php`)
+      setPageModel('StatisticsStudentsbyClass')
+      setAllpath([])
+      handleSetRightButtonIconOriginal('material-symbols:ios-share')
+    }
+    else if(item.path.startsWith('/dashboards/StatisticsStudentsbyIndividual')) {
+      setAppItemId(`charts/StatisticsStudentsbyIndividual.php`)
+      setPageModel('StatisticsStudentsbyIndividual')
+      setAllpath([])
+      handleSetRightButtonIconOriginal('material-symbols:ios-share')
+    }
+
     setCounter(counter + 1)
-    setPageModel('EngineeModelApp')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
+    setTitle(item.title)
+    setTitleOriginal(item.title)
+    setPreviousPageModel((preV: any)=>[...preV, previousModel])
+  }
+
+  const handleGoAppItemFromSubMenu = (item: any) => {
+    console.log("handleGoAppItemFromSubMenu", item)
+    setAppItemId(`apps/apps_${item.id}.php`)
+    setCounter(counter + 1)
     setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle(item.title)
     setTitleOriginal(item.title)
     setRightButtonText('')
     setRightButtonIcon('')
-    setPreviousPageModel((preV: any)=>[...preV, previousModel])
+    setPreviousPageModel((preV: any)=>[preV[0]])
   }
+
+  console.log("appItemId", appItemId, pageModel)
 
   const handleActionInMobileApp = (action: string, title: string, formAction = '') => {
     if(formAction == 'GoPageList')  { //当新建或编辑的表单提交以后, 会返回一个值, 表示已经提交, 这个时候需要返回到页面列表
       setPreviousPageModel((preV: any)=>[preV[0]])
+      console.log("handleActionInMobileApp", action, "--actionInMobileApp", actionInMobileApp)
     }
     else { //当在页面列表里面时, 点击查看, 编辑, 新建时的操作处理
       console.log("actionactionactionaction", action, "--actionInMobileApp", actionInMobileApp)
@@ -177,21 +233,27 @@ const Index = ({ menuArray, setMenuArray }: any) => {
 
   const handleWalletGoHome = () => {
     setRefreshWalletData(refreshWalletData+1)
-    setPageModel('MainSetting')
+    setPageModel('MainApplication')
     setLeftIcon('')
     setTitle('应用')
     setRightButtonText('')
     setRightButtonIcon(RightButtonIconOriginal)
   }
 
-
   const LeftIconOnClick = () => {
+    console.log("pageModel66666", pageModel, previousPageModel, "actionInMobileApp", actionInMobileApp)
     switch(pageModel) {
-      case 'MainSetting':
+      case 'MainApplication':
         handleWalletGoHome()
         setRightButtonIcon('')
+        setViewPageShareStatus(false)
         break
+      case 'AnalyticsStudent':
+      case 'AnalyticsClass':
+      case 'StatisticsStudentsbyClass':
+      case 'StatisticsStudentsbyIndividual':
       case 'EngineeModelApp':
+        setViewPageShareStatus(false)
         if(previousPageModel.at(-1) == 'add_default') { // sub module redirect
           setActionInMobileApp(String(Math.random()))
           setRightButtonIcon(RightButtonIconOriginal)
@@ -209,6 +271,12 @@ const Index = ({ menuArray, setMenuArray }: any) => {
           setRightButtonIcon(RightButtonIconOriginal)
           setTitle(TitleOriginal)
           previousPageModel.pop()
+          handleSetRightButtonIconOriginal('') //这一行需要放到这个位置,不能上移
+        }
+        else if(previousPageModel.at(-1) == 'MainApplication') {
+          handleWalletGoHome()
+          setRightButtonIcon('')
+          previousPageModel.pop()
         }
         break
     }
@@ -218,15 +286,32 @@ const Index = ({ menuArray, setMenuArray }: any) => {
     console.log("RightButtonOnClick: 163", pageModel)
     console.log("RightButtonOnClick: 163", actionInMobileApp)
     switch(pageModel) {
+        case 'AnalyticsStudent':
+        case 'AnalyticsClass':
+        case 'StatisticsStudentsbyClass':
+        case 'StatisticsStudentsbyIndividual':
         case 'EngineeModelApp':
-          setActionInMobileApp('add_default')
-          setPreviousPageModel((preV: any)=>[...preV, 'add_default']) //行为栈,新增加一个新建页面
-          setRightButtonIcon('') //当点击右上角的新建按钮,进行新建页面时,需要暂时不显示右上角的新建按钮. 当回到列表页面时,需要显示出来.
+          if(RightButtonIcon == 'ic:sharp-add-circle-outline')   {
+            setActionInMobileApp('add_default')
+            setPreviousPageModel((preV: any)=>[...preV, 'add_default']) //行为栈,新增加一个新建页面
+            setRightButtonIcon('') //当点击右上角的新建按钮,进行新建页面时,需要暂时不显示右上角的新建按钮. 当回到列表页面时,需要显示出来.
+          }
+          else if(RightButtonIcon == 'material-symbols:ios-share')   {
+            setViewPageShareStatus(true)
+
+            //setActionInMobileApp('add_default')
+            //setPreviousPageModel((preV: any)=>[...preV, 'add_default']) //行为栈,新增加一个新建页面
+            //setRightButtonIcon('') //当点击右上角的新建按钮,进行新建页面时,需要暂时不显示右上角的新建按钮. 当回到列表页面时,需要显示出来.
+          }
           break
       }
   }
 
-  console.log("pageModel", pageModel, previousPageModel)
+  const handSetViewPageShareStatus = (NewStatus: boolean) => {
+    setViewPageShareStatus(NewStatus)
+  }
+
+  console.log("pageModel-----", pageModel, previousPageModel)
 
   return (
     <Fragment>
@@ -253,7 +338,7 @@ const Index = ({ menuArray, setMenuArray }: any) => {
             }}
             >
 
-            {pageModel == 'MainSetting' && (
+            {pageModel == 'MainApplication' && (
               <Container sx={{mt: 0}}>
                 {menuArray && menuArray.length > 0 && menuArray.map((menuItem: any, menuIndex: number)=>{
 
@@ -291,9 +376,57 @@ const Index = ({ menuArray, setMenuArray }: any) => {
               </Container>
             )}
 
-            {pageModel == 'EngineeModelApp' && appItemId && (
+            {pageModel == 'EngineeModelApp' && appItemId && allpath.length > 0 && (
               <>
-                <EngineeModelApp backEndApi={`apps/apps_${appItemId}.php`} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} />
+                <Grid container spacing={2} mb={2}>
+                  {allpath && allpath.map((item: any, index: number) => (
+                    <Grid item xs={3} key={index}>
+                      <Box textAlign="center" sx={{my: 0}}>
+                        <img src={authConfig.AppLogo} alt={item.title} style={{ width: '45px', height: '45px' }} onClick={()=>handleGoAppItemFromSubMenu(item)}/>
+                        <Typography variant="body2"
+                          sx={{
+                            my: 0,
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis'
+                          }}
+                          onClick={()=>handleGoAppItemFromSubMenu(item)}
+                        >{item.title}</Typography>
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+                <EngineeModelApp authConfig={authConfig} backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus} />
+              </>
+            )}
+
+            {pageModel == 'EngineeModelApp' && appItemId && allpath.length == 0 && (
+              <>
+                <EngineeModelApp authConfig={authConfig} backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus} />
+              </>
+            )}
+
+            {pageModel == 'AnalyticsStudent' && appItemId && (
+              <>
+                <ShareDialog authConfig={authConfig} pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
+              </>
+            )}
+
+            {pageModel == 'AnalyticsClass' && appItemId && (
+              <>
+                <ShareDialog authConfig={authConfig} pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
+              </>
+            )}
+
+            {pageModel == 'StatisticsStudentsbyClass' && appItemId && (
+              <>
+                <ShareDialog authConfig={authConfig} pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
+              </>
+            )}
+
+            {pageModel == 'StatisticsStudentsbyIndividual' && appItemId && (
+              <>
+                <ShareDialog authConfig={authConfig} pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
               </>
             )}
 
@@ -304,4 +437,4 @@ const Index = ({ menuArray, setMenuArray }: any) => {
 }
 
 
-export default Index
+export default Application

@@ -31,6 +31,7 @@ interface ViewTableType {
   toggleViewTableDrawer: () => void
   backEndApi: string
   editViewCounter: number
+  authConfig: any
   externalId: number
   pageJsonInfor: {}
   addEditViewShowInWindow: boolean
@@ -44,7 +45,7 @@ interface ViewTableType {
 
 const ViewTable = (props: ViewTableType) => {
   // ** Props
-  const { externalId, id, action, pageJsonInfor, open, toggleViewTableDrawer, backEndApi, editViewCounter, addEditViewShowInWindow, CSRF_TOKEN, toggleImagesPreviewListDrawer, dialogMaxWidth, handleSetRightButtonIconOriginal, viewPageShareStatus, handSetViewPageShareStatus } = props
+  const { authConfig, externalId, id, action, pageJsonInfor, open, toggleViewTableDrawer, backEndApi, editViewCounter, addEditViewShowInWindow, CSRF_TOKEN, toggleImagesPreviewListDrawer, dialogMaxWidth, handleSetRightButtonIconOriginal, viewPageShareStatus, handSetViewPageShareStatus } = props
 
   const handleClose = () => {
     toggleViewTableDrawer()
@@ -54,7 +55,7 @@ const ViewTable = (props: ViewTableType) => {
     <Fragment>
     {addEditViewShowInWindow ?
       <Grid sx={{ pb: 2, px: 0, pt: 1, position: 'relative' }} style={{ width: '100%' }}>
-        <ViewTableCore externalId={Number(externalId)} id={id} action={action} pageJsonInfor={pageJsonInfor} open={open} toggleViewTableDrawer={toggleViewTableDrawer} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} CSRF_TOKEN={CSRF_TOKEN} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus} />
+        <ViewTableCore authConfig={authConfig} externalId={Number(externalId)} id={id} action={action} pageJsonInfor={pageJsonInfor} open={open} toggleViewTableDrawer={toggleViewTableDrawer} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} CSRF_TOKEN={CSRF_TOKEN} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus} />
       </Grid>
       :
       <Dialog
@@ -73,7 +74,7 @@ const ViewTable = (props: ViewTableType) => {
           >
             <Icon icon='mdi:close' />
           </IconButton>
-          <ViewTableCore externalId={Number(externalId)} id={id} action={action} pageJsonInfor={pageJsonInfor} open={open} toggleViewTableDrawer={toggleViewTableDrawer} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} CSRF_TOKEN={CSRF_TOKEN} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} viewPageShareStatus={viewPageShareStatus}/>
+          <ViewTableCore authConfig={authConfig} externalId={Number(externalId)} id={id} action={action} pageJsonInfor={pageJsonInfor} open={open} toggleViewTableDrawer={toggleViewTableDrawer} backEndApi={backEndApi} editViewCounter={editViewCounter + 1} CSRF_TOKEN={CSRF_TOKEN} toggleImagesPreviewListDrawer={toggleImagesPreviewListDrawer} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} viewPageShareStatus={viewPageShareStatus}/>
         </DialogContent>
       </Dialog >
     }

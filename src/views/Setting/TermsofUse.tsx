@@ -1,9 +1,8 @@
 import React, { ReactNode } from 'react';
-import authConfig from 'src/configs/auth'
 
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
-const TermsofUse = () => {
+const TermsofUse = ({authConfig}: any) => {
 
   return (
     <div style={{margin: '10px'}}>

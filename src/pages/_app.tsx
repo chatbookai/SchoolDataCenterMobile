@@ -37,7 +37,6 @@ import GuestGuard from '../@core/components/auth/GuestGuard'
 import Spinner from '../@core/components/spinner'
 
 // ** Contexts
-import authConfig from 'src/configs/auth'
 import { AuthProvider } from '../context/AuthContext'
 import { SettingsConsumer, SettingsProvider } from '../@core/context/settingsContext'
 
@@ -114,20 +113,19 @@ const App = (props: ExtendedAppProps) => {
 
   const aclAbilities = Component.acl ?? defaultACLObj
 
+  console.log("pageProps", pageProps)
+
   return (
     <Provider store={store}>
       <CacheProvider value={emotionCache}>
         <Head>
-          <title>{`${themeConfig.templateName} - By 单点科技`}</title>
-          <meta
-            name='description'
-            content={`${themeConfig.templateName} – By 单点科技`}
-          />
+          <title>{`单点数据中心`}</title>
+          <meta name='description' content={`单点数据中心`} />
           <meta name='keywords' content='单点科技 & 数据中心' />
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-          <link rel="icon" type="image/png" href={`/icons/${authConfig.AppMarkId}/icon16.png`} sizes="16x16" />
-          <link rel="icon" type="image/png" href={`/icons/${authConfig.AppMarkId}/icon32.png`} sizes="32x32" />
-          <link rel="icon" type="image/png" href={`/icons/${authConfig.AppMarkId}/icon48.png`} sizes="48x48" />
+          <link rel="icon" type="image/png" href={`/icons/dandian/icon16.png`} sizes="16x16" />
+          <link rel="icon" type="image/png" href={`/icons/dandian/icon32.png`} sizes="32x32" />
+          <link rel="icon" type="image/png" href={`/icons/dandian/icon48.png`} sizes="48x48" />
         </Head>
 
         <AuthProvider>

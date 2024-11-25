@@ -13,7 +13,6 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 
 // ** MUI Imports
 import Icon from '../../@core/components/icon'
-import authConfig from '../../configs/auth'
 import { useSettings } from '../../@core/hooks/useSettings'
 
 import { styled } from '@mui/material/styles'
@@ -27,6 +26,8 @@ import { getUserLanguage, setUserLanguage  } from 'src/configs/functions'
 
 import EngineeModelApp from "src/views/Enginee/index"
 
+import { defaultConfig } from 'src/configs/auth'
+
 const ContentWrapper = styled('main')(({ theme }) => ({
   flexGrow: 1,
   width: '100%',
@@ -38,7 +39,7 @@ const ContentWrapper = styled('main')(({ theme }) => ({
   }
 }))
 
-const Setting = ({ handleLogout, menuArray }: any) => {
+const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
 
   // ** Hook
   const { t, i18n } = useTranslation()
@@ -567,7 +568,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
                                     whiteSpace: 'nowrap',
                                     flex: 1
                                   }}>
-                                    {authConfig.AppVersion}
+                                    {defaultConfig.AppVersion}
                                   </Typography>
                                 </Box>
                               </Box>
@@ -827,7 +828,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
             {pageModel == 'PrivacyPolicy' && (
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <PrivacyPolicy />
+                  <PrivacyPolicy authConfig={authConfig} />
                 </Grid>
               </Grid>
             )}
@@ -835,7 +836,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
             {pageModel == 'TermsOfUse' && (
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <TermsofUse />
+                  <TermsofUse authConfig={authConfig} />
                 </Grid>
               </Grid>
             )}
@@ -984,7 +985,7 @@ const Setting = ({ handleLogout, menuArray }: any) => {
 
             {pageModel == 'EngineeModelApp' && appItemId && (
               <>
-                <EngineeModelApp backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} />
+                <EngineeModelApp authConfig={authConfig} backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} />
               </>
             )}
 

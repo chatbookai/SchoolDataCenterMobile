@@ -7,10 +7,6 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 
-// ** MUI Imports
-//import Icon from '../../@core/components/icon'
-import authConfig from '../../configs/auth'
-
 import { styled } from '@mui/material/styles'
 import Header from '../Home/Header'
 
@@ -19,6 +15,8 @@ import { DecryptDataAES256GCM } from 'src/configs/functions'
 
 import EngineeModelApp from "src/views/Enginee/index"
 import ShareDialog from "src/views/Chart/ShareDialog"
+
+import { defaultConfig } from 'src/configs/auth'
 
 import { useTranslation } from 'react-i18next'
 
@@ -33,7 +31,7 @@ const ContentWrapper = styled('main')(({ theme }) => ({
   }
 }))
 
-const Application = ({ menuArray, setMenuArray }: any) => {
+const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
   // ** Hook
   const { t } = useTranslation()
   const contentHeightFixed = {}
@@ -76,8 +74,8 @@ const Application = ({ menuArray, setMenuArray }: any) => {
       }
     }
     const backEndApi = authConfig.indexMenuspath
-    const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
-    const AccessKey = window.localStorage.getItem(authConfig.storageAccessKeyName)!
+    const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
+    const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
     axios.get(authConfig.backEndApiHost + backEndApi, { headers: { Authorization: storedToken } }).then(res => {
       let dataJson: any = null
       const data = res.data
@@ -398,37 +396,37 @@ const Application = ({ menuArray, setMenuArray }: any) => {
                     </Grid>
                   ))}
                 </Grid>
-                <EngineeModelApp backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus} />
+                <EngineeModelApp authConfig={authConfig} backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus} />
               </>
             )}
 
             {pageModel == 'EngineeModelApp' && appItemId && allpath.length == 0 && (
               <>
-                <EngineeModelApp backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus} />
+                <EngineeModelApp authConfig={authConfig} backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus} />
               </>
             )}
 
             {pageModel == 'AnalyticsStudent' && appItemId && (
               <>
-                <ShareDialog pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
+                <ShareDialog authConfig={authConfig} pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
               </>
             )}
 
             {pageModel == 'AnalyticsClass' && appItemId && (
               <>
-                <ShareDialog pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
+                <ShareDialog authConfig={authConfig} pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
               </>
             )}
 
             {pageModel == 'StatisticsStudentsbyClass' && appItemId && (
               <>
-                <ShareDialog pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
+                <ShareDialog authConfig={authConfig} pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
               </>
             )}
 
             {pageModel == 'StatisticsStudentsbyIndividual' && appItemId && (
               <>
-                <ShareDialog pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
+                <ShareDialog authConfig={authConfig} pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
               </>
             )}
 

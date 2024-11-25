@@ -26,11 +26,11 @@ import AnalyticsPerformance from './analytics/AnalyticsPerformance'
 import axios from 'axios'
 
 // ** Config
-import authConfig from 'src/configs/auth'
+import { defaultConfig } from 'src/configs/auth'
 import { useAuth } from 'src/hooks/useAuth'
 
 
-const AnalyticsDashboard = () => {
+const AnalyticsClass = ({authConfig}: any) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const dataDefault:{[key:string]:any} = {}
@@ -70,7 +70,7 @@ const AnalyticsDashboard = () => {
     }
   }, [className, auth, optionsMenuItem])
 
-  const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
+  const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
 
   console.log("dashboardData",dashboardData)
 
@@ -103,7 +103,7 @@ const AnalyticsDashboard = () => {
                       else if(item.type=="AnalyticsSalesByCountries") {
                         return (
                           <Grid item xs={12} md={item.grid} key={index}>
-                            <AnalyticsSalesByCountries data={item} handleOptionsMenuItemClick={handleOptionsMenuItemClick} />
+                            <AnalyticsSalesByCountries authConfig={authConfig} data={item} handleOptionsMenuItemClick={handleOptionsMenuItemClick} />
                           </Grid>
                         )
                       }
@@ -162,4 +162,4 @@ const AnalyticsDashboard = () => {
   )
 }
 
-export default AnalyticsDashboard
+export default AnalyticsClass

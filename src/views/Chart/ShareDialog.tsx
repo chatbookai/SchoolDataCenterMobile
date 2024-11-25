@@ -24,7 +24,7 @@ import StatisticsStudentsbyClass from "src/views/Chart/StatisticsStudentsbyClass
 import StatisticsStudentsbyIndividual from "src/views/Chart/StatisticsStudentsbyIndividual"
 
 
-const ShareDialogModel = ({pageModel, viewPageShareStatus, handSetViewPageShareStatus}: any) => {
+const ShareDialogModel = ({authConfig, pageModel, viewPageShareStatus, handSetViewPageShareStatus}: any) => {
 
   const printRef = useRef<HTMLDivElement>(null);
 
@@ -223,10 +223,10 @@ const ShareDialogModel = ({pageModel, viewPageShareStatus, handSetViewPageShareS
         </Backdrop>
       )}
       <div ref={printRef}>
-        {pageModel == 'AnalyticsStudent' && (<AnalyticsStudent />)}
-        {pageModel == 'AnalyticsClass' && (<AnalyticsClass />)}
-        {pageModel == 'StatisticsStudentsbyClass' && (<StatisticsStudentsbyClass />)}
-        {pageModel == 'StatisticsStudentsbyIndividual' && (<StatisticsStudentsbyIndividual />)}
+        {pageModel == 'AnalyticsStudent' && (<AnalyticsStudent authConfig={authConfig} />)}
+        {pageModel == 'AnalyticsClass' && (<AnalyticsClass authConfig={authConfig} />)}
+        {pageModel == 'StatisticsStudentsbyClass' && (<StatisticsStudentsbyClass authConfig={authConfig} />)}
+        {pageModel == 'StatisticsStudentsbyIndividual' && (<StatisticsStudentsbyIndividual authConfig={authConfig} />)}
       </div>
     </Fragment>
   )
