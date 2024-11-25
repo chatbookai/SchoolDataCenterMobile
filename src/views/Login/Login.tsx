@@ -89,7 +89,7 @@ interface FormData {
   termsofUse: boolean
 }
 
-const Login = ({ setCurrentTab, setAppMarkId, authConfig, setAuthConfig }: any) => {
+const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
   const { t } = useTranslation()
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
@@ -121,7 +121,6 @@ const Login = ({ setCurrentTab, setAppMarkId, authConfig, setAuthConfig }: any) 
     const usernameArray = username.split('@')
     const pureUsername  = usernameArray[0]
     if(usernameArray[1])  {
-      setAppMarkId(usernameArray[1])
       window.localStorage.setItem('AppMarkId', usernameArray[1])
     }
     auth.login({Data: base58Encode(base58Encode(JSON.stringify({ username: pureUsername, password, rememberMe: true }))), username, handleGoIndex, handleGoLogin}, () => {

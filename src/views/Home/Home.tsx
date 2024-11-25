@@ -26,8 +26,7 @@ const Home = () => {
   const [loadingText, setLoadingText] = useState<string>('')
   const [menuArray, setMenuArray] = useState<any[]>([])
 
-  const [appMarkId, setAppMarkId] = useState<string>('dandian')
-  const [authConfig, setAuthConfig] = useState<any>(getConfig('@'+appMarkId))
+  const [authConfig, setAuthConfig] = useState<any>(getConfig('@dandian'))
 
   useEffect(() => {
 
@@ -93,7 +92,7 @@ const Home = () => {
             </Box>
         </Grid>
       )}
-      {currentTab == "Login" && (<Login setCurrentTab={setCurrentTab} setAppMarkId={setAppMarkId} authConfig={authConfig} setAuthConfig={setAuthConfig} />)}
+      {currentTab == "Login" && (<Login setCurrentTab={setCurrentTab} authConfig={authConfig} setAuthConfig={setAuthConfig} />)}
       {currentTab == "Setting" && (<Setting handleLogout={handleLogout} menuArray={menuArray} authConfig={authConfig} />)}
       {currentTab == "Index" && (<Index menuArray={menuArray} setMenuArray={setMenuArray} authConfig={authConfig} />)}
       {currentTab == "Application" && (<Application menuArray={menuArray} setMenuArray={setMenuArray} authConfig={authConfig} />)}
