@@ -461,7 +461,7 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
                             </Typography>
                           </MUITableCell>
                         </TableRow>
-                        {data['DeepSeek'] == "" && data['测评时间'] == null && (
+                        {data['DeepSeek'] == "" && data['用户信息']['测评时间'] == null && (
                           <TableRow>
                             <MUITableCell>
                               <Typography variant='body2'>测评状态:</Typography>
@@ -473,7 +473,7 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
                             </MUITableCell>
                           </TableRow>
                         )}
-                        {data['DeepSeek'] == "" && data['测评时间'] != null && (
+                        {data['DeepSeek'] == "" && data['用户信息']['测评时间'] != null && (
                           <TableRow>
                             <MUITableCell>
                               <Typography variant='body2'>AI状态:</Typography>
@@ -485,7 +485,7 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
                             </MUITableCell>
                           </TableRow>
                         )}
-                        {data['DeepSeek'] != "" && data['测评时间'] != null && (
+                        {data['DeepSeek'] != "" && data['用户信息']['测评时间'] != null && (
                           <TableRow>
                             <MUITableCell>
                               <Typography variant='body2'>AI状态:</Typography>
@@ -652,7 +652,7 @@ const ModelMiddleSchoolSoulAssessment = ({ dataOriginal, modelOriginal, id, back
                             <Typography sx={{ color: 'action.active', fontSize: '0.825rem' }}>
                                 <ReactMarkdown>{data['DeepSeek'].replace('\n', '  \n')}</ReactMarkdown>
                             </Typography>
-                            {data['DeepSeek'] == "" && data['测评时间'] != null && (
+                            {data['DeepSeek'] == "" && data['用户信息']['测评时间'] != null && (
                               <Typography sx={{ color: 'info.main', fontSize: '0.825rem' }}>
                                 人工智能分析生成中,请耐心等待5分钟.
                               </Typography>
