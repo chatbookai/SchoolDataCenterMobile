@@ -19,6 +19,7 @@ import { styled } from '@mui/material/styles'
 import Header from '../Home/Header'
 import TermsofUse from './TermsofUse'
 import PrivacyPolicy from './PrivacyPolicy'
+import MyProfileDetail from './MyProfileDetail'
 
 import { useTranslation } from 'react-i18next'
 
@@ -151,7 +152,6 @@ const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
         handleWalletGoHome()
         setRightButtonIcon('')
         break
-      case 'General':
       case 'Support':
       case 'SecurityPrivacy':
       case 'MyProfile':
@@ -162,17 +162,20 @@ const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
         setRightButtonIcon('')
         break
       case 'Language':
-        handleClickGeneralButton()
+        handleClickMyProfileButton()
         setRightButtonIcon('')
         break
       case 'Theme':
-        handleClickGeneralButton()
+        handleClickMyProfileButton()
         setRightButtonIcon('')
         break
       case 'PrivacyPolicy':
       case 'TermsOfUse':
         handleClickSecurityPrivacyButton()
         setRightButtonIcon('')
+        break
+      case 'MyProfileDetail':
+        handleClickMyProfileButton()
         break
       case 'EngineeModelApp':
         if(previousPageModel.at(-1) == 'add_default') { // sub module redirect
@@ -247,6 +250,14 @@ const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
     setRightButtonIcon('')
   }
 
+  const handleClickMyProfileDetailButton = () => {
+    setPageModel('MyProfileDetail')
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
+    setTitle('我的资料')
+    setRightButtonText('')
+    setRightButtonIcon('')
+  }
+
   const handleClickBasicDataButton = () => {
     setCounter(counter + 1)
     setPageModel('BasicData')
@@ -261,15 +272,6 @@ const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
     setPageModel('SystemSetting')
     setLeftIcon('ic:twotone-keyboard-arrow-left')
     setTitle('系统设置')
-    setRightButtonText('')
-    setRightButtonIcon('')
-  }
-
-  const handleClickGeneralButton = () => {
-    setCounter(counter + 1)
-    setPageModel('General')
-    setLeftIcon('ic:twotone-keyboard-arrow-left')
-    setTitle('General Setting')
     setRightButtonText('')
     setRightButtonIcon('')
   }
@@ -354,43 +356,6 @@ const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sx={{height: 'calc(100%)'}}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sx={{ py: 1 }}>
-                          <Card>
-                            <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
-                                <IconButton sx={{ p: 0 }} onClick={()=>handleClickGeneralButton()}>
-                                    <Icon icon='oui:integration-general' fontSize={38} />
-                                </IconButton>
-                                <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickGeneralButton()}
-                                    >
-                                    <Typography sx={{
-                                      color: 'text.primary',
-                                      overflow: 'hidden',
-                                      textOverflow: 'ellipsis',
-                                      whiteSpace: 'nowrap',
-                                    }}
-                                    >
-                                    {t('General')}
-                                    </Typography>
-                                    <Box sx={{ display: 'flex'}}>
-                                    <Typography variant='body2' sx={{
-                                        color: `secondary.primary`,
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                        whiteSpace: 'nowrap',
-                                        flex: 1
-                                    }}>
-                                        {t('Edit language, currency and theme')}
-                                    </Typography>
-                                    </Box>
-                                </Box>
-                                <Box textAlign="right">
-                                    <IconButton sx={{ p: 0 }} onClick={()=>handleClickGeneralButton()}>
-                                        <Icon icon='mdi:chevron-right' fontSize={30} />
-                                    </IconButton>
-                                </Box>
-                            </Box>
-                          </Card>
-                        </Grid>
                         {myProfileMenus && myProfileMenus[0] && (
                           <Grid item xs={12} sx={{ py: 1 }}>
                             <Card>
@@ -601,89 +566,6 @@ const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
               </Grid>
             )}
 
-            {pageModel == 'General' && (
-              <Grid container spacing={2}>
-                <Grid item xs={12} sx={{height: 'calc(100%)'}}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sx={{ py: 1 }}>
-                          <Card>
-                            <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
-                                <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
-                                    <Icon icon='clarity:language-line' fontSize={38} />
-                                </IconButton>
-                                <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickLanguageButton()}
-                                    >
-                                    <Typography sx={{
-                                    color: 'text.primary',
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                    }}
-                                    >
-                                    {t('Language') as string}
-                                    </Typography>
-                                    <Box sx={{ display: 'flex'}}>
-                                    <Typography variant='body2' sx={{
-                                        color: `secondary.primary`,
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                        whiteSpace: 'nowrap',
-                                        flex: 1
-                                    }}>
-                                        {t('Language') as string}
-                                    </Typography>
-                                    </Box>
-                                </Box>
-                                <Box textAlign="right">
-                                    <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
-                                        <Icon icon='mdi:chevron-right' fontSize={30} />
-                                    </IconButton>
-                                </Box>
-                            </Box>
-                          </Card>
-                        </Grid>
-                        <Grid item xs={12} sx={{ py: 1 }}>
-                          <Card>
-                            <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
-                              <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>handleClickThemeButton()}>
-                                <Icon icon='line-md:light-dark' fontSize={34} />
-                              </IconButton>
-                              <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickThemeButton()}
-                                >
-                                <Typography sx={{
-                                  color: 'text.primary',
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  whiteSpace: 'nowrap',
-                                }}
-                                >
-                                  {t('Theme')}
-                                </Typography>
-                                <Box sx={{ display: 'flex'}}>
-                                  <Typography variant='body2' sx={{
-                                    color: `secondary.primary`,
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                    flex: 1
-                                  }}>
-                                    {t('Theme')}
-                                  </Typography>
-                                </Box>
-                              </Box>
-                              <Box textAlign="right">
-                                <IconButton sx={{ p: 0 }} onClick={()=>handleClickThemeButton()}>
-                                    <Icon icon='mdi:chevron-right' fontSize={30} />
-                                </IconButton>
-                              </Box>
-                            </Box>
-                          </Card>
-                        </Grid>
-                    </Grid>
-                </Grid>
-              </Grid>
-            )}
-
             {pageModel == 'SecurityPrivacy' && (
               <Grid container spacing={2}>
                 <Grid item xs={12} sx={{height: 'calc(100%)'}}>
@@ -841,10 +723,128 @@ const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
               </Grid>
             )}
 
+            {pageModel == 'MyProfileDetail' && (
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <MyProfileDetail authConfig={authConfig} />
+                </Grid>
+              </Grid>
+            )}
+
             {pageModel == 'MyProfile' && (
               <Grid container spacing={2}>
                 <Grid item xs={12} sx={{height: 'calc(100%)'}}>
                     <Grid container spacing={2}>
+                        <Grid item xs={12} sx={{ py: 1 }}>
+                          <Card>
+                            <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                                <IconButton sx={{ p: 0 }} onClick={()=>handleClickMyProfileDetailButton()}>
+                                  <Icon icon={'ix:user-profile'} fontSize={38} />
+                                </IconButton>
+                                <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickMyProfileDetailButton()} >
+                                    <Typography sx={{
+                                    color: 'text.primary',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    }}
+                                    >
+                                    {'我的资料'}
+                                    </Typography>
+                                    <Box sx={{ display: 'flex'}}>
+                                    <Typography variant='body2' sx={{
+                                        color: `secondary.primary`,
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        whiteSpace: 'nowrap',
+                                        flex: 1
+                                    }}>
+                                        {'我的资料'}
+                                    </Typography>
+                                    </Box>
+                                </Box>
+                                <Box textAlign="right">
+                                    <IconButton sx={{ p: 0 }} onClick={()=>handleClickMyProfileDetailButton()}>
+                                        <Icon icon='mdi:chevron-right' fontSize={30} />
+                                    </IconButton>
+                                </Box>
+                            </Box>
+                          </Card>
+                        </Grid>
+                        <Grid item xs={12} sx={{ py: 1 }}>
+                          <Card>
+                            <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                                <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
+                                    <Icon icon='clarity:language-line' fontSize={38} />
+                                </IconButton>
+                                <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickLanguageButton()}
+                                    >
+                                    <Typography sx={{
+                                    color: 'text.primary',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    }}
+                                    >
+                                    {t('Language') as string}
+                                    </Typography>
+                                    <Box sx={{ display: 'flex'}}>
+                                    <Typography variant='body2' sx={{
+                                        color: `secondary.primary`,
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        whiteSpace: 'nowrap',
+                                        flex: 1
+                                    }}>
+                                        {t('Language') as string}
+                                    </Typography>
+                                    </Box>
+                                </Box>
+                                <Box textAlign="right">
+                                    <IconButton sx={{ p: 0 }} onClick={()=>handleClickLanguageButton()}>
+                                        <Icon icon='mdi:chevron-right' fontSize={30} />
+                                    </IconButton>
+                                </Box>
+                            </Box>
+                          </Card>
+                        </Grid>
+                        <Grid item xs={12} sx={{ py: 1 }}>
+                          <Card>
+                            <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 0.7}}>
+                              <IconButton sx={{ p: 0, ml: 1 }} onClick={()=>handleClickThemeButton()}>
+                                <Icon icon='line-md:light-dark' fontSize={34} />
+                              </IconButton>
+                              <Box sx={{ cursor: 'pointer', ml: 2, display: 'flex', flexDirection: 'column', width: '100%' }} onClick={()=>handleClickThemeButton()}
+                                >
+                                <Typography sx={{
+                                  color: 'text.primary',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap',
+                                }}
+                                >
+                                  {t('Theme')}
+                                </Typography>
+                                <Box sx={{ display: 'flex'}}>
+                                  <Typography variant='body2' sx={{
+                                    color: `secondary.primary`,
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    flex: 1
+                                  }}>
+                                    {t('Theme')}
+                                  </Typography>
+                                </Box>
+                              </Box>
+                              <Box textAlign="right">
+                                <IconButton sx={{ p: 0 }} onClick={()=>handleClickThemeButton()}>
+                                    <Icon icon='mdi:chevron-right' fontSize={30} />
+                                </IconButton>
+                              </Box>
+                            </Box>
+                          </Card>
+                        </Grid>
                         {myProfileMenus && myProfileMenus[0] && myProfileMenus[0]['children'] && myProfileMenus[0]['children'].length > 0 && myProfileMenus[0]['children'].map((Item: any, Index: number)=>(
                           <Grid item xs={12} sx={{ py: 1 }} key={Index}>
                             <Card>

@@ -26,7 +26,14 @@ const Home = () => {
   const [loadingText, setLoadingText] = useState<string>('')
   const [menuArray, setMenuArray] = useState<any[]>([])
 
-  const [authConfig, setAuthConfig] = useState<any>(getConfig('@dandian'))
+  const [authConfig, setAuthConfig] = useState<any>(null)
+
+  useEffect(() => {
+    const AppMarkId = window.localStorage.getItem('AppMarkId')
+    if(AppMarkId)  {
+      setAuthConfig(getConfig('@'+AppMarkId))
+    }
+  }, []);
 
   useEffect(() => {
 
@@ -65,7 +72,6 @@ const Home = () => {
 
   }, []);
 
-  console.log("authConfig", authConfig)
 
   const handleLogout = () => {
     setLoadingText(t('Logout Tip') as string)

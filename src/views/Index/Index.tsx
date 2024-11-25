@@ -37,7 +37,7 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
   const contentHeightFixed = {}
   const [counter, setCounter] = useState<number>(0)
 
-  const [pageModel, setPageModel] = useState<string>('MainApplication')
+  const [pageModel, setPageModel] = useState<string>('AnalyticsStudent')
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
   const [Title, setTitle] = useState<string>(t('应用') as string)
@@ -406,7 +406,7 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
               </>
             )}
 
-            {pageModel == 'AnalyticsStudent' && appItemId && (
+            {pageModel == 'AnalyticsStudent' && (
               <>
                 <ShareDialog authConfig={authConfig} pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
               </>

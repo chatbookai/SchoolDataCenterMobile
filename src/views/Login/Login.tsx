@@ -1,7 +1,7 @@
 import bs58 from 'bs58'
 
 // ** React Imports
-import { useState, ReactNode, Fragment } from 'react'
+import { useState, ReactNode, Fragment, useEffect } from 'react'
 
 // ** MUI Components
 import Grid from '@mui/material/Grid'
@@ -45,8 +45,10 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
-import { getConfig } from 'src/configs/auth'
+import { getConfig, AppSchoolConfigMap } from 'src/configs/auth'
 import { useTranslation } from 'react-i18next'
+import toast from 'react-hot-toast'
+
 
 const RightWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   width: '100%',
@@ -95,6 +97,14 @@ const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
 
   const auth = useAuth()
 
+  useEffect(() => {
+    const AppMarkId = window.localStorage.getItem('AppMarkId')
+    if(AppMarkId)  {
+      setAuthConfig(getConfig('@'+AppMarkId))
+    }
+    console.log("authConfig", AppMarkId, authConfig)
+  }, []);
+
   const {
     control,
     setError,
@@ -120,16 +130,20 @@ const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
 
     const usernameArray = username.split('@')
     const pureUsername  = usernameArray[0]
-    if(usernameArray[1])  {
-      window.localStorage.setItem('AppMarkId', usernameArray[1])
-    }
-    auth.login({Data: base58Encode(base58Encode(JSON.stringify({ username: pureUsername, password, rememberMe: true }))), username, handleGoIndex, handleGoLogin}, () => {
-      setError('username', {
-        type: 'manual',
-        message: '用户名或密码错误'
+    const AppMarkId = usernameArray[1]
+    if(AppMarkId && AppSchoolConfigMap && AppSchoolConfigMap[AppMarkId] && AppSchoolConfigMap[AppMarkId].length == 3)  {
+      setAuthConfig(getConfig('@'+AppMarkId));
+      window.localStorage.setItem('AppMarkId', AppMarkId)
+      auth.login({Data: base58Encode(base58Encode(JSON.stringify({ username: pureUsername, password, rememberMe: true }))), username, handleGoIndex, handleGoLogin}, () => {
+        setError('username', {
+          type: 'manual',
+          message: '用户名或密码错误'
+        })
       })
-    })
-
+    }
+    else {
+      toast.error('用户名格式错误,要求格式: username@domail.com', { duration: 2500 })
+    }
   }
 
   const [pageModel, setPageModel] = useState<string>('Login')
@@ -253,8 +267,14 @@ const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
                         value={value}
                         onBlur={onBlur}
                         onChange={(event) => {
-                          onChange(event); // 调用原有的 onChange 处理函数
-                          setAuthConfig(getConfig(event.target.value)); // 调用自定义的额外操作函数
+                          onChange(event);
+                          const usernameArray = event.target.value.split('@')
+                          if(usernameArray[1])   {
+                            const AppMarkId = usernameArray[1]
+                            if(AppSchoolConfigMap && AppSchoolConfigMap[AppMarkId] && AppSchoolConfigMap[AppMarkId].length == 3)  {
+                              setAuthConfig(getConfig(event.target.value));
+                            }
+                          }
                         }}
                         error={Boolean(errors.username)}
                         placeholder=''

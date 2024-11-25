@@ -1,9 +1,8 @@
 
-const AppSchoolConfigMap: any    = {}
+export const AppSchoolConfigMap: any    = {}
 AppSchoolConfigMap['dandian']    = ["https://fdzz.dandian.net/api/", '单点数据中心', "auth/menusMobile.php"]
 AppSchoolConfigMap['fdzyzz.com'] = ["https://fdzz.dandian.net/api/", '福鼎职业中专', "auth/menusMobile.php"]
 AppSchoolConfigMap['fjsmnx.com'] = ["https://fdzz.dandian.net/api/", '三明林业学校', "auth/menusMobile.php"]
-
 
 export function getConfig(Username: string) {
   const UsernameArray = Username.split('@')
