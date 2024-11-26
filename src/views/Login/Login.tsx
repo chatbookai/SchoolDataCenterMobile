@@ -246,14 +246,14 @@ const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
                 <Typography
                   variant='h6'
                   sx={{
-                    ml: 3,
+                    ml: 0,
                     lineHeight: 1,
                     fontWeight: 600,
                     textTransform: 'uppercase',
                     fontSize: '1.5rem !important'
                   }}
                 >
-                  {themeConfig.templateName}
+                  {authConfig?.AppName}
                 </Typography>
               </Box>
               <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
