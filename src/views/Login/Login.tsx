@@ -102,6 +102,9 @@ const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
     if(AppMarkId)  {
       setAuthConfig(getConfig('@'+AppMarkId))
     }
+    else {
+      setAuthConfig(getConfig('@dandian'))
+    }
     console.log("authConfig", AppMarkId, authConfig)
   }, []);
 
@@ -231,7 +234,7 @@ const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
                   justifyContent: 'center'
                 }}
               >
-                <CustomAvatar src={authConfig.AppLogo} sx={{ m: 8, width: 60, height: 60 }} />
+                <CustomAvatar src={authConfig?.AppLogo} sx={{ m: 8, width: 60, height: 60 }} />
               </Box>
               <Box
                 sx={{
