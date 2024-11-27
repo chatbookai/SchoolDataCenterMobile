@@ -141,7 +141,7 @@ const ViewTableCore = (props: ViewTableType) => {
               const e = data.data.slice(32, -32);
               const k = AccessKey;
               const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
-              try{
+              try {
                   dataJson = JSON.parse(DecryptDataAES256GCMData)
               }
               catch(Error: any) {

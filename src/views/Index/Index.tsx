@@ -64,7 +64,7 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
     if(window)  {
       const storageMainMenus = window.localStorage.getItem(defaultConfig.storageMainMenus)
       if(storageMainMenus && storageMainMenus != undefined) {
-        try{
+        try {
           const storageMainMenusJson = JSON.parse(storageMainMenus)
           setMenuArray(storageMainMenusJson)
         }
@@ -85,7 +85,7 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
           const e = data.data.slice(32, -32);
           const k = AccessKey;
           const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
-          try{
+          try {
               dataJson = JSON.parse(DecryptDataAES256GCMData)
           }
           catch(Error: any) {

@@ -31,7 +31,7 @@ const AppChat = (props: any) => {
   // ** Hook
   const { t } = useTranslation()
   const auth = useAuth()
-  const { app, userType, publishId, authConfig } = props
+  const { app, authConfig } = props
 
   const [refreshChatCounter, setRefreshChatCounter] = useState<number>(1)
   const [chatId, setChatId] = useState<number | string>(-1)
@@ -41,40 +41,46 @@ const AppChat = (props: any) => {
 
   const anonymousUserId: string = getAnonymousUserId()
 
+  const userType = authConfig.type
 
   const getChatLogList = async function (appId: string, appTemplate: string) {
     const userId = auth?.user?.username
     const authorization = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
     console.log("getChatLogList",userType)
-    if(userId && authorization) {
-      const RS = await axios.post(authConfig.backEndApiHost + '/api/app/chatlog/' + appId + '/0/90', {userType}, {
-        headers: {
-          Authorization: authorization,
-          'Content-Type': 'application/json'
-        }
-      }).then(res=>res.data)
-      if(RS['data'])  {
-        const ChatChatInitList = ChatChatInit(RS['data'].reverse(), appTemplate)
-        setHistoryCounter(ChatChatInitList.length)
-        const selectedChat = {
-          "chat": {
-              "id": 1,
-              "userId": userId,
-              "unseenMsgs": 0,
-              "chat": ChatChatInitList
+    try{
+      if(userId && authorization) {
+        const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog.php', {appId, pageId: 0}, {
+          headers: {
+            Authorization: authorization,
+            'Content-Type': 'application/json'
           }
+        }).then(res=>res.data)
+        if(RS['data'])  {
+          const ChatChatInitList = ChatChatInit(RS['data'].reverse(), appTemplate)
+          setHistoryCounter(ChatChatInitList.length)
+          const selectedChat = {
+            "chat": {
+                "id": 1,
+                "userId": userId,
+                "unseenMsgs": 0,
+                "chat": ChatChatInitList
+            }
+          }
+          const storeInit = {
+            "chats": [],
+            "userProfile": {
+                "id": userId,
+                "avatar": "/images/avatars/1.png",
+                "fullName": "Current User",
+            },
+            "selectedChat": selectedChat
+          }
+          setStore(storeInit)
         }
-        const storeInit = {
-          "chats": [],
-          "userProfile": {
-              "id": userId,
-              "avatar": "/images/avatars/1.png",
-              "fullName": "Current User",
-          },
-          "selectedChat": selectedChat
-        }
-        setStore(storeInit)
       }
+    }
+    catch(Error: any) {
+        console.log("getChatLogList Error", Error)
     }
   }
 
@@ -125,7 +131,7 @@ const AppChat = (props: any) => {
   }
 
   const handleDeleteOneChatLogById = async function (chatlogId: string) {
-    if (auth && auth.user && app && app._id) {
+    if (auth && auth.user && app) {
       const userId = auth?.user?.username
       const authorization = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
       DeleteChatChatByChatlogId(chatlogId)
@@ -223,7 +229,7 @@ const AppChat = (props: any) => {
   }, [refreshChatCounter, processingMessage, auth])
 
   useEffect(() => {
-    if(t && app && app._id)   {
+    if(t && app)   {
       const ChatChatNameListData: string[] = ChatChatNameList()
       if(ChatChatNameListData.length == 0) {
         setRefreshChatCounter(refreshChatCounter + 1)
@@ -257,30 +263,13 @@ const AppChat = (props: any) => {
   }, [t, app])
 
   const GetSystemPromptFromApp = (app: any) => {
-    const AiNode = app.modules.filter((item: any)=>item.type == 'chatNode')
-    if(AiNode && AiNode[0] && AiNode[0].data && AiNode[0].data.inputs) {
-      const systemPromptList = AiNode[0].data.inputs.filter((itemNode: any)=>itemNode.key == 'systemPrompt')
-      if(systemPromptList && systemPromptList[0] && systemPromptList[0]['value']) {
-        const systemPromptText = systemPromptList[0]['value']
 
-        return systemPromptText
-      }
-    }
-
-    return ''
+    return app.SystemPrompt
   }
 
   const GetModelFromApp = (app: any) => {
-    const AiNode = app.modules.filter((item: any)=>item.type == 'chatNode')
-    if(AiNode && AiNode[0] && AiNode[0].data && AiNode[0].data.inputs) {
-      const modelList = AiNode[0].data.inputs.filter((itemNode: any)=>itemNode.key == 'AiModel')
-      if(modelList && modelList[0] && modelList[0]['value']) {
 
-        return modelList[0]
-      }
-    }
-
-    return ''
+    return app.Model
   }
 
   const GetDatasetFromApp = (app: any) => {
@@ -300,46 +289,16 @@ const AppChat = (props: any) => {
   }
 
   const GetWelcomeTextFromApp = (app: any) => {
-    const AiNode = app.modules.filter((item: any)=>item.type == 'userGuide')
-    if(AiNode && AiNode[0] && AiNode[0].data && AiNode[0].data.inputs) {
-      console.log("WelcomeText", AiNode)
-      const systemPromptList = AiNode[0].data.inputs.filter((itemNode: any)=>itemNode.key == 'WelcomeText')
-      if(systemPromptList && systemPromptList[0] && systemPromptList[0]['value']) {
-        const systemPromptText = t(systemPromptList[0]['value'])
 
-        return systemPromptText
-      }
-    }
-
-    return ''
+    return app.WelcomeText
   }
 
   const GetQuestionGuideFromApp = (app: any) => {
-    const AiNode = app.modules.filter((item: any)=>item.type == 'userGuide')
-    if(AiNode && AiNode[0] && AiNode[0].data && AiNode[0].data.inputs) {
-      console.log("GetQuestionGuideFromApp", AiNode)
-      const systemPromptList = AiNode[0].data.inputs.filter((itemNode: any)=>itemNode.key == 'QuestionGuide')
-      if(systemPromptList && systemPromptList[0] && systemPromptList[0]['value']) {
-        const systemPromptText = systemPromptList[0]['value']
 
-        return systemPromptText
-      }
-    }
-
-    return ''
+    return app.QuestionGuide
   }
 
-  const GetTTSFromApp = (app: any) => {
-    const AiNode = app.modules.filter((item: any)=>item.type == 'userGuide')
-    if(AiNode && AiNode[0] && AiNode[0].data && AiNode[0].data.inputs) {
-      console.log("GetQuestionGuideFromApp", AiNode)
-      const GetTTSFromAppList = AiNode[0].data.inputs.filter((itemNode: any)=>itemNode.key == 'tts')
-      if(GetTTSFromAppList && GetTTSFromAppList[0] && GetTTSFromAppList[0]['value']) {
-        const GetTTSFromAppText = GetTTSFromAppList[0]
-
-        return GetTTSFromAppText
-      }
-    }
+  const GetTTSFromApp = () => {
 
     return null
   }
@@ -358,7 +317,7 @@ const AppChat = (props: any) => {
       setRefreshChatCounter(refreshChatCounter + 1)
       const startTime = performance.now()
       const GetDatasetFromAppData: any = GetDatasetFromApp(app)
-      const ChatAiOutputV1Status = await ChatAiOutputV1(authConfig, _id, Obj.message, authorization, userId, chatId, app.id, publishId, setProcessingMessage, GetSystemPromptFromAppValue, setFinishedMessage, userType, true, setQuestionGuide, t('questionGuideTemplate'), stopMsg, setStopMsg, GetModelFromAppValue, GetDatasetFromAppData?.MyDatasetIdList, GetDatasetFromAppData?.DatasetPrompt)
+      const ChatAiOutputV1Status = await ChatAiOutputV1(authConfig, _id, Obj.message, authorization, userId, chatId, app.id, setProcessingMessage, GetSystemPromptFromAppValue, setFinishedMessage, userType, true, setQuestionGuide, t('questionGuideTemplate'), stopMsg, setStopMsg, GetModelFromAppValue, GetDatasetFromAppData?.MyDatasetIdList, GetDatasetFromAppData?.DatasetPrompt)
       const endTime = performance.now();
       setResponseTime(endTime - startTime);
       if(ChatAiOutputV1Status)      {

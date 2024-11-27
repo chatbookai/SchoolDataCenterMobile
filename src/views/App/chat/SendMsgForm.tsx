@@ -63,8 +63,6 @@ const SendMsgForm = (props: any) => {
     }
   };
 
-
-
   const handleChange = (e: any) => {
     setMsg(e.target.value);
     const textarea = e.target;

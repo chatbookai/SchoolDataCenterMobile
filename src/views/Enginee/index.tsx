@@ -250,7 +250,7 @@ const UserList = ({ authConfig, backEndApi, externalId, handleActionInMobileApp,
           console.log("kkkkkk1234", k)
           const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
           console.log("kkkkkk1234", DecryptDataAES256GCMData)
-          try{
+          try {
             const ResJson = JSON.parse(DecryptDataAES256GCMData)
             console.log("DecryptDataAES256GCMData ResJson", ResJson)
 

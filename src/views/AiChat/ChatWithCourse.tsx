@@ -1,12 +1,12 @@
 
 import Index from 'src/views/App/chat/Index';
 
-const ChatAnonymousApp = ({authConfig}: any) => {
+const ChatApp = ({authConfig}: any) => {
 
-  const app = {id: 'ididididid', avatar: 'avataravataravatar'}
+  const app = {id: 'ididididid', avatar: '1.png', SystemPrompt: 'System Prompt', Model: {}, WelcomeText: 'Welcome Text', QuestionGuide: {} }
 
   return <Index authConfig={authConfig} app={app} />
 
 }
 
-export default ChatAnonymousApp
+export default ChatApp

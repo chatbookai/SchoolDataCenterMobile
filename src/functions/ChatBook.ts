@@ -151,7 +151,7 @@ export function ChatChatInput(chatlogId: string, Question: string, Message: stri
     window.localStorage.setItem(ChatChat, JSON.stringify(ChatChatList))
 }
 
-export async function ChatAiOutputV1(authConfig: any, _id: string, Message: string, Token: string, UserId: number | string, chatId: number | string, appId: string, publishId: string, setProcessingMessage: any, template: string, setFinishedMessage: any, userType: string, allowQuestionGuide: boolean, setQuestionGuide: any, questionGuideTemplate: string, stopMsg: boolean, setStopMsg: any, GetModelFromAppValue: any, DatasetIdList: string[], DatasetPrompt: any) {
+export async function ChatAiOutputV1(authConfig: any, _id: string, Message: string, Token: string, UserId: number | string, chatId: number | string, appId: string, setProcessingMessage: any, template: string, setFinishedMessage: any, userType: string, allowQuestionGuide: boolean, setQuestionGuide: any, questionGuideTemplate: string, stopMsg: boolean, setStopMsg: any, GetModelFromAppValue: any, DatasetIdList: string[], DatasetPrompt: any) {
     setStopMsg(false)
     const ChatChatHistoryText = window.localStorage.getItem(ChatChatHistory)
     const ChatChatList = ChatChatHistoryText ? JSON.parse(ChatChatHistoryText) : []
@@ -180,7 +180,6 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
                     question: Message,
                     history: History,
                     appId: appId,
-                    publishId,
                     template: template,
                     _id,
                     allowChatLog: 1,
@@ -230,7 +229,6 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
                                 question: questionGuideTemplate,
                                 history: History,
                                 appId: appId,
-                                publishId: publishId,
                                 template: template,
                                 temperature: 0.1,
                                 _id: _id,
