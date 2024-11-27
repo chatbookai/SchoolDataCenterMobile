@@ -1,6 +1,5 @@
 // ** Types
-import { Dispatch } from 'redux'
-import { ThemeColor } from '../../@core/layouts/types'
+import { ThemeColor } from 'src/@core/layouts/types'
 
 export type StatusType = 'busy' | 'away' | 'online' | 'offline'
 
@@ -42,7 +41,7 @@ export type ChatsObj = {
   userId: number
   chat: ChatType[]
   unseenMsgs: number
-  lastMessage?: ChatType
+  processingMessage?: ChatType
 }
 
 export type ContactType = {
@@ -82,29 +81,32 @@ export type SendMsgParamsType = {
   chat?: ChatsObj
   message: string
   contact?: ChatsArrType
+  template?: string
 }
 
 export type ChatContentType = {
   hidden: boolean
   mdAbove: boolean
   store: ChatStoreType
-  membersListWidth: number
-  dispatch: Dispatch<any>
+  sidebarWidth: number
   statusObj: StatusObjType
   userProfileRightOpen: boolean
   handleLeftSidebarToggle: () => void
   getInitials: (val: string) => string
   sendMsg: (params: SendMsgParamsType) => void
   handleUserProfileRightSidebarToggle: () => void
+  refreshChatCounter: number,
+  sendButtonDisable: boolean,
+  sendButtonText: string,
+  sendInputText: string
 }
 
 export type ChatSidebarLeftType = {
   hidden: boolean
   mdAbove: boolean
   store: ChatStoreType
-  membersListWidth: number
+  sidebarWidth: number
   userStatus: StatusType
-  dispatch: Dispatch<any>
   leftSidebarOpen: boolean
   statusObj: StatusObjType
   userProfileLeftOpen: boolean
@@ -120,7 +122,7 @@ export type ChatSidebarLeftType = {
 export type UserProfileLeftType = {
   hidden: boolean
   store: ChatStoreType
-  membersListWidth: number
+  sidebarWidth: number
   userStatus: StatusType
   statusObj: StatusObjType
   userProfileLeftOpen: boolean
@@ -130,17 +132,25 @@ export type UserProfileLeftType = {
 
 export type UserProfileRightType = {
   hidden: boolean
-  member: any
-  membersListWidth: number
+  store: ChatStoreType
+  sidebarWidth: number
   statusObj: StatusObjType
   userProfileRightOpen: boolean
+  getInitials: (val: string) => string
   handleUserProfileRightSidebarToggle: () => void
 }
 
 export type SendMsgComponentType = {
   store: ChatStoreType
-  dispatch: Dispatch<any>
   sendMsg: (params: SendMsgParamsType) => void
+  sendButtonDisable: boolean
+  sendButtonLoading: boolean
+  sendButtonText: string
+  sendInputText: string
+  rowInMsg: number
+  handleSetRowInMsg: (params: number) => void
+  maxRows: number
+  setStopMsg: (params: boolean) => void
 }
 
 export type ChatLogType = {
@@ -156,13 +166,21 @@ export type MessageType = {
   time: string | Date
   message: string
   senderId: number
+  responseTime: string
+  chatlogId: string
+  history: any[]
   feedback: MsgFeedbackType
+  question: string
 }
 
 export type ChatLogChatType = {
   msg: string
   time: string | Date
+  responseTime: string
+  chatlogId: string
+  history: any[]
   feedback: MsgFeedbackType
+  question: string
 }
 
 export type FormattedChatsType = {

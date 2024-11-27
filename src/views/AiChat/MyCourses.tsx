@@ -119,8 +119,6 @@ const MyCourses = ({authConfig}: any) => {
     handleWalletGoHome()
   }
 
-  console.log("myCoursesList", myCoursesList)
-
   useEffect(() => {
     setHeaderHidden(false)
     setRightButtonIcon('')
@@ -163,7 +161,7 @@ const MyCourses = ({authConfig}: any) => {
                   {myCoursesList && myCoursesList.length > 0 && myCoursesList.map((item: any, index: number) => {
 
                     return (
-                      <Grid xs={12} sx={{ pb: 2, }} key={index}>
+                      <Grid item xs={12} sx={{ pb: 2, }} key={index}>
                         <Card>
                           <CardContent>
                                   <Grid item xs={12} >

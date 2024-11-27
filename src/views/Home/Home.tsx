@@ -13,8 +13,7 @@ import Setting from '../Setting/Setting'
 import Index from '../Index/Index'
 import Application from '../Application/Application'
 import Login from '../Login/Login'
-import MyCourses from '../AiChat/MyCourses'
-
+import MyCourses from '../AiChat/ChatWithCourse'
 
 import { useTranslation } from 'react-i18next'
 import { getConfig, defaultConfig } from 'src/configs/auth'
@@ -45,8 +44,6 @@ const Home = () => {
         if (user) {
           refresh(user)
         }
-
-        //console.log("当前用户状态: ", user)
       }
       catch (error) {
         console.error('Error fetching data:', error);
