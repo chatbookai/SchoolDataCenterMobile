@@ -62,7 +62,7 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
 
   const handleGetMainMenus = () => {
     if(window)  {
-      const storageMainMenus = window.localStorage.getItem(authConfig.storageMainMenus)
+      const storageMainMenus = window.localStorage.getItem(defaultConfig.storageMainMenus)
       if(storageMainMenus && storageMainMenus != undefined) {
         try{
           const storageMainMenusJson = JSON.parse(storageMainMenus)
@@ -100,7 +100,7 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
         setMenuArray(dataJson)
       }
       if(window && dataJson) {
-        window.localStorage.setItem(authConfig.storageMainMenus, JSON.stringify(dataJson))
+        window.localStorage.setItem(defaultConfig.storageMainMenus, JSON.stringify(dataJson))
       }
 
       //console.log("handleGetMainMenus menuArray dataJson", dataJson)

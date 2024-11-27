@@ -61,12 +61,12 @@ const Footer = (props: any) => {
           sx={{width: '100%'}}
         >
           <BottomNavigationAction label={t("Index") as string} icon={<Icon icon='material-symbols:home-work-outline' />} />
-          <BottomNavigationAction label={t("AI辅助") as string} icon={<Icon icon='ph:open-ai-logo-light' />} />
+          <BottomNavigationAction label={t("AI教学") as string} icon={<Icon icon='ph:open-ai-logo-light' />} />
           <BottomNavigationAction
             label={t("Apps") as string}
             icon={
               <img
-                src={authConfig.AppLogo}
+                src={authConfig?.AppLogo}
                 alt={t('Apps') as string}
                 style={{
                   width: '3.5rem', // 控制图片的宽度

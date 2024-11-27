@@ -11,6 +11,7 @@ import { styled } from '@mui/material/styles'
 import Header from '../Home/Header'
 
 import axios from 'axios'
+import CircularProgress from '@mui/material/CircularProgress'
 import { DecryptDataAES256GCM } from 'src/configs/functions'
 
 import EngineeModelApp from "src/views/Enginee/index"
@@ -37,6 +38,8 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
   const contentHeightFixed = {}
   const [counter, setCounter] = useState<number>(0)
 
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isNeedRefresh, setIsNeedRefresh] = useState<boolean>(false)
   const [pageModel, setPageModel] = useState<string>('MainApplication')
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
@@ -57,12 +60,18 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
   console.log("allpath", allpath)
 
   useEffect(() => {
-    handleGetMainMenus()
+    setTimeout(() => {
+      setIsNeedRefresh(true);
+    }, 2000);
   }, []);
 
+  useEffect(() => {
+    handleGetMainMenus()
+  }, [isNeedRefresh]);
+
   const handleGetMainMenus = () => {
-    if(window)  {
-      const storageMainMenus = window.localStorage.getItem(authConfig.storageMainMenus)
+    if(window && defaultConfig)  {
+      const storageMainMenus = window.localStorage.getItem(defaultConfig.storageMainMenus)
       if(storageMainMenus && storageMainMenus != undefined) {
         try{
           const storageMainMenusJson = JSON.parse(storageMainMenus)
@@ -73,52 +82,56 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
         }
       }
     }
-    const backEndApi = authConfig.indexMenuspath
-    const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
-    const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
-    axios.get(authConfig.backEndApiHost + backEndApi, { headers: { Authorization: storedToken } }).then(res => {
-      let dataJson: any = null
-      const data = res.data
-      if(data && data.isEncrypted == "1" && data.data)  {
-          const i = data.data.slice(0, 32);
-          const t = data.data.slice(-32);
-          const e = data.data.slice(32, -32);
-          const k = AccessKey;
-          const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
-          try{
-              dataJson = JSON.parse(DecryptDataAES256GCMData)
-          }
-          catch(Error: any) {
-              console.log("handleGetMainMenus DecryptDataAES256GCMData view_default Error", Error)
-              dataJson = data
-          }
-      }
-      else {
-          dataJson = data
-      }
-      if(dataJson) {
-        setMenuArray(dataJson)
-      }
-      if(window && dataJson) {
-        window.localStorage.setItem(authConfig.storageMainMenus, JSON.stringify(dataJson))
-      }
-
-      //console.log("handleGetMainMenus menuArray dataJson", dataJson)
-    })
-    .catch(error => {
-      if (error.response) {
-        console.error('handleGetMainMenus Error response:', error.response.data);
-        console.error('handleGetMainMenus Error status:', error.response.status);
-        console.error('handleGetMainMenus Error headers:', error.response.headers);
-      }
-      else if (error.request) {
-        console.error('handleGetMainMenus Error request:', error.request);
-      }
-      else {
-        console.error('handleGetMainMenus Error message:', error.message);
-      }
-      console.error('handleGetMainMenus Error config:', error.config);
-    });
+    if(window && authConfig && (menuArray == null || menuArray.length == 0 || isNeedRefresh))   {
+      const backEndApi = authConfig.indexMenuspath
+      const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
+      const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
+      axios.get(authConfig.backEndApiHost + backEndApi, { headers: { Authorization: storedToken } }).then(res => {
+        let dataJson: any = null
+        const data = res.data
+        if(data && data.isEncrypted == "1" && data.data)  {
+            const i = data.data.slice(0, 32);
+            const t = data.data.slice(-32);
+            const e = data.data.slice(32, -32);
+            const k = AccessKey;
+            const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
+            try{
+                dataJson = JSON.parse(DecryptDataAES256GCMData)
+            }
+            catch(Error: any) {
+                console.log("handleGetMainMenus DecryptDataAES256GCMData view_default Error", Error)
+                dataJson = data
+            }
+        }
+        else {
+            dataJson = data
+        }
+        if(dataJson) {
+          setMenuArray(dataJson)
+          setIsLoading(false)
+        }
+        if(window && dataJson) {
+          window.localStorage.setItem(defaultConfig.storageMainMenus, JSON.stringify(dataJson))
+        }
+      })
+      .catch(error => {
+        if (error.response) {
+          console.error('handleGetMainMenus Error response:', error.response.data);
+          console.error('handleGetMainMenus Error status:', error.response.status);
+          console.error('handleGetMainMenus Error headers:', error.response.headers);
+        }
+        else if (error.request) {
+          console.error('handleGetMainMenus Error request:', error.request);
+        }
+        else {
+          console.error('handleGetMainMenus Error message:', error.message);
+        }
+        console.error('handleGetMainMenus Error config:', error.config);
+      });
+    }
+    if(window && authConfig && menuArray && menuArray.length > 0) {
+      setIsLoading(false)
+    }
   }
 
   const [refreshWalletData, setRefreshWalletData] = useState<number>(0)
@@ -338,45 +351,56 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
             }}
             >
 
-            {pageModel == 'MainApplication' && (
-              <Container sx={{mt: 0}}>
-                {menuArray && menuArray.length > 0 && menuArray.map((menuItem: any, menuIndex: number)=>{
+            {pageModel == 'MainApplication' && authConfig && (
+              <Fragment>
+                {isLoading && (menuArray == null || menuArray.length == 0) ? (
+                    <Grid item xs={12} sm={12} container justifyContent="space-around">
+                        <Box sx={{ mt: 6, mb: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                            <CircularProgress />
+                            <Typography sx={{pt:5, pb:5}}>加载中...</Typography>
+                        </Box>
+                    </Grid>
+                ) : (
+                  <Container sx={{mt: 0}}>
+                    {menuArray && menuArray.length > 0 && menuArray.map((menuItem: any, menuIndex: number)=>{
 
-                  return (
-                    <Fragment key={menuIndex}>
-                    {menuItem && menuItem.title && !['基础数据','系统设置','低代码平台','我的事务'].includes(menuItem.title) && (
-                      <Box my={2} key={menuIndex}>
-                        <Typography variant="h6" sx={{ py: 0.5, pl: 2, borderRadius: '5px', mb: 2, fontSize: '16px' }}>
-                          {menuItem.title}
-                        </Typography>
-                      <Grid container spacing={2}>
-                        {menuItem.children && menuItem.children.map((item: any, index: number) => (
-                          <Grid item xs={3} key={index}>
-                            <Box textAlign="center" sx={{my: 0}}>
-                              <img src={authConfig.backEndApiHost + item['MobileEndIconImage']} alt={item.title} style={{ width: '45px', height: '45px' }} onClick={()=>handleGoAppItem(item, pageModel)}/>
-                              <Typography variant="body2"
-                                sx={{
-                                  my: 0,
-                                  whiteSpace: 'nowrap',
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis'
-                                }}
-                                onClick={()=>handleGoAppItem(item, pageModel)}
-                              >{item.title}</Typography>
-                            </Box>
+                      return (
+                        <Fragment key={menuIndex}>
+                        {menuItem && menuItem.title && !['基础数据','系统设置','低代码平台','我的事务'].includes(menuItem.title) && (
+                          <Box my={2} key={menuIndex}>
+                            <Typography variant="h6" sx={{ py: 0.5, pl: 2, borderRadius: '5px', mb: 2, fontSize: '16px' }}>
+                              {menuItem.title}
+                            </Typography>
+                          <Grid container spacing={2}>
+                            {menuItem.children && menuItem.children.map((item: any, index: number) => (
+                              <Grid item xs={3} key={index}>
+                                <Box textAlign="center" sx={{my: 0}}>
+                                  <img src={authConfig.backEndApiHost + item['MobileEndIconImage']} alt={item.title} style={{ width: '45px', height: '45px' }} onClick={()=>handleGoAppItem(item, pageModel)}/>
+                                  <Typography variant="body2"
+                                    sx={{
+                                      my: 0,
+                                      whiteSpace: 'nowrap',
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis'
+                                    }}
+                                    onClick={()=>handleGoAppItem(item, pageModel)}
+                                  >{item.title}</Typography>
+                                </Box>
+                              </Grid>
+                            ))}
                           </Grid>
-                        ))}
-                      </Grid>
-                    </Box>
-                    )}
-                    </Fragment>
-                  )
+                        </Box>
+                        )}
+                        </Fragment>
+                      )
 
-                })}
-              </Container>
+                    })}
+                  </Container>
+                )}
+              </Fragment>
             )}
 
-            {pageModel == 'EngineeModelApp' && appItemId && allpath.length > 0 && (
+            {pageModel == 'EngineeModelApp' && authConfig && appItemId && allpath.length > 0 && (
               <>
                 <Grid container spacing={2} mb={2}>
                   {allpath && allpath.map((item: any, index: number) => (
@@ -400,31 +424,31 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
               </>
             )}
 
-            {pageModel == 'EngineeModelApp' && appItemId && allpath.length == 0 && (
+            {pageModel == 'EngineeModelApp' && authConfig && appItemId && allpath.length == 0 && (
               <>
                 <EngineeModelApp authConfig={authConfig} backEndApi={appItemId} externalId='' handleActionInMobileApp={handleActionInMobileApp} actionInMobileApp={actionInMobileApp} handleSetRightButtonIconOriginal={handleSetRightButtonIconOriginal} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus} />
               </>
             )}
 
-            {pageModel == 'AnalyticsStudent' && appItemId && (
+            {pageModel == 'AnalyticsStudent' && authConfig && appItemId && (
               <>
                 <ShareDialog authConfig={authConfig} pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
               </>
             )}
 
-            {pageModel == 'AnalyticsClass' && appItemId && (
+            {pageModel == 'AnalyticsClass' && authConfig && appItemId && (
               <>
                 <ShareDialog authConfig={authConfig} pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
               </>
             )}
 
-            {pageModel == 'StatisticsStudentsbyClass' && appItemId && (
+            {pageModel == 'StatisticsStudentsbyClass' && authConfig && appItemId && (
               <>
                 <ShareDialog authConfig={authConfig} pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
               </>
             )}
 
-            {pageModel == 'StatisticsStudentsbyIndividual' && appItemId && (
+            {pageModel == 'StatisticsStudentsbyIndividual' && authConfig && appItemId && (
               <>
                 <ShareDialog authConfig={authConfig} pageModel={pageModel} viewPageShareStatus={viewPageShareStatus} handSetViewPageShareStatus={handSetViewPageShareStatus}  />
               </>

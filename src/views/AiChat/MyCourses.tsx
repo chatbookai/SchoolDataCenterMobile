@@ -32,7 +32,6 @@ const ContentWrapper = styled('main')(({ theme }) => ({
   }
 }))
 
-
 const MyCourses = ({authConfig}: any) => {
   const { t } = useTranslation()
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -41,7 +40,7 @@ const MyCourses = ({authConfig}: any) => {
   const contentHeightFixed = {}
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
-  const [Title, setTitle] = useState<string>(t('Ai辅助') as string)
+  const [Title, setTitle] = useState<string>(t('AI教学') as string)
   const [RightButtonText, setRightButtonText] = useState<string>('')
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
 
