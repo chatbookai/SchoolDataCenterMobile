@@ -34,7 +34,7 @@ const Chat = ({authConfig}: any) => {
     if (auth && auth.user && id) {
       const authorization = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
       setUserType('User')
-      const RS = await axios.post(authConfig.backEndApiChatBook + '/api/getapp', {appId: id}, { headers: { Authorization: authorization, 'Content-Type': 'application/json'} }).then(res=>res.data)
+      const RS = await axios.post(authConfig.backEndApiHost + '/api/getapp', {appId: id}, { headers: { Authorization: authorization, 'Content-Type': 'application/json'} }).then(res=>res.data)
       setApp(RS)
     }
   }

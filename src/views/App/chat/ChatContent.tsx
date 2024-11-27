@@ -94,7 +94,7 @@ const ChatContent = (props: any) => {
                       }
                     >
                       <MuiAvatar
-                        src={AppAvatar(authConfig.backEndApiChatBook, app.avatar)}
+                        src={AppAvatar(authConfig.backEndApiHost, app.avatar)}
                         alt={chatName}
                         sx={{ width: '2rem', height: '2rem' }}
                       />

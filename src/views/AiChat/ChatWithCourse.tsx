@@ -1,9 +1,11 @@
 
-import ChatAnonymous from 'src/views/App/chat/ChatAnonymous';
+import Index from 'src/views/App/chat/Index';
 
 const ChatAnonymousApp = ({authConfig}: any) => {
 
-  return <ChatAnonymous authConfig={authConfig}/>
+  const app = {id: 'ididididid', avatar: 'avataravataravatar'}
+
+  return <Index authConfig={authConfig} app={app} />
 
 }
 

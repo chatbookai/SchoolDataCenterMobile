@@ -170,7 +170,7 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
         if(chatId && UserId)  {
             const anonymousUserId = getAnonymousUserId()
             const startTime = performance.now()
-            const response = await fetch(authConfig.backEndApiChatBook + `/api/` + (userType=='User' ? 'ChatApp' : 'ChatAppAnonymous'), {
+            const response = await fetch(authConfig.backEndApiHost + `/api/` + (userType=='User' ? 'ChatApp' : 'ChatAppAnonymous'), {
                 method: 'POST',
                 headers: {
                     Authorization: userType=='User' ? Token : anonymousUserId,
@@ -215,7 +215,7 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
 
                 //allowQuestionGuide
                 if(allowQuestionGuide) {
-                    const url = authConfig.backEndApiChatBook + '/api/' + (userType === 'User' ? 'ChatApp' : 'ChatAppAnonymous');
+                    const url = authConfig.backEndApiHost + '/api/' + (userType === 'User' ? 'ChatApp' : 'ChatAppAnonymous');
                     const headers = {
                         Authorization: userType === 'User' ? Token : anonymousUserId,
                         'Content-Type': 'application/json',
@@ -439,14 +439,14 @@ export function downloadJson(JsonData: any, FileName: string) {
     URL.revokeObjectURL(url);
 }
 
-export function AppAvatar(backEndApiChatBook: string, avatar: string) {
+export function AppAvatar(backEndApiHost: string, avatar: string) {
     if(avatar.startsWith('http')) {
 
         return avatar
     }
     else {
 
-        return backEndApiChatBook + '/api/avatarforapp/' + avatar
+        return backEndApiHost + '/images/avatars/' + avatar
     }
 }
 

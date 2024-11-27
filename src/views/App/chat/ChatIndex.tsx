@@ -47,7 +47,7 @@ const AppChat = (props: any) => {
     const authorization = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
     console.log("getChatLogList",userType)
     if(userId && authorization) {
-      const RS = await axios.post(authConfig.backEndApiChatBook + '/api/app/chatlog/' + appId + '/0/90', {userType}, {
+      const RS = await axios.post(authConfig.backEndApiHost + '/api/app/chatlog/' + appId + '/0/90', {userType}, {
         headers: {
           Authorization: authorization,
           'Content-Type': 'application/json'
@@ -109,7 +109,7 @@ const AppChat = (props: any) => {
       setRefreshChatCounter(0)
 
       const data: any = {appId: app._id, userType: userType}
-      const RS = await axios.post(authConfig.backEndApiChatBook + '/api/app/chatlog/clear/', data, {
+      const RS = await axios.post(authConfig.backEndApiHost + '/api/app/chatlog/clear/', data, {
         headers: {
           Authorization: authorization,
           'Content-Type': 'application/json'
@@ -132,7 +132,7 @@ const AppChat = (props: any) => {
       DeleteChatChatHistoryByChatlogId(userId, chatId, app.id, chatlogId)
 
       const data: any = {chatlogId: chatlogId, appId: app._id, userType: userType}
-      const RS = await axios.post(authConfig.backEndApiChatBook + '/api/app/chatlog/delete', data, {
+      const RS = await axios.post(authConfig.backEndApiHost + '/api/app/chatlog/delete', data, {
                           headers: {
                             Authorization: authorization,
                             'Content-Type': 'application/json'
