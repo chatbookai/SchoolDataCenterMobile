@@ -45,7 +45,7 @@ const Footer = (props: any) => {
                 setCurrentTab('Index')
                 break;
               case 1:
-                setCurrentTab('Schedule')
+                setCurrentTab('AiChat')
                 break;
               case 2:
                 setCurrentTab('Application')
@@ -61,7 +61,7 @@ const Footer = (props: any) => {
           sx={{width: '100%'}}
         >
           <BottomNavigationAction label={t("Index") as string} icon={<Icon icon='material-symbols:home-work-outline' />} />
-          <BottomNavigationAction label={t("Schedule") as string} icon={<Icon icon='uil:schedule' />} />
+          <BottomNavigationAction label={t("AI辅助") as string} icon={<Icon icon='ph:open-ai-logo-light' />} />
           <BottomNavigationAction
             label={t("Apps") as string}
             icon={

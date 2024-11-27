@@ -353,7 +353,7 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
                         {menuItem.children && menuItem.children.map((item: any, index: number) => (
                           <Grid item xs={3} key={index}>
                             <Box textAlign="center" sx={{my: 0}}>
-                              <img src={authConfig.AppLogo} alt={item.title} style={{ width: '45px', height: '45px' }} onClick={()=>handleGoAppItem(item, pageModel)}/>
+                              <img src={authConfig.backEndApiHost + item['MobileEndIconImage']} alt={item.title} style={{ width: '45px', height: '45px' }} onClick={()=>handleGoAppItem(item, pageModel)}/>
                               <Typography variant="body2"
                                 sx={{
                                   my: 0,
