@@ -47,7 +47,7 @@ const AppChat = (props: any) => {
     const userId = auth?.user?.username
     const authorization = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
     console.log("getChatLogList",userType)
-    try{
+    try {
       if(userId && authorization) {
         const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog.php', {appId, pageId: 0}, {
           headers: {
@@ -247,7 +247,7 @@ const AppChat = (props: any) => {
       getChatLogList(app._id, GetWelcomeTextFromAppTemp)
 
       setGetQuestionGuideFromAppValue(GetQuestionGuideFromApp(app))
-      setGetTTSFromAppValue(GetTTSFromApp(app))
+      setGetTTSFromAppValue(GetTTSFromApp())
 
       setChatId('ChatApp')
       if(app && app.PublishApp && app.PublishApp.name) {
