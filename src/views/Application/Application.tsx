@@ -82,7 +82,7 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
         }
       }
     }
-    if(window && authConfig && (menuArray == null || menuArray.length == 0 || isNeedRefresh))   {
+    if(window && authConfig && (menuArray.length == 0 || isNeedRefresh))   {
       const backEndApi = authConfig.indexMenuspath
       const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
       const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
@@ -353,7 +353,7 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
 
             {pageModel == 'MainApplication' && authConfig && (
               <Fragment>
-                {isLoading && (menuArray == null || menuArray.length == 0) ? (
+                {isLoading && menuArray.length == 0 ? (
                     <Grid item xs={12} sm={12} container justifyContent="space-around">
                         <Box sx={{ mt: 6, mb: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                             <CircularProgress />

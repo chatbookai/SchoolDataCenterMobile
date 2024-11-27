@@ -33,5 +33,6 @@ export const defaultConfig = {
   defaultLanguage: 'zh-CN',
   storageTokenKeyName: 'accessToken',
   storageAccessKeyName: 'accessKey',
-  storageMainMenus: 'mainMenus'
+  storageMainMenus: 'storageMainMenus',
+  myCoursesList: 'myCoursesList',
 }
