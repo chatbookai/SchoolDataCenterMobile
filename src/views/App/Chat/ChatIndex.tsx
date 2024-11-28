@@ -24,7 +24,7 @@ import { defaultConfig } from 'src/configs/auth'
 import axios from 'axios'
 import { useAuth } from 'src/hooks/useAuth'
 
-const AppChat = (props: any) => {
+const ChatIndex = (props: any) => {
   // ** Hook
   const { t } = useTranslation()
   const auth = useAuth()
@@ -308,12 +308,23 @@ const AppChat = (props: any) => {
     offline: 'secondary'
   }
 
+  const [innerHeight, setInnerHeight] = useState<number | string>(window.innerHeight)
+  console.log("innerHeight innerHeight",innerHeight)
+
+  useEffect(() => {
+    const handleResize = () => {
+        setInnerHeight(window.innerHeight - 48 - 56 - 35);
+    };
+    handleResize();
+  }, []);
+
   return (
-    <Fragment>
+    <Box sx={{ width: '100%', height: innerHeight, overflow: 'hidden', display: 'flex' }}>
       <Box
         className='app-chat'
         sx={{
           width: '100%',
+          height: '100%',
           display: 'flex',
           borderRadius: 1,
           overflow: 'hidden',
@@ -349,10 +360,8 @@ const AppChat = (props: any) => {
         finishedMessage={finishedMessage}
       />
       </Box>
-    </Fragment>
+    </Box>
   )
 }
 
-//AppChat.contentHeightFixed = true
-
-export default AppChat
+export default ChatIndex

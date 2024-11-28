@@ -20,7 +20,8 @@ import { styled } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
 
 import { DecryptDataAES256GCM } from 'src/configs/functions'
-import ChatWithCourse from './ChatWithCourse'
+import ChatIndex from 'src/views/App/Chat/ChatIndex';
+
 
 const ContentWrapper = styled('main')(({ theme }) => ({
   flexGrow: 1,
@@ -191,7 +192,7 @@ const MyCourses = ({authConfig}: any) => {
               )}
               {pageModel == "ChatWithCourse" && (
                 <Fragment>
-                  <ChatWithCourse authConfig={authConfig} app={courseItem}/>
+                  <ChatIndex authConfig={authConfig} app={courseItem}/>
                 </Fragment>
               )}
         </ContentWrapper>

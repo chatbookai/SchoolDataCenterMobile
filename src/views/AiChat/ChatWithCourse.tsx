@@ -1,9 +1,9 @@
 
-import Index from 'src/views/App/Chat/Index';
+import ChatIndex from 'src/views/App/Chat/ChatIndex';
 
 const ChatApp = ({authConfig, app}: any) => {
 
-  return <Index authConfig={authConfig} app={app}/>
+  return <ChatIndex authConfig={authConfig} app={app}/>
 
 }
 
