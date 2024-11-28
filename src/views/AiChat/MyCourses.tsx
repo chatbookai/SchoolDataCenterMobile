@@ -48,7 +48,7 @@ const MyCourses = ({authConfig}: any) => {
 
   const handleSetChatWithCourse = async (item: any) => {
     setPageModel("ChatWithCourse")
-    setCourseItem({...item, id: 'ididididid', avatar: '1.png', SystemPrompt: 'System Prompt', Model: {}, WelcomeText: 'Welcome Text', QuestionGuide: {} })
+    setCourseItem({...item, id: 'ididididid', avatar: '1.png', SystemPrompt: '返回结果以Markdown格式返回. 不要返回\n.', Model: {}, WelcomeText: 'Welcome Text', QuestionGuideTemplate: '你是一个AI智能助手，可以回答和解决我的问题。请结合前面的对话记录，帮我生成 3 个问题，引导我继续提问。问题的长度应小于20个字符，要求使用UTF-8编码，按 JSON 格式返回: ["问题1", "问题2", "问题3"]' })
   }
 
   const handelGetMyCoursesList = async () => {

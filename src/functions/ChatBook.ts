@@ -151,7 +151,7 @@ export function ChatChatInput(chatlogId: string, Question: string, Message: stri
     window.localStorage.setItem(ChatChat, JSON.stringify(ChatChatList))
 }
 
-export async function ChatAiOutputV1(authConfig: any, _id: string, Message: string, Token: string, UserId: number | string, chatId: number | string, appId: string, setProcessingMessage: any, template: string, setFinishedMessage: any, userType: string, allowQuestionGuide: boolean, setQuestionGuide: any, questionGuideTemplate: string, stopMsg: boolean, setStopMsg: any, GetModelFromAppValue: any) {
+export async function ChatAiOutputV1(authConfig: any, _id: string, Message: string, Token: string, UserId: number | string, chatId: number | string, appId: string, setProcessingMessage: any, template: string, setFinishedMessage: any, allowQuestionGuide: boolean, setQuestionGuide: any, questionGuideTemplate: string, stopMsg: boolean, setStopMsg: any, GetModelFromAppValue: any) {
     setStopMsg(false)
     const ChatChatHistoryText = window.localStorage.getItem(ChatChatHistory)
     const ChatChatList = ChatChatHistoryText ? JSON.parse(ChatChatHistoryText) : []
@@ -193,8 +193,10 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
             while (true) {
                 const { done, value } = await reader.read();
                 const text = new TextDecoder('utf-8').decode(value);
-                setProcessingMessage((prevText: string) => prevText + text);
-                responseText = responseText + text;
+                const filterText = filterDeepSeekAiResultToText(text)
+                console.log("filterDeepSeekAiResultToText", filterText)
+                setProcessingMessage((prevText: string) => prevText + filterText);
+                responseText = responseText + filterText;
                 setQuestionGuide(null)
                 if (done || stopMsg) {
                     setProcessingMessage('')
@@ -211,13 +213,12 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
 
                 //allowQuestionGuide
                 if(allowQuestionGuide) {
-                    const url = authConfig.backEndApiAiBaseUrl + 'aichat/chatai.php';
+                    const url = authConfig.backEndApiAiBaseUrl + 'aichat/chataijson.php';
                     const headers = {
                         Authorization: Token,
                         'Content-Type': 'application/json',
                     };
                     History.push([Message, responseText])
-                    console.log("questionGuideTemplate", questionGuideTemplate)
 
                     //questionGuideTemplate define by zh-CN.json language etc files
                     //const questionGuideTemplate = '你是一个AI智能助手，可以回答和解决我的问题。请结合前面的对话记录，帮我生成 3 个问题，引导我继续提问。问题的长度应小于20个字符，要求使用UTF-8编码，按 JSON 格式返回: ["问题1", "问题2", "问题3"]'
@@ -235,6 +236,12 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
                     if(response) {
                         if(response && response.length == 3) {
                             setQuestionGuide(response)
+                        }
+                        else if(response && response.choices && response.choices[0] && response.choices[0]['message'] && response.choices[0]['message']['content']) {
+                          const result = extractTextBetween(response.choices[0]['message']['content'], "```json", "```");
+                          const JsonArray = JSON.parse(result)
+                          console.log("responseresponseresponseresponse", JsonArray)
+                          setQuestionGuide(JsonArray)
                         }
                         else if(response.includes('```json')) {
                             const result = extractTextBetween(response, "```json", "```");
@@ -265,6 +272,20 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
         return true
     }
 
+}
+
+export function filterDeepSeekAiResultToText(jsonString: string) {
+
+  const jsonList = jsonString.split('"choices":[{"index":0,"delta":{"content":"')
+  if(jsonList && jsonList[1] && jsonList[1]!='')  {
+    const LastPart = jsonList[1].split('"},"logprobs":null,"finish_reason"')
+    if(LastPart[0] && LastPart[1])  {
+
+      return LastPart[0]
+    }
+  }
+
+  return ''
 }
 
 function extractTextBetween(text: string, startMarker: string, endMarker: string) {

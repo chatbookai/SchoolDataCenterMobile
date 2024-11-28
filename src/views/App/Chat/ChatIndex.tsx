@@ -10,16 +10,13 @@ import toast from 'react-hot-toast'
 // ** Types
 import { StatusObjType } from 'src/types/apps/chatTypes'
 
-// ** Hooks
-import { useSettings } from 'src/@core/hooks/useSettings'
-
 // ** Chat App Components Imports
 import ChatContent from 'src/views/App/Chat/ChatContent'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
 
-import { getNanoid, ChatChatList, ChatChatInit, ChatChatNameList, ChatChatInput, ChatAiOutputV1, DeleteChatChat, DeleteChatChatHistory, DeleteChatChatByChatlogId, DeleteChatChatHistoryByChatlogId, getAnonymousUserId  } from 'src/functions/ChatBook'
+import { getNanoid, ChatChatList, ChatChatInit, ChatChatNameList, ChatChatInput, ChatAiOutputV1, DeleteChatChat, DeleteChatChatHistory, DeleteChatChatByChatlogId, DeleteChatChatHistoryByChatlogId  } from 'src/functions/ChatBook'
 
 import { defaultConfig } from 'src/configs/auth'
 
@@ -186,7 +183,6 @@ const AppChat = (props: any) => {
   const hidden = false
 
   useEffect(() => {
-    console.log("finishedMessage", finishedMessage)
     const userId = auth?.user?.username
     if(userId) {
       const ChatChatListValue = ChatChatList()
@@ -267,8 +263,9 @@ const AppChat = (props: any) => {
   }
 
   const GetQuestionGuideFromApp = (app: any) => {
+    console.log("GetQuestionGuideFromApp", app)
 
-    return app.QuestionGuide
+    return true
   }
 
   const GetTTSFromApp = () => {
@@ -289,7 +286,7 @@ const AppChat = (props: any) => {
       ChatChatInput(_id, Obj.send, Obj.message, userId, 0, [])
       setRefreshChatCounter(refreshChatCounter + 1)
       const startTime = performance.now()
-      const ChatAiOutputV1Status = await ChatAiOutputV1(authConfig, _id, Obj.message, authorization, userId, chatId, app.id, setProcessingMessage, GetSystemPromptFromAppValue, setFinishedMessage, userType, true, setQuestionGuide, t('questionGuideTemplate'), stopMsg, setStopMsg, GetModelFromAppValue)
+      const ChatAiOutputV1Status = await ChatAiOutputV1(authConfig, _id, Obj.message, authorization, userId, chatId, app.id, setProcessingMessage, GetSystemPromptFromAppValue, setFinishedMessage, true, setQuestionGuide, app.QuestionGuideTemplate, stopMsg, setStopMsg, GetModelFromAppValue)
       const endTime = performance.now();
       setResponseTime(endTime - startTime);
       if(ChatAiOutputV1Status)      {
@@ -349,6 +346,7 @@ const AppChat = (props: any) => {
         GetQuestionGuideFromAppValue={GetQuestionGuideFromAppValue}
         GetTTSFromAppValue={GetTTSFromAppValue}
         setStopMsg={setStopMsg}
+        finishedMessage={finishedMessage}
       />
       </Box>
     </Fragment>

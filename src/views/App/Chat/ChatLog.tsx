@@ -306,7 +306,7 @@ const ChatLog = (props: any) => {
           </Box>
           }
 
-          <Box className='chat-body' sx={{ maxWidth: ['calc(100% - 5.75rem)', '100%', '100%'] }}>
+          <Box className='chat-body' sx={{ width: '100%' }}>
             {item.messages.map((chat: ChatLogChatType, ChatIndex: number) => {
               let ChatMsgType = 'Chat'
               let ChatMsgContent: any
@@ -321,26 +321,25 @@ const ChatLog = (props: any) => {
 
               return (
                 <Box key={ChatIndex} sx={{ '&:not(:last-of-type)': { mb: 3 } }}>
-                    {ChatMsgType == "Chat" ?
+                    {ChatMsgType == "Chat" &&
                       <div>
-                        <Typography
-                        sx={{
-                          boxShadow: 1,
-                          borderRadius: 1,
-                          width: 'fit-content',
-                          fontSize: '0.875rem',
-                          p: theme => theme.spacing(0.1, 2, 0.1, 3),
-                          ml: isSender ? 'auto' : undefined,
-                          borderTopLeftRadius: !isSender ? 0 : undefined,
-                          borderTopRightRadius: isSender ? 0 : undefined,
-                          color: isSender ? 'common.white' : 'text.primary',
-                          backgroundColor: isSender ? 'primary.main' : 'background.paper'
-                        }}
+                        <Typography sx={{
+                                      boxShadow: 1,
+                                      borderRadius: 1,
+                                      width: isSender ? 'fit-content' : '100%',
+                                      fontSize: '0.875rem',
+                                      p: theme => theme.spacing(0.1, 2, 0.1, 3),
+                                      ml: isSender ? 'auto' : undefined,
+                                      borderTopLeftRadius: !isSender ? 0 : undefined,
+                                      borderTopRightRadius: isSender ? 0 : undefined,
+                                      color: isSender ? 'common.white' : 'text.primary',
+                                      backgroundColor: isSender ? 'primary.main' : 'background.paper'
+                                    }}
                         >
                           { /\[.*?\]/.test(chat.msg) ?
                             <SystemPromptTemplate text={chat.msg} handleSendMsg={handleSendMsg}/>
                           :
-                            <ReactMarkdown>{chat.msg.replace('\n', '  \n')}</ReactMarkdown>
+                            <ReactMarkdown>{chat.msg.replaceAll('\n', ' \n')}</ReactMarkdown>
                           }
                           {GetQuestionGuideFromAppValue && !isSender && index == ChatItemMsgList.length - 1 && index>0 && questionGuide ?
                             <Box>
@@ -406,10 +405,7 @@ const ChatLog = (props: any) => {
                               }
                           </Box>
                         </Typography>
-
                       </div>
-                      :
-                      null
                     }
                     {ChatMsgType == "Image" && ChatMsgContent && ChatMsgContent.ShortFileName ?
                       <div>
