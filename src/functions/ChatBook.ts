@@ -169,7 +169,7 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
         console.log("chatId", chatId)
         if(chatId && UserId)  {
             const startTime = performance.now()
-            const response = await fetch(authConfig.backEndApiHost + `aichat/chatai.php`, {
+            const response = await fetch(authConfig.backEndApiAiBaseUrl + `aichat/chatai.php`, {
                 method: 'POST',
                 headers: {
                     Authorization: Token,
@@ -211,7 +211,7 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
 
                 //allowQuestionGuide
                 if(allowQuestionGuide) {
-                    const url = authConfig.backEndApiHost + 'api/' + (userType === 'User' ? 'ChatApp' : 'ChatAppAnonymous');
+                    const url = authConfig.backEndApiAiBaseUrl + 'aichat/chatai.php';
                     const headers = {
                         Authorization: Token,
                         'Content-Type': 'application/json',

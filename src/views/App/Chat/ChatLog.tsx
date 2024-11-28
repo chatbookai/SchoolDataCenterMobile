@@ -345,7 +345,7 @@ const ChatLog = (props: any) => {
                           {GetQuestionGuideFromAppValue && !isSender && index == ChatItemMsgList.length - 1 && index>0 && questionGuide ?
                             <Box>
                               <Box display="flex" alignItems="center">
-                                <Avatar src={'/imgs/module/cq.png'} sx={{ mr: 2.5, width: 26, height: 26 }} />
+                                <Avatar src={'/images/aichat/cq.png'} sx={{ mr: 2.5, width: 26, height: 26 }} />
                                 {t('QuestionGuide')}{questionGuide.length}
                               </Box>
                               {questionGuide && questionGuide.length > 0 && Array.isArray(questionGuide) && questionGuide.map((question: string, index: number)=>{

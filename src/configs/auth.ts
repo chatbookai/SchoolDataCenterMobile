@@ -1,8 +1,8 @@
 
 export const AppSchoolConfigMap: any    = {}
-AppSchoolConfigMap['dandian']    = ["https://fdzz.dandian.net/api/", '单点数据中心', "auth/menusMobile.php"]
-AppSchoolConfigMap['fdzyzz.com'] = ["https://fdzz.dandian.net/api/", '福鼎职业中专', "auth/menusMobile.php"]
-AppSchoolConfigMap['fjsmnx.com'] = ["https://fdzz.dandian.net/api/", '三明林业学校', "auth/menusMobile.php"]
+AppSchoolConfigMap['dandian']    = ["https://fdzz.dandian.net/api/", '单点数据中心', "auth/menusMobile.php", "http://110.90.174.66:8083/api/"]
+AppSchoolConfigMap['fdzyzz.com'] = ["https://fdzz.dandian.net/api/", '福鼎职业中专', "auth/menusMobile.php", "http://110.90.174.66:8083/api/"]
+AppSchoolConfigMap['fjsmnx.com'] = ["https://fdzz.dandian.net/api/", '三明林业学校', "auth/menusMobile.php", "http://110.90.174.66:8083/api/"]
 
 export function getConfig(Username: string) {
   const UsernameArray = Username.split('@')
@@ -10,6 +10,7 @@ export function getConfig(Username: string) {
   const APP_URL = AppSchoolConfigMap[AppMarkId][0]
   const AppName = AppSchoolConfigMap[AppMarkId][1]
   const indexMenuspath = AppSchoolConfigMap[AppMarkId][2]
+  const backEndApiAiBaseUrl = AppSchoolConfigMap[AppMarkId][3]
 
   return {
     AppName: AppName,
@@ -22,7 +23,8 @@ export function getConfig(Username: string) {
     logoutEndpoint: APP_URL + 'jwt.php?action=logout',
     refreshEndpoint: APP_URL + 'jwt.php?action=refresh',
     registerEndpoint: APP_URL + 'jwt/register',
-    backEndApiHost: APP_URL
+    backEndApiHost: APP_URL,
+    backEndApiAiBaseUrl: backEndApiAiBaseUrl
   };
 
 }
