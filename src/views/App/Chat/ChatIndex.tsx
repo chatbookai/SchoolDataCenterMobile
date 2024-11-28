@@ -115,7 +115,7 @@ const AppChat = (props: any) => {
       setRefreshChatCounter(0)
 
       const data: any = {appId: app._id, userType: userType}
-      const RS = await axios.post(authConfig.backEndApiHost + '/api/app/chatlog/clear/', data, {
+      const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog/clear/', data, {
         headers: {
           Authorization: authorization,
           'Content-Type': 'application/json'
@@ -138,7 +138,7 @@ const AppChat = (props: any) => {
       DeleteChatChatHistoryByChatlogId(userId, chatId, app.id, chatlogId)
 
       const data: any = {chatlogId: chatlogId, appId: app._id, userType: userType}
-      const RS = await axios.post(authConfig.backEndApiHost + '/api/app/chatlog/delete', data, {
+      const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog/delete', data, {
                           headers: {
                             Authorization: authorization,
                             'Content-Type': 'application/json'
@@ -190,13 +190,7 @@ const AppChat = (props: any) => {
 
   useEffect(() => {
     console.log("finishedMessage", finishedMessage)
-    let userId = null
-    if(auth.user && auth.user.id && userType=='User')   {
-      userId = auth.user.id
-    }
-    if(userType=='Anonymous')   {
-      userId = anonymousUserId
-    }
+    const userId = auth?.user?.username
     if(userId) {
       const ChatChatListValue = ChatChatList()
       if(processingMessage && processingMessage!="") {
@@ -270,22 +264,6 @@ const AppChat = (props: any) => {
     return app.Model
   }
 
-  const GetDatasetFromApp = (app: any) => {
-    const AiNode = app.modules.filter((item: any)=>item.type == 'chatNode')
-    if(AiNode && AiNode[0] && AiNode[0].data && AiNode[0].data.inputs) {
-      const modelList = AiNode[0].data.inputs.filter((itemNode: any)=>itemNode.key == 'Dataset')
-      if(modelList && modelList[0] && modelList[0]['MyDataSet'] && modelList[0]['MyDataSet']['MyDatasetList']) {
-        const MyDatasetList = modelList[0]['MyDataSet']['MyDatasetList']
-        const MyDatasetIdList = MyDatasetList.map((item: any) => item.value)
-        console.log("GetDatasetFromApp MyDatasetIdList", MyDatasetIdList)
-
-        return {MyDatasetIdList, DatasetPrompt: modelList[0]['DatasetPrompt']}
-      }
-    }
-
-    return
-  }
-
   const GetWelcomeTextFromApp = (app: any) => {
 
     return app.WelcomeText
@@ -314,8 +292,7 @@ const AppChat = (props: any) => {
       ChatChatInput(_id, Obj.send, Obj.message, userId, 0, [])
       setRefreshChatCounter(refreshChatCounter + 1)
       const startTime = performance.now()
-      const GetDatasetFromAppData: any = GetDatasetFromApp(app)
-      const ChatAiOutputV1Status = await ChatAiOutputV1(authConfig, _id, Obj.message, authorization, userId, chatId, app.id, setProcessingMessage, GetSystemPromptFromAppValue, setFinishedMessage, userType, true, setQuestionGuide, t('questionGuideTemplate'), stopMsg, setStopMsg, GetModelFromAppValue, GetDatasetFromAppData?.MyDatasetIdList, GetDatasetFromAppData?.DatasetPrompt)
+      const ChatAiOutputV1Status = await ChatAiOutputV1(authConfig, _id, Obj.message, authorization, userId, chatId, app.id, setProcessingMessage, GetSystemPromptFromAppValue, setFinishedMessage, userType, true, setQuestionGuide, t('questionGuideTemplate'), stopMsg, setStopMsg, GetModelFromAppValue)
       const endTime = performance.now();
       setResponseTime(endTime - startTime);
       if(ChatAiOutputV1Status)      {

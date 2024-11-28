@@ -151,7 +151,7 @@ export function ChatChatInput(chatlogId: string, Question: string, Message: stri
     window.localStorage.setItem(ChatChat, JSON.stringify(ChatChatList))
 }
 
-export async function ChatAiOutputV1(authConfig: any, _id: string, Message: string, Token: string, UserId: number | string, chatId: number | string, appId: string, setProcessingMessage: any, template: string, setFinishedMessage: any, userType: string, allowQuestionGuide: boolean, setQuestionGuide: any, questionGuideTemplate: string, stopMsg: boolean, setStopMsg: any, GetModelFromAppValue: any, DatasetIdList: string[], DatasetPrompt: any) {
+export async function ChatAiOutputV1(authConfig: any, _id: string, Message: string, Token: string, UserId: number | string, chatId: number | string, appId: string, setProcessingMessage: any, template: string, setFinishedMessage: any, userType: string, allowQuestionGuide: boolean, setQuestionGuide: any, questionGuideTemplate: string, stopMsg: boolean, setStopMsg: any, GetModelFromAppValue: any) {
     setStopMsg(false)
     const ChatChatHistoryText = window.localStorage.getItem(ChatChatHistory)
     const ChatChatList = ChatChatHistoryText ? JSON.parse(ChatChatHistoryText) : []
@@ -168,12 +168,11 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
         setProcessingMessage('')
         console.log("chatId", chatId)
         if(chatId && UserId)  {
-            const anonymousUserId = getAnonymousUserId()
             const startTime = performance.now()
-            const response = await fetch(authConfig.backEndApiHost + `/api/` + (userType=='User' ? 'ChatApp' : 'ChatAppAnonymous'), {
+            const response = await fetch(authConfig.backEndApiHost + `aichat/chatai.php`, {
                 method: 'POST',
                 headers: {
-                    Authorization: userType=='User' ? Token : anonymousUserId,
+                    Authorization: Token,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
@@ -183,9 +182,7 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
                     template: template,
                     _id,
                     allowChatLog: 1,
-                    temperature: GetModelFromAppValue?.LLMModel?.temperature || 0.6,
-                    datasetId: DatasetIdList,
-                    DatasetPrompt
+                    temperature: GetModelFromAppValue?.LLMModel?.temperature || 0.6
                 }),
             });
             if (!response.body) {
@@ -214,9 +211,9 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
 
                 //allowQuestionGuide
                 if(allowQuestionGuide) {
-                    const url = authConfig.backEndApiHost + '/api/' + (userType === 'User' ? 'ChatApp' : 'ChatAppAnonymous');
+                    const url = authConfig.backEndApiHost + 'api/' + (userType === 'User' ? 'ChatApp' : 'ChatAppAnonymous');
                     const headers = {
-                        Authorization: userType === 'User' ? Token : anonymousUserId,
+                        Authorization: Token,
                         'Content-Type': 'application/json',
                     };
                     History.push([Message, responseText])
