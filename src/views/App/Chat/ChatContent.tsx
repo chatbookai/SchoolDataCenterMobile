@@ -33,7 +33,6 @@ const ChatContent = (props: any) => {
     GetSystemPromptFromAppValue,
     handleDeleteOneChatLogById,
     userType,
-    GetModelFromAppValue,
     questionGuide,
     GetQuestionGuideFromAppValue,
     GetTTSFromAppValue,
@@ -56,8 +55,7 @@ const ChatContent = (props: any) => {
               sx={{
                 flexGrow: 1,
                 width: '100%',
-                height: '100%',
-                backgroundColor: 'action.hover'
+                backgroundColor: 'transparent'
               }}
             >
               <Box

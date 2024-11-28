@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -16,15 +16,27 @@ const Chat = ({authConfig, app}: any) => {
   const { settings } = useSettings()
   const { skin } = settings
 
+  const [innerHeight, setInnerHeight] = useState<number | string>(window.innerHeight)
+  console.log("innerHeight innerHeight",innerHeight)
+
+  useEffect(() => {
+    const handleResize = () => {
+        setInnerHeight(window.innerHeight);
+    };
+
+    handleResize();
+
+  }, []);
+
   return (
     <Fragment>
       {app && authConfig && (
-        <div style={{ height: '100vh', width: '100vw' }}>
+        <div style={{ height: '776px', width: '100vw' }}>
           <Box
             className='app-chat'
             sx={{
               width: `calc(100% - 32px)`,
-              height: `calc(100% - 120px)`,
+              height: `calc(100% - 10px)`,
               display: 'flex',
               overflow: 'hidden',
               position: 'relative',

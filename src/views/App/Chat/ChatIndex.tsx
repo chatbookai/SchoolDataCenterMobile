@@ -39,8 +39,6 @@ const AppChat = (props: any) => {
   const [historyCounter, setHistoryCounter] = useState<number>(0)
   const [stopMsg, setStopMsg] = useState<boolean>(false)
 
-  const anonymousUserId: string = getAnonymousUserId()
-
   const userType = authConfig.type
 
   const getChatLogList = async function (appId: string, appTemplate: string) {
@@ -185,7 +183,6 @@ const AppChat = (props: any) => {
 
   // ** Hooks
   const theme = useTheme()
-  const { settings } = useSettings()
   const hidden = false
 
   useEffect(() => {
@@ -306,7 +303,6 @@ const AppChat = (props: any) => {
   }
 
   // ** Vars
-  const { skin } = settings
   const mdAbove = useMediaQuery(theme.breakpoints.up('md'))
   const statusObj: StatusObjType = {
     busy: 'error',

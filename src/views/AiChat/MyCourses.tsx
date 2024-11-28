@@ -40,7 +40,6 @@ const MyCourses = ({authConfig}: any) => {
   const [pageModel, setPageModel] = useState<string>('Main')
   const [courseItem, setCourseItem] = useState<any>(null)
 
-  const contentHeightFixed = {}
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
   const [Title, setTitle] = useState<string>(t('AI教学') as string)
@@ -141,7 +140,7 @@ const MyCourses = ({authConfig}: any) => {
         component="main"
         sx={{
           flex: 1,
-          overflowY: 'auto',
+          overflowY: 'hidden',
           overflowX: 'hidden',
           marginTop: '35px', // Adjust according to the height of the AppBar
           marginBottom: '56px', // Adjust according to the height of the Footer

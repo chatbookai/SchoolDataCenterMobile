@@ -71,11 +71,12 @@ const SendMsgForm = (props: any) => {
   };
 
   return (
-    <Form onSubmit={handleSendMsg}>
+    <Form onSubmit={handleSendMsg} sx={{mb: 3, p: 1}}>
       <ChatFormWrapper>
         <Box sx={{
               position: 'relative', // 设置为相对定位
-              flexGrow: 1
+              flexGrow: 1,
+              width: '100%'
         }}>
           <TextareaAutosize
             minRows={rowInMsg}
