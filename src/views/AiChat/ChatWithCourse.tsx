@@ -1,9 +1,7 @@
 
 import Index from 'src/views/App/Chat/Index';
 
-const ChatApp = ({authConfig}: any) => {
-
-  const app = {id: 'ididididid', avatar: '1.png', SystemPrompt: 'System Prompt', Model: {}, WelcomeText: 'Welcome Text', QuestionGuide: {} }
+const ChatApp = ({authConfig, app}: any) => {
 
   return <Index authConfig={authConfig} app={app} />
 

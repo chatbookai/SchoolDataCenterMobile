@@ -170,8 +170,6 @@ const AppChat = (props: any) => {
   const [questionGuide, setQuestionGuide] = useState<any>()
   const [GetTTSFromAppValue, setGetTTSFromAppValue] = useState<any>();
 
-
-
   const lastChat = {
     "message": processingMessage,
     "time": Date.now(),
@@ -250,9 +248,9 @@ const AppChat = (props: any) => {
       setGetTTSFromAppValue(GetTTSFromApp())
 
       setChatId('ChatApp')
-      if(app && app.PublishApp && app.PublishApp.name) {
-        setChatName(app.PublishApp.name)
-        setChatId(app.PublishApp._id)
+      if(app && app['课程名称']) {
+        setChatName(app['课程名称'])
+        setChatId(app['id'])
       }
       else {
         setChatName(app.name)
@@ -350,9 +348,7 @@ const AppChat = (props: any) => {
           borderRadius: 1,
           overflow: 'hidden',
           position: 'relative',
-          backgroundColor: 'background.paper',
-          boxShadow: skin === 'bordered' ? 0 : 6,
-          ...(skin === 'bordered' && { border: `1px solid ${theme.palette.divider}` })
+          backgroundColor: 'background.paper'
         }}
       >
       <ChatContent

@@ -254,8 +254,18 @@ const ChatLog = (props: any) => {
                 alt: chatName
               }}
             >
-              {app.name}
             </CustomAvatar>
+            <Typography
+              sx={{
+                width: 'fit-content',
+                fontSize: '0.875rem',
+                p: theme => theme.spacing(0.5, 2, 0.5, 2),
+                ml: 1,
+                color: 'text.primary',
+              }}
+              >
+                {t('AI')}
+            </Typography>
             {sendButtonDisable == true && index == ChatItemMsgList.length - 1  ?
             <Fragment>
               <Typography

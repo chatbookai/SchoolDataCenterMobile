@@ -100,11 +100,11 @@ const ChatContent = (props: any) => {
                       />
                     </Badge>
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                      <Typography sx={{ fontWeight: 500, fontSize: '0.875rem' }}>
+                      <Typography sx={{ fontWeight: 500, fontSize: '1rem' }}>
                         {chatName}
                       </Typography>
-                      <Typography variant='caption' sx={{ color: 'primary.secondary', ml: '8px', pt: 0.4 }}>
-                        {GetModelFromAppValue?.value}
+                      <Typography variant='caption' sx={{ color: 'primary.secondary', ml: '8px', pt: 1 }}>
+                        {app['考核']}
                       </Typography>
                     </Box>
 

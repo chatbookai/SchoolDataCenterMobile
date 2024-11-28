@@ -20,6 +20,7 @@ import { styled } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
 
 import { DecryptDataAES256GCM } from 'src/configs/functions'
+import ChatWithCourse from './ChatWithCourse'
 
 const ContentWrapper = styled('main')(({ theme }) => ({
   flexGrow: 1,
@@ -36,6 +37,8 @@ const MyCourses = ({authConfig}: any) => {
   const { t } = useTranslation()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [myCoursesList, setMyCoursesList] = useState<any[]>([])
+  const [pageModel, setPageModel] = useState<string>('Main')
+  const [courseItem, setCourseItem] = useState<any>(null)
 
   const contentHeightFixed = {}
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
@@ -43,6 +46,11 @@ const MyCourses = ({authConfig}: any) => {
   const [Title, setTitle] = useState<string>(t('AI教学') as string)
   const [RightButtonText, setRightButtonText] = useState<string>('')
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
+
+  const handleSetChatWithCourse = async (item: any) => {
+    setPageModel("ChatWithCourse")
+    setCourseItem({...item, id: 'ididididid', avatar: '1.png', SystemPrompt: 'System Prompt', Model: {}, WelcomeText: 'Welcome Text', QuestionGuide: {} })
+  }
 
   const handelGetMyCoursesList = async () => {
     const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
@@ -140,30 +148,24 @@ const MyCourses = ({authConfig}: any) => {
           paddingTop: 'env(safe-area-inset-top)'
         }}
       >
-        <ContentWrapper
-            className='layout-page-content'
-            sx={{
-                ...(contentHeightFixed && {
-                overflow: 'hidden',
-                '& > :first-of-type': { height: `calc(100% - 104px)` }
-                })
-            }}
-            >
-              {isLoading && myCoursesList.length == 0 ? (
-                    <Grid item xs={12} sm={12} container justifyContent="space-around">
-                        <Box sx={{ mt: 6, mb: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                            <CircularProgress />
-                            <Typography sx={{pt:5, pb:5}}>加载中...</Typography>
-                        </Box>
-                    </Grid>
-                ) : (
-                <Grid container spacing={0}>
-                  {myCoursesList && myCoursesList.length > 0 && myCoursesList.map((item: any, index: number) => {
+        <ContentWrapper>
+              {pageModel == "Main" && (
+                <Fragment>
+                  {isLoading && myCoursesList.length == 0 ? (
+                        <Grid item xs={12} sm={12} container justifyContent="space-around">
+                            <Box sx={{ mt: 6, mb: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                                <CircularProgress />
+                                <Typography sx={{pt:5, pb:5}}>加载中...</Typography>
+                            </Box>
+                        </Grid>
+                    ) : (
+                    <Grid container spacing={0}>
+                      {myCoursesList && myCoursesList.length > 0 && myCoursesList.map((item: any, index: number) => {
 
-                    return (
-                      <Grid item xs={12} sx={{ pb: 2, }} key={index}>
-                        <Card>
-                          <CardContent>
+                        return (
+                          <Grid item xs={12} sx={{ pb: 2, }} key={index}>
+                            <Card>
+                              <CardContent onClick={()=>handleSetChatWithCourse(item)}>
                                   <Grid item xs={12} >
                                     <Typography variant='body2' sx={{ fontWeight: 'bold', color: 'text.primary', display: 'flex', alignItems: 'center' }}>
                                     {item['班级名称']}
@@ -179,13 +181,20 @@ const MyCourses = ({authConfig}: any) => {
                                       教师:{item['教师姓名']}
                                     </Typography>
                                   </Grid>
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    )
-                  })}
-                </Grid>
-                )}
+                              </CardContent>
+                            </Card>
+                          </Grid>
+                        )
+                      })}
+                    </Grid>
+                  )}
+                </Fragment>
+              )}
+              {pageModel == "ChatWithCourse" && (
+                <Fragment>
+                  <ChatWithCourse authConfig={authConfig} app={courseItem}/>
+                </Fragment>
+              )}
         </ContentWrapper>
       </Box>
     </Fragment>

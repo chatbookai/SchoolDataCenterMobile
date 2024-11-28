@@ -13,7 +13,7 @@ import Setting from '../Setting/Setting'
 import Index from '../Index/Index'
 import Application from '../Application/Application'
 import Login from '../Login/Login'
-import MyCourses from '../AiChat/ChatWithCourse'
+import MyCourses from '../AiChat/MyCourses'
 
 import { useTranslation } from 'react-i18next'
 import { getConfig, defaultConfig } from 'src/configs/auth'
