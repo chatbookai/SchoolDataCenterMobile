@@ -9,7 +9,7 @@ import { useTheme } from '@mui/material/styles'
 import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Chat App Components Imports
-import ChatIndex from 'src/views/App/chat/ChatIndex'
+import ChatIndex from 'src/views/App/Chat01/ChatIndex'
 
 const Chat = ({authConfig, app}: any) => {
 

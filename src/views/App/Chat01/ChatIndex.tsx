@@ -14,7 +14,7 @@ import { StatusObjType } from 'src/types/apps/chatTypes'
 import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Chat App Components Imports
-import ChatContent from 'src/views/App/chat/ChatContent'
+import ChatContent from 'src/views/App/Chat01/ChatContent'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
