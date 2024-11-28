@@ -1,5 +1,5 @@
 
-import Index from 'src/views/App/chat/Index';
+import Index from 'src/views/App/Chat/Index';
 
 const ChatApp = ({authConfig}: any) => {
 

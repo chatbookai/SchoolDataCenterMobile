@@ -11,7 +11,7 @@ import Button from '@mui/material/Button'
 // ** Custom Components Import
 import ChatLog from './ChatLog'
 import { useTranslation } from 'react-i18next'
-import SendMsgForm from 'src/views/App/Chat01/SendMsgForm'
+import SendMsgForm from 'src/views/App/Chat/SendMsgForm'
 import { AppAvatar } from 'src/functions/ChatBook'
 
 const ChatContent = (props: any) => {

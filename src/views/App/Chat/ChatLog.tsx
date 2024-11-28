@@ -18,7 +18,7 @@ import Tooltip from '@mui/material/Tooltip'
 import { useTranslation } from 'react-i18next'
 import CircularProgress from '@mui/material/CircularProgress'
 
-import ChatContextPreview from 'src/views/App/Chat01/ChatContextPreview'
+import ChatContextPreview from 'src/views/App/Chat/ChatContextPreview'
 
 import { AppAvatar } from 'src/functions/ChatBook'
 
