@@ -98,11 +98,19 @@ const ChatContent = (props: any) => {
                       />
                     </Badge>
                     <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                      <Typography sx={{ fontWeight: 500, fontSize: '1rem' }}>
+                      <Typography sx={{ fontWeight: 500, fontSize: '1rem', whiteSpace: 'nowrap', }}>
                         {chatName}
                       </Typography>
-                      <Typography variant='caption' sx={{ color: 'primary.secondary', ml: '8px', pt: 1 }}>
-                        {app['班级名称']} {app['考核']}
+                      <Typography variant='caption' sx={{
+                                                        color: 'primary.secondary',
+                                                        ml: '8px',
+                                                        pt: 1,
+                                                        whiteSpace: 'nowrap', // 防止文本换行
+                                                        overflow: 'hidden',   // 隐藏溢出的文本
+                                                        textOverflow: 'ellipsis', // 显示省略号
+                                                        maxWidth: '100%',     // 限制最大宽度
+                                                      }}>
+                        {app['班级名称']}
                       </Typography>
                     </Box>
 
