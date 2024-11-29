@@ -220,7 +220,7 @@ const ChatIndex = (props: any) => {
         setRefreshChatCounter(refreshChatCounter + 1)
       }
       setSendButtonText(t("Send") as string)
-      setSendInputText(t("Your message...") as string)
+      setSendInputText(t("Your input...") as string)
 
       const GetSystemPromptFromAppValueTemp = GetSystemPromptFromApp(app)
       setGetSystemPromptFromAppValue(GetSystemPromptFromAppValueTemp)
@@ -294,7 +294,7 @@ const ChatIndex = (props: any) => {
         setSendButtonLoading(false)
         setRefreshChatCounter(refreshChatCounter + 2)
         setSendButtonText(t("Send") as string)
-        setSendInputText(t("Your message...") as string)
+        setSendInputText(t("Your input...") as string)
       }
     }
   }

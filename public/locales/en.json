@@ -68,5 +68,20 @@
   "My": "My",
   "I agree": "I agree",
   "Login Tip": "Verifying user identity, please wait",
-  "Logout Tip": "Logging out, please wait"
+  "Logout Tip": "Logging out, please wait",
+  "AI": "AI",
+  "AI Chat": "AI Chat",
+  "QuestionGuide": "Question Guide",
+  "ContextCount": "Context Count",
+  "ViewDetail": "View Detail",
+  "RunningTime": "Running Time",
+  "Clear": "Clear",
+  "Your input...": "Your input...",
+  "Answering...": "Answering...",
+  "Send": "Send",
+  "Sending": "Sending",
+  "Chat Log Preview": "Chat Log Preview",
+  "System": "System",
+  "Human": "Human",
+  "ReGenerate": "ReGenerate"
 }

@@ -328,7 +328,7 @@ const ChatLog = (props: any) => {
                                       borderRadius: 1,
                                       width: isSender ? 'fit-content' : '100%',
                                       fontSize: '0.875rem',
-                                      p: theme => theme.spacing(0.1, 2, 0.1, 3),
+                                      p: theme => theme.spacing(0, 2, 1, 2),
                                       ml: isSender ? 'auto' : undefined,
                                       borderTopLeftRadius: !isSender ? 0 : undefined,
                                       borderTopRightRadius: isSender ? 0 : undefined,
@@ -336,16 +336,16 @@ const ChatLog = (props: any) => {
                                       backgroundColor: isSender ? 'primary.main' : 'background.paper'
                                     }}
                         >
-                          { /\[.*?\]/.test(chat.msg) ?
+                          { ChatIndex == 0 ?
                             <SystemPromptTemplate text={chat.msg} handleSendMsg={handleSendMsg}/>
                           :
-                            <ReactMarkdown>{chat.msg.replaceAll('\n', ' \n')}</ReactMarkdown>
+                            <ReactMarkdown>{chat.msg}</ReactMarkdown>
                           }
                           {GetQuestionGuideFromAppValue && !isSender && index == ChatItemMsgList.length - 1 && index>0 && questionGuide ?
                             <Box>
                               <Box display="flex" alignItems="center">
                                 <Avatar src={'/images/aichat/cq.png'} sx={{ mr: 2.5, width: 26, height: 26 }} />
-                                {t('QuestionGuide')}{questionGuide.length}
+                                {t('QuestionGuide')}
                               </Box>
                               {questionGuide && questionGuide.length > 0 && Array.isArray(questionGuide) && questionGuide.map((question: string, index: number)=>{
 
@@ -380,7 +380,7 @@ const ChatLog = (props: any) => {
                             >
                               {!isSender && Number(chat.responseTime) > 0 && ( (index + 1 == ChatItemMsgList.length && !sendButtonDisable) || (index + 1 < ChatItemMsgList.length))?
                               <Box display="flex" alignItems="center" justifyContent="left" borderRadius="8px" p={0} mb={1} >
-                                  <Tooltip title={t('ClickViewContentPreview')}>
+                                  <Tooltip title={t('ViewDetail')}>
                                     <Button color='success' size="small" style={{ whiteSpace: 'nowrap' }} onClick={()=>{
                                       const historyAll: any[] = [...chat.history]
                                       historyAll.push([chat.question, chat.msg])
@@ -390,11 +390,8 @@ const ChatLog = (props: any) => {
                                       {t('ContextCount')}({(chat.history.length+1)*2+1})
                                     </Button>
                                   </Tooltip>
-                                  <Tooltip title={t('ModuleRunningTime')}>
+                                  <Tooltip title={t('RunningTime')}>
                                     <Button color='error' size="small" style={{ whiteSpace: 'nowrap' }} disableTouchRipple disableRipple>{chat.responseTime}S</Button>
-                                  </Tooltip>
-                                  <Tooltip title={t('ClickViewDetailFlow')}>
-                                    <Button color='warning' size="small" style={{ whiteSpace: 'nowrap' }}>{t('ViewDetail')}</Button>
                                   </Tooltip>
                                   <Button color='info' size="small" disabled style={{ whiteSpace: 'nowrap' }}>
                                   {chat.time ? new Date(Number(chat.time)).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) : null}

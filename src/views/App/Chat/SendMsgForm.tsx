@@ -13,11 +13,11 @@ const ChatFormWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   boxShadow: theme.shadows[1],
-  padding: theme.spacing(1.25, 4),
+  padding: theme.spacing(1.25, 2, 1.25, 3),
   justifyContent: 'space-between',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: theme.palette.background.paper,
-  marginTop: 2
+  marginTop: 3
 }))
 
 const Form = styled('form')(({ theme }) => ({
@@ -90,9 +90,8 @@ const SendMsgForm = (props: any) => {
                 width: 'calc(100% - 100px)', // 减去按钮宽度
                 marginRight: '2px', // 为按钮留出空间
                 resize: 'none',
-                backgroundColor: 'transparent', // 设置背景为透明
                 border: 'none', // 移除边框
-                padding: '0.5rem 0.1rem',
+                padding: '0.5rem 0.1rem 0.5rem 0.1rem',
                 fontFamily: 'inherit', // 使用默认字体
                 fontWeight: '1000', // 使用默认字体粗细
                 color: 'inherit', // 使用默认字体颜色
