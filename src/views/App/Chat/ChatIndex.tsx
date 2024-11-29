@@ -109,7 +109,7 @@ const ChatIndex = (props: any) => {
       setHistoryCounter(0)
       setRefreshChatCounter(0)
 
-      const data: any = {appId: app._id, userType: userType}
+      const data: any = {appId: app.id, userType: userType}
       const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog/clear/', data, {
         headers: {
           Authorization: authorization,
@@ -132,8 +132,8 @@ const ChatIndex = (props: any) => {
       DeleteChatChatByChatlogId(chatlogId)
       DeleteChatChatHistoryByChatlogId(userId, chatId, app.id, chatlogId)
 
-      const data: any = {chatlogId: chatlogId, appId: app._id, userType: userType}
-      const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog/delete', data, {
+      const data: any = {chatlogId: chatlogId, appId: app.id, userType: userType, action: 'delete'}
+      const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog.php', data, {
                           headers: {
                             Authorization: authorization,
                             'Content-Type': 'application/json'
@@ -229,7 +229,7 @@ const ChatIndex = (props: any) => {
 
       const GetWelcomeTextFromAppTemp = GetWelcomeTextFromApp(app)
       setGetWelcomeTextFromAppValue(GetWelcomeTextFromAppTemp)
-      getChatLogList(app._id, GetWelcomeTextFromAppTemp)
+      getChatLogList(app.id, GetWelcomeTextFromAppTemp)
 
       setGetQuestionGuideFromAppValue(GetQuestionGuideFromApp(app))
       setGetTTSFromAppValue(GetTTSFromApp())
@@ -241,7 +241,7 @@ const ChatIndex = (props: any) => {
       }
       else {
         setChatName(app.name)
-        setChatId(app._id)
+        setChatId(app.id)
       }
 
     }
