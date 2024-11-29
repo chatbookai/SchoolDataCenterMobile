@@ -102,7 +102,7 @@ const ChatContent = (props: any) => {
                         {chatName}
                       </Typography>
                       <Typography variant='caption' sx={{ color: 'primary.secondary', ml: '8px', pt: 1 }}>
-                        {app['考核']}
+                        {app['班级名称']} {app['考核']}
                       </Typography>
                     </Box>
 

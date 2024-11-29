@@ -74,7 +74,7 @@ const SendMsgForm = (props: any) => {
     <Form onSubmit={handleSendMsg} sx={{mb: 3, p: 1}}>
       <ChatFormWrapper>
         <Box sx={{
-              position: 'relative', // 设置为相对定位
+              position: 'relative',
               flexGrow: 1,
               width: '100%'
         }}>
@@ -91,7 +91,7 @@ const SendMsgForm = (props: any) => {
                 marginRight: '2px', // 为按钮留出空间
                 resize: 'none',
                 border: 'none', // 移除边框
-                padding: '0.5rem 0.1rem 0.5rem 0.1rem',
+                padding: '0.5rem 0.1rem 0.5rem 0.5rem',
                 fontFamily: 'inherit', // 使用默认字体
                 fontWeight: '1000', // 使用默认字体粗细
                 color: 'inherit', // 使用默认字体颜色
@@ -101,7 +101,7 @@ const SendMsgForm = (props: any) => {
             }}
           />
           {sendButtonDisable ?
-          <Box sx={{ bottom: 0, right: 0, position: 'absolute', mt: 0.6, whiteSpace: 'nowrap' }} >
+          <Box sx={{ bottom: 6, right: 0, position: 'absolute', whiteSpace: 'nowrap' }} >
             <CircularProgress size={20} color="inherit"/>
           </Box>
           :

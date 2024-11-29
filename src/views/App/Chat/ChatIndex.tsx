@@ -44,7 +44,7 @@ const ChatIndex = (props: any) => {
     console.log("getChatLogList",userType)
     try {
       if(userId && authorization) {
-        const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog.php', {appId, pageId: 0}, {
+        const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog.php', {appId, pageId: 0, action: 'getChatList'}, {
           headers: {
             Authorization: authorization,
             'Content-Type': 'application/json'
@@ -109,14 +109,14 @@ const ChatIndex = (props: any) => {
       setHistoryCounter(0)
       setRefreshChatCounter(0)
 
-      const data: any = {appId: app.id, userType: userType}
-      const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog/clear/', data, {
+      const data: any = {appId: app.id, action: 'deleteByChatApp'}
+      const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog.php', data, {
         headers: {
           Authorization: authorization,
           'Content-Type': 'application/json'
         }
       }).then(res=>res.data)
-      if(RS && RS.status == 'ok') {
+      if(RS && RS.status == 'OK') {
         toast.success(t(RS.msg) as string, { duration: 2500, position: 'top-center' })
       }
       else {
@@ -132,14 +132,14 @@ const ChatIndex = (props: any) => {
       DeleteChatChatByChatlogId(chatlogId)
       DeleteChatChatHistoryByChatlogId(userId, chatId, app.id, chatlogId)
 
-      const data: any = {chatlogId: chatlogId, appId: app.id, userType: userType, action: 'delete'}
+      const data: any = {chatlogId: chatlogId, appId: app.id, userType: userType, action: 'deleteByChatId'}
       const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog.php', data, {
                           headers: {
                             Authorization: authorization,
                             'Content-Type': 'application/json'
                           }
                         }).then(res=>res.data)
-      if(RS && RS.status == 'ok') {
+      if(RS && RS.status == 'OK') {
         setRefreshChatCounter(refreshChatCounter + 1)
         toast.success(t(RS.msg) as string, { duration: 2500, position: 'top-center' })
       }

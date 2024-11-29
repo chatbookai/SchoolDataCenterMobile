@@ -83,5 +83,6 @@
   "Chat Log Preview": "Chat Log Preview",
   "System": "System",
   "Human": "Human",
-  "ReGenerate": "ReGenerate"
+  "ReGenerate": "ReGenerate",
+  "Generating, please wait...": "Generating, please wait..."
 }
