@@ -30,11 +30,9 @@ const ChatContent = (props: any) => {
     ClearButtonClick,
     historyCounter,
     app,
-    GetSystemPromptFromAppValue,
     handleDeleteOneChatLogById,
     userType,
     questionGuide,
-    GetQuestionGuideFromAppValue,
     GetTTSFromAppValue,
     setStopMsg
   } = props
@@ -110,7 +108,7 @@ const ChatContent = (props: any) => {
                                                         textOverflow: 'ellipsis', // 显示省略号
                                                         maxWidth: '100%',     // 限制最大宽度
                                                       }}>
-                        {app['班级名称']}
+                        {app['AppName2']}
                       </Typography>
                     </Box>
 
@@ -122,9 +120,9 @@ const ChatContent = (props: any) => {
               </Box>
 
               {store && store.selectedChat ?
-                <ChatLog authConfig={authConfig} hidden={hidden} data={{ ...store.selectedChat, userContact: store.userProfile }} chatId={chatId} chatName={chatName} app={app} rowInMsg={rowInMsg} maxRows={maxRows} sendButtonDisable={sendButtonDisable} GetSystemPromptFromAppValue={GetSystemPromptFromAppValue} handleDeleteOneChatLogById={handleDeleteOneChatLogById} sendMsg={sendMsg} store={store} userType={userType} questionGuide={questionGuide} GetQuestionGuideFromAppValue={GetQuestionGuideFromAppValue} GetTTSFromAppValue={GetTTSFromAppValue}/>
+                <ChatLog authConfig={authConfig} hidden={hidden} data={{ ...store.selectedChat, userContact: store.userProfile }} chatId={chatId} chatName={chatName} app={app} rowInMsg={rowInMsg} maxRows={maxRows} sendButtonDisable={sendButtonDisable} handleDeleteOneChatLogById={handleDeleteOneChatLogById} sendMsg={sendMsg} store={store} userType={userType} questionGuide={questionGuide} GetTTSFromAppValue={GetTTSFromAppValue}/>
               :
-                <ChatLog authConfig={authConfig} hidden={hidden} data={{}} chatId={chatId} chatName={chatName} app={app} rowInMsg={rowInMsg} maxRows={maxRows} sendButtonDisable={sendButtonDisable} GetSystemPromptFromAppValue={GetSystemPromptFromAppValue} handleDeleteOneChatLogById={handleDeleteOneChatLogById} sendMsg={sendMsg} store={store} userType={userType} questionGuide={questionGuide} GetQuestionGuideFromAppValue={GetQuestionGuideFromAppValue} GetTTSFromAppValue={GetTTSFromAppValue}/>
+                <ChatLog authConfig={authConfig} hidden={hidden} data={{}} chatId={chatId} chatName={chatName} app={app} rowInMsg={rowInMsg} maxRows={maxRows} sendButtonDisable={sendButtonDisable} handleDeleteOneChatLogById={handleDeleteOneChatLogById} sendMsg={sendMsg} store={store} userType={userType} questionGuide={questionGuide} GetTTSFromAppValue={GetTTSFromAppValue}/>
               }
 
               <SendMsgForm authConfig={authConfig} store={store} sendMsg={sendMsg} sendButtonDisable={sendButtonDisable} sendButtonLoading={sendButtonLoading} sendButtonText={sendButtonText} sendInputText={sendInputText} rowInMsg={rowInMsg} handleSetRowInMsg={handleSetRowInMsg} maxRows={maxRows} setStopMsg={setStopMsg}/>

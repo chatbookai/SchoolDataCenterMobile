@@ -24,7 +24,7 @@ const PerfectScrollbar = styled(PerfectScrollbarComponent)<ScrollBarProps & { re
 
 const ChatContextPreview = (props: any) => {
     // ** Props
-    const {contextPreviewOpen, setContextPreviewOpen, contextPreviewData, GetSystemPromptFromAppValue } = props
+    const {contextPreviewOpen, setContextPreviewOpen, contextPreviewData, app } = props
 
     // ** Hook
     const { t } = useTranslation()
@@ -55,7 +55,7 @@ const ChatContextPreview = (props: any) => {
                                     {t('System')}
                                 </Typography>
                                 <Typography sx={{ color: 'action.active', fontSize: '0.8125rem' }}>
-                                    <ReactMarkdown>{GetSystemPromptFromAppValue.replace('\n', '  \n')}</ReactMarkdown>
+                                    <ReactMarkdown>{app.SystemPrompt.replace('\n', '  \n')}</ReactMarkdown>
                                 </Typography>
                             </Box>
                         </Card>
@@ -80,7 +80,7 @@ const ChatContextPreview = (props: any) => {
                                     <Card sx={{mt: 2}}>
                                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'space-between', pt: 4, px: 4, m: 0 }}>
                                             <Typography sx={{ fontSize: '0.875rem' }}>
-                                                {t('AI')}
+                                                {t('AI Assistant')}
                                             </Typography>
                                             <Typography sx={{ color: 'action.active', fontSize: '0.8125rem' }}>
                                                 <ReactMarkdown>{item[1].replace('\n', '  \n')}</ReactMarkdown>

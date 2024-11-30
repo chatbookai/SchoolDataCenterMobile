@@ -89,7 +89,7 @@ const SystemPromptTemplate = ({text, handleSendMsg}: any) => {
 const ChatLog = (props: any) => {
   // ** Props
   const { t } = useTranslation()
-  const { authConfig, data, hidden, chatName, app, rowInMsg, maxRows, sendButtonDisable, GetSystemPromptFromAppValue, handleDeleteOneChatLogById, sendMsg, store, questionGuide, GetQuestionGuideFromAppValue } = props
+  const { authConfig, data, hidden, chatName, app, rowInMsg, maxRows, sendButtonDisable, handleDeleteOneChatLogById, sendMsg, store, questionGuide } = props
 
   const handleSendMsg = (msg: string) => {
     if (store && store.selectedChat && msg.trim().length) {
@@ -264,7 +264,7 @@ const ChatLog = (props: any) => {
                 color: 'text.primary',
               }}
               >
-                {t('AI')}
+                {t('AI Assistant')}
             </Typography>
             {sendButtonDisable == true && index == ChatItemMsgList.length - 1  ?
             <Fragment>
@@ -341,7 +341,7 @@ const ChatLog = (props: any) => {
                           :
                             <ReactMarkdown>{chat.msg}</ReactMarkdown>
                           }
-                          {GetQuestionGuideFromAppValue && !isSender && index == ChatItemMsgList.length - 1 && index>0 && questionGuide ?
+                          {!isSender && index == ChatItemMsgList.length - 1 && index>0 && questionGuide ?
                             <Box>
                               <Box display="flex" alignItems="center">
                                 <Avatar src={'/images/aichat/cq.png'} sx={{ mr: 2.5, width: 26, height: 26 }} />
@@ -497,7 +497,7 @@ const ChatLog = (props: any) => {
       <Box sx={{ height: `calc(100% - 6.2rem - ${inputMsgHeight}rem)` }}>
         <ScrollWrapper hidden={hidden}>{renderChats()}</ScrollWrapper>
       </Box>
-      <ChatContextPreview contextPreviewOpen={contextPreviewOpen} setContextPreviewOpen={setContextPreviewOpen} contextPreviewData={contextPreviewData} GetSystemPromptFromAppValue={GetSystemPromptFromAppValue}/>
+      <ChatContextPreview contextPreviewOpen={contextPreviewOpen} setContextPreviewOpen={setContextPreviewOpen} contextPreviewData={contextPreviewData} app={app}/>
     </Fragment>
   )
 }

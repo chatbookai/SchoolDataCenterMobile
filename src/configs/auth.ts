@@ -36,5 +36,6 @@ export const defaultConfig = {
   storageTokenKeyName: 'accessToken',
   storageAccessKeyName: 'accessKey',
   storageMainMenus: 'storageMainMenus',
-  myCoursesList: 'myCoursesList',
+  storageChatApp: 'storageChatApp',
+  storageMyCoursesList: 'storageMyCoursesList',
 }

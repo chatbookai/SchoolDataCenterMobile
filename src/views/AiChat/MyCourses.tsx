@@ -20,7 +20,10 @@ import { styled } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
 
 import { DecryptDataAES256GCM } from 'src/configs/functions'
-import ChatIndex from 'src/views/App/Chat/ChatIndex';
+import ChatIndex from 'src/views/App/Chat/ChatIndex'
+import IconButton from '@mui/material/IconButton'
+
+import Icon from 'src/@core/components/icon'
 
 
 const ContentWrapper = styled('main')(({ theme }) => ({
@@ -38,8 +41,9 @@ const MyCourses = ({authConfig}: any) => {
   const { t } = useTranslation()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [myCoursesList, setMyCoursesList] = useState<any[]>([])
+  const [chatApp, setChatApp] = useState<any[]>([])
   const [pageModel, setPageModel] = useState<string>('Main')
-  const [courseItem, setCourseItem] = useState<any>(null)
+  const [app, setApp] = useState<any>(null)
 
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
@@ -47,24 +51,32 @@ const MyCourses = ({authConfig}: any) => {
   const [RightButtonText, setRightButtonText] = useState<string>('')
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
 
+  const QuestionGuideTemplate = '你是一个AI智能助手，可以回答和解决我的问题。请结合前面的对话记录，帮我生成 3 个问题，引导我继续提问。问题的长度应小于20个字符，要求使用UTF-8编码，按 JSON 格式返回: ["问题1", "问题2", "问题3"]'
+
   const handleSetChatWithCourse = async (item: any) => {
     setLeftIcon('ic:twotone-keyboard-arrow-left')
     setPageModel("ChatWithCourse")
-    setCourseItem({...item, id: 'ididididid', avatar: '1.png', SystemPrompt: '每次输出200-500字左右.', Model: {}, WelcomeText: '您好, 你是一个数学课程的老师,您有任何问题,都可以在此输入问题, 然后使用AI模型来得到答案.', QuestionGuideTemplate: '你是一个AI智能助手，可以回答和解决我的问题。请结合前面的对话记录，帮我生成 3 个问题，引导我继续提问。问题的长度应小于20个字符，要求使用UTF-8编码，按 JSON 格式返回: ["问题1", "问题2", "问题3"]' })
+    setApp({...item, id: 'ididididid', AppName: item['课程名称'], AppName2: item['班级名称'], avatar: '1.png', SystemPrompt: '每次输出200-500字左右.', Model: {}, WelcomeText: '您好, 你是一个数学课程的老师,您有任何问题,都可以在此输入问题, 然后使用AI模型来得到答案.', QuestionGuideTemplate })
+  }
+
+  const handleSetChatWithApp = async (item: any) => {
+    setLeftIcon('ic:twotone-keyboard-arrow-left')
+    setPageModel("ChatWithApp")
+    setApp({...item, id: "ChatApp-" + item.id, AppName2: item.AppModel, avatar: '1.png', Model: {}, QuestionGuideTemplate })
   }
 
   const handelGetMyCoursesList = async () => {
     const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
     const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
     if(window && defaultConfig)  {
-      const myCoursesListData = window.localStorage.getItem(defaultConfig.myCoursesList)
+      const myCoursesListData = window.localStorage.getItem(defaultConfig.storageMyCoursesList)
       if(myCoursesListData && myCoursesListData != undefined) {
         try {
           const myCoursesListJson = JSON.parse(myCoursesListData)
           setMyCoursesList(myCoursesListJson)
         }
         catch(Error: any) {
-            console.log("handleGetMainMenus myCoursesList Error", myCoursesList)
+            console.log("handelGetMyCoursesList myCoursesList Error", myCoursesList)
         }
       }
     }
@@ -90,7 +102,7 @@ const MyCourses = ({authConfig}: any) => {
               console.log("DecryptDataAES256GCMData ResJson", ResJson)
               setMyCoursesList(ResJson.data)
               setIsLoading(false)
-              window.localStorage.setItem(defaultConfig.myCoursesList, JSON.stringify(ResJson))
+              window.localStorage.setItem(defaultConfig.storageMyCoursesList, JSON.stringify(ResJson))
             }
             catch(Error: any) {
               console.log("DecryptDataAES256GCMData Error", Error)
@@ -101,12 +113,73 @@ const MyCourses = ({authConfig}: any) => {
           else {
             setMyCoursesList(data.data)
             setIsLoading(false)
-            window.localStorage.setItem(defaultConfig.myCoursesList, JSON.stringify(data.data))
+            window.localStorage.setItem(defaultConfig.storageMyCoursesList, JSON.stringify(data.data))
           }
         })
       }
       catch(Error: any) {
         console.log("handelGetMyCoursesList Error", Error)
+        setIsLoading(false)
+
+        return []
+      }
+    }
+  }
+
+  const handelGetChatAppList = async () => {
+    const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
+    const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
+    if(window && defaultConfig)  {
+      const myCoursesListData = window.localStorage.getItem(defaultConfig.storageChatApp)
+      if(myCoursesListData && myCoursesListData != undefined) {
+        try {
+          const myCoursesListJson = JSON.parse(myCoursesListData)
+          setChatApp(myCoursesListJson)
+        }
+        catch(Error: any) {
+            console.log("handelGetChatAppList chatApp Error", chatApp)
+        }
+      }
+    }
+    if(window && authConfig && (chatApp.length == 0))   {
+      try {
+        await axios.get(authConfig.backEndApiHost + 'aichat/chatapp.php', {
+          headers: {
+            Authorization: storedToken
+          },
+          params: { action: 'getAppList' }
+        }).then(res => {
+          const data = res.data
+          if(data && data.data && data.isEncrypted == "1")  {
+            const i = data.data.slice(0, 32);
+            const t = data.data.slice(-32);
+            const e = data.data.slice(32, -32);
+            const k = AccessKey;
+            console.log("kkkkkk1234", k)
+            const DecryptDataAES256GCMData = DecryptDataAES256GCM(e, i, t, k)
+            console.log("kkkkkk1234", DecryptDataAES256GCMData)
+            try {
+              const ResJson = JSON.parse(DecryptDataAES256GCMData)
+              console.log("DecryptDataAES256GCMData ResJson", ResJson)
+              setChatApp(ResJson.data)
+              setIsLoading(false)
+              window.localStorage.setItem(defaultConfig.storageChatApp, JSON.stringify(ResJson))
+            }
+            catch(Error: any) {
+              console.log("DecryptDataAES256GCMData Error", Error)
+              setChatApp([])
+              setIsLoading(false)
+            }
+          }
+          else {
+            setChatApp(data.data)
+            setIsLoading(false)
+            window.localStorage.setItem(defaultConfig.storageChatApp, JSON.stringify(data.data))
+          }
+        })
+      }
+      catch(Error: any) {
+        console.log("handelGetChatAppList Error", Error)
         setIsLoading(false)
 
         return []
@@ -123,6 +196,7 @@ const MyCourses = ({authConfig}: any) => {
 
   const LeftIconOnClick = () => {
     switch(pageModel) {
+      case 'ChatWithApp':
       case 'ChatWithCourse':
         handleWalletGoHome()
         break
@@ -137,6 +211,8 @@ const MyCourses = ({authConfig}: any) => {
     setHeaderHidden(false)
     setRightButtonIcon('')
     handelGetMyCoursesList()
+    handelGetChatAppList()
+
   }, []);
 
   return (
@@ -166,13 +242,46 @@ const MyCourses = ({authConfig}: any) => {
                         </Grid>
                     ) : (
                     <Grid container spacing={0}>
+
+                      {chatApp && chatApp.length > 0 && chatApp.map((item: any, index: number) => {
+
+                        return (
+                          <Card key={index} sx={{ width: '100%', mb: 2}}>
+                            <Box my={2} key={index} sx={{ width: '100%'}}>
+                              <Typography variant="h6" sx={{ py: 0.5, pl: 2, borderRadius: '5px', mb: 2, fontSize: '16px' }}>
+                                {item.title}
+                              </Typography>
+                              <Grid container spacing={2}>
+                                {item.children && item.children.map((childItem: any, index: number) => (
+                                  <Grid item xs={3} key={index}>
+                                    <Box textAlign="center" sx={{my: 0}} onClick={()=>handleSetChatWithApp(childItem)}>
+                                      <IconButton aria-label='capture screenshot' color='info'>
+                                        <Icon icon={childItem.AppAvatar} fontSize='inherit' style={{ width: '42px', height: '42px' }}/>
+                                      </IconButton>
+                                      <Typography variant="body2"
+                                        sx={{
+                                          my: 0,
+                                          whiteSpace: 'nowrap',
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis'
+                                        }}
+                                      >{childItem.AppName}</Typography>
+                                    </Box>
+                                  </Grid>
+                                ))}
+                              </Grid>
+                            </Box>
+                          </Card>
+                        )
+                      })}
+
                       {myCoursesList && myCoursesList.length > 0 && myCoursesList.map((item: any, index: number) => {
 
                         return (
-                          <Grid item xs={12} sx={{ pb: 2, }} key={index}>
+                          <Grid item xs={12} sx={{ mb: 2, }} key={index}>
                             <Card>
-                              <CardContent onClick={()=>handleSetChatWithCourse(item)}>
-                                  <Grid item xs={12} >
+                              <CardContent onClick={()=>handleSetChatWithCourse(item)} sx={{m: 1, p: 1, pl: 3, mb: 0, pb: 0}}>
+                                  <Grid item xs={12} mt={2}>
                                     <Typography variant='body2' sx={{ fontWeight: 'bold', color: 'text.primary', display: 'flex', alignItems: 'center' }}>
                                     {item['班级名称']}
                                     </Typography>
@@ -196,9 +305,16 @@ const MyCourses = ({authConfig}: any) => {
                   )}
                 </Fragment>
               )}
+
               {pageModel == "ChatWithCourse" && (
                 <Fragment>
-                  <ChatIndex authConfig={authConfig} app={courseItem}/>
+                  <ChatIndex authConfig={authConfig} app={app}/>
+                </Fragment>
+              )}
+
+              {pageModel == "ChatWithApp" && (
+                <Fragment>
+                  <ChatIndex authConfig={authConfig} app={app}/>
                 </Fragment>
               )}
         </ContentWrapper>

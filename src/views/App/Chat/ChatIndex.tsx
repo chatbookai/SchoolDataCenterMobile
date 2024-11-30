@@ -105,7 +105,7 @@ const ChatIndex = (props: any) => {
       setStore(storeInit)
 
       //Set system prompt
-      ChatChatInit([], GetWelcomeTextFromAppValue)
+      ChatChatInit([], app.WelcomeText)
       setHistoryCounter(0)
       setRefreshChatCounter(0)
 
@@ -158,10 +158,7 @@ const ChatIndex = (props: any) => {
   const [processingMessage, setProcessingMessage] = useState("")
   const [finishedMessage, setFinishedMessage] = useState("")
   const [responseTime, setResponseTime] = useState<number | null>(null);
-  const [GetSystemPromptFromAppValue, setGetSystemPromptFromAppValue] = useState<string>("");
   const [GetModelFromAppValue, setGetModelFromAppValue] = useState<any>();
-  const [GetWelcomeTextFromAppValue, setGetWelcomeTextFromAppValue] = useState<string>("");
-  const [GetQuestionGuideFromAppValue, setGetQuestionGuideFromAppValue] = useState<boolean>(false);
   const [questionGuide, setQuestionGuide] = useState<any>()
   const [GetTTSFromAppValue, setGetTTSFromAppValue] = useState<any>();
 
@@ -213,6 +210,8 @@ const ChatIndex = (props: any) => {
     }
   }, [refreshChatCounter, processingMessage, auth])
 
+  console.log("app.WelcomeText", app.WelcomeText)
+
   useEffect(() => {
     if(t && app)   {
       const ChatChatNameListData: string[] = ChatChatNameList()
@@ -222,50 +221,21 @@ const ChatIndex = (props: any) => {
       setSendButtonText(t("Send") as string)
       setSendInputText(t("Your input...") as string)
 
-      const GetSystemPromptFromAppValueTemp = GetSystemPromptFromApp(app)
-      setGetSystemPromptFromAppValue(GetSystemPromptFromAppValueTemp)
-
       setGetModelFromAppValue(GetModelFromApp(app))
 
-      const GetWelcomeTextFromAppTemp = GetWelcomeTextFromApp(app)
-      setGetWelcomeTextFromAppValue(GetWelcomeTextFromAppTemp)
-      getChatLogList(app.id, GetWelcomeTextFromAppTemp)
+      getChatLogList(app.id, app.WelcomeText)
 
-      setGetQuestionGuideFromAppValue(GetQuestionGuideFromApp(app))
       setGetTTSFromAppValue(GetTTSFromApp())
 
-      setChatId('ChatApp')
-      if(app && app['课程名称']) {
-        setChatName(app['课程名称'])
-        setChatId(app['id'])
-      }
-      else {
-        setChatName(app.name)
-        setChatId(app.id)
-      }
+      setChatName(app['AppName'])
+      setChatId(app['id'])
 
     }
   }, [t, app])
 
-  const GetSystemPromptFromApp = (app: any) => {
-
-    return app.SystemPrompt
-  }
-
   const GetModelFromApp = (app: any) => {
 
     return app.Model
-  }
-
-  const GetWelcomeTextFromApp = (app: any) => {
-
-    return app.WelcomeText
-  }
-
-  const GetQuestionGuideFromApp = (app: any) => {
-    console.log("GetQuestionGuideFromApp", app)
-
-    return true
   }
 
   const GetTTSFromApp = () => {
@@ -286,7 +256,7 @@ const ChatIndex = (props: any) => {
       ChatChatInput(_id, Obj.send, Obj.message, userId, 0, [])
       setRefreshChatCounter(refreshChatCounter + 1)
       const startTime = performance.now()
-      const ChatAiOutputV1Status = await ChatAiOutputV1(authConfig, _id, Obj.message, authorization, userId, chatId, app.id, setProcessingMessage, GetSystemPromptFromAppValue, setFinishedMessage, true, setQuestionGuide, app.QuestionGuideTemplate, stopMsg, setStopMsg, GetModelFromAppValue)
+      const ChatAiOutputV1Status = await ChatAiOutputV1(authConfig, _id, Obj.message, authorization, userId, chatId, app.id, setProcessingMessage, app.SystemPrompt, setFinishedMessage, true, setQuestionGuide, app.QuestionGuideTemplate, stopMsg, setStopMsg, GetModelFromAppValue)
       const endTime = performance.now();
       setResponseTime(endTime - startTime);
       if(ChatAiOutputV1Status)      {
@@ -349,12 +319,10 @@ const ChatIndex = (props: any) => {
         ClearButtonClick={ClearButtonClick}
         historyCounter={historyCounter}
         app={app}
-        GetSystemPromptFromAppValue={GetSystemPromptFromAppValue}
         handleDeleteOneChatLogById={handleDeleteOneChatLogById}
         userType={userType}
         GetModelFromAppValue={GetModelFromAppValue}
         questionGuide={questionGuide}
-        GetQuestionGuideFromAppValue={GetQuestionGuideFromAppValue}
         GetTTSFromAppValue={GetTTSFromAppValue}
         setStopMsg={setStopMsg}
         finishedMessage={finishedMessage}
