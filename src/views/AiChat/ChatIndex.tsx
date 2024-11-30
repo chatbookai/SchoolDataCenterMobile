@@ -3,15 +3,7 @@ import { useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import { useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import toast from 'react-hot-toast'
-
-// ** Types
-import { StatusObjType } from 'src/types/apps/chatTypes'
-
-// ** Chat App Components Imports
-import ChatContent from 'src/views/App/Chat/ChatContent'
 
 // ** Third Party Import
 import { useTranslation } from 'react-i18next'
@@ -19,6 +11,9 @@ import { useTranslation } from 'react-i18next'
 import { getNanoid, ChatChatList, ChatChatInit, ChatChatNameList, ChatChatInput, ChatAiOutputV1, DeleteChatChat, DeleteChatChatHistory, DeleteChatChatByChatlogId, DeleteChatChatHistoryByChatlogId  } from 'src/functions/ChatBook'
 
 import { defaultConfig } from 'src/configs/auth'
+
+import ChatLog from 'src/views/AiChat/ChatLog'
+import SendMsgForm from 'src/views/AiChat/SendMsgForm'
 
 // ** Axios Imports
 import axios from 'axios'
@@ -124,6 +119,7 @@ const ChatIndex = (props: any) => {
       }
     }
   }
+  console.log("ClearButtonClick", ClearButtonClick, historyCounter)
 
   const handleDeleteOneChatLogById = async function (chatlogId: string) {
     if (auth && auth.user && app) {
@@ -175,9 +171,7 @@ const ChatIndex = (props: any) => {
     }
   }
 
-  // ** Hooks
-  const theme = useTheme()
-  const hidden = false
+  console.log("finishedMessage", finishedMessage)
 
   useEffect(() => {
     const userId = auth?.user?.username
@@ -269,15 +263,6 @@ const ChatIndex = (props: any) => {
     }
   }
 
-  // ** Vars
-  const mdAbove = useMediaQuery(theme.breakpoints.up('md'))
-  const statusObj: StatusObjType = {
-    busy: 'error',
-    away: 'warning',
-    online: 'success',
-    offline: 'secondary'
-  }
-
   const [innerHeight, setInnerHeight] = useState<number | string>(window.innerHeight)
   console.log("innerHeight innerHeight",innerHeight)
 
@@ -288,13 +273,21 @@ const ChatIndex = (props: any) => {
     handleResize();
   }, []);
 
+  const [rowInMsg, setRowInMsg] = useState<number>(1)
+
+  const maxRows = 8
+
+  const handleSetRowInMsg = (row: number) => {
+    setRowInMsg(row)
+  }
+
   return (
     <Box sx={{ width: '100%', height: innerHeight, overflow: 'hidden', display: 'flex' }}>
       <Box
         className='app-chat'
         sx={{
           width: '100%',
-          height: '100%',
+          height: `calc(100% - 2.2rem)`,
           display: 'flex',
           borderRadius: 1,
           overflow: 'hidden',
@@ -302,31 +295,8 @@ const ChatIndex = (props: any) => {
           backgroundColor: 'background.paper'
         }}
       >
-      <ChatContent
-        authConfig={authConfig}
-        store={store}
-        hidden={hidden}
-        sendMsg={sendMsg}
-        mdAbove={mdAbove}
-        statusObj={statusObj}
-        sendButtonDisable={sendButtonDisable}
-        sendButtonLoading={sendButtonLoading}
-        sendButtonText={sendButtonText}
-        sendInputText={sendInputText}
-        chatId={chatId}
-        chatName={chatName}
-        email={auth?.user?.email}
-        ClearButtonClick={ClearButtonClick}
-        historyCounter={historyCounter}
-        app={app}
-        handleDeleteOneChatLogById={handleDeleteOneChatLogById}
-        userType={userType}
-        GetModelFromAppValue={GetModelFromAppValue}
-        questionGuide={questionGuide}
-        GetTTSFromAppValue={GetTTSFromAppValue}
-        setStopMsg={setStopMsg}
-        finishedMessage={finishedMessage}
-      />
+      <ChatLog authConfig={authConfig} data={{ ...store?.selectedChat, userContact: store?.userProfile }} chatId={chatId} chatName={chatName} app={app} rowInMsg={rowInMsg} maxRows={maxRows} sendButtonDisable={sendButtonDisable} handleDeleteOneChatLogById={handleDeleteOneChatLogById} sendMsg={sendMsg} store={store} userType={userType} questionGuide={questionGuide} GetTTSFromAppValue={GetTTSFromAppValue}/>
+      <SendMsgForm authConfig={authConfig} store={store} sendMsg={sendMsg} sendButtonDisable={sendButtonDisable} sendButtonLoading={sendButtonLoading} sendButtonText={sendButtonText} sendInputText={sendInputText} rowInMsg={rowInMsg} handleSetRowInMsg={handleSetRowInMsg} maxRows={maxRows} setStopMsg={setStopMsg}/>
       </Box>
     </Box>
   )

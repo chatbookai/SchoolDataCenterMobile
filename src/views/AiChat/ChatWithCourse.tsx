@@ -1,5 +1,5 @@
 
-import ChatIndex from 'src/views/App/Chat/ChatIndex';
+import ChatIndex from 'src/views/AiChat/ChatIndex';
 
 const ChatApp = ({authConfig, app}: any) => {
 

@@ -20,7 +20,7 @@ import { styled } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
 
 import { DecryptDataAES256GCM } from 'src/configs/functions'
-import ChatIndex from 'src/views/App/Chat/ChatIndex'
+import ChatIndex from 'src/views/AiChat/ChatIndex'
 import IconButton from '@mui/material/IconButton'
 
 import Icon from 'src/@core/components/icon'
@@ -231,92 +231,95 @@ const MyCourses = ({authConfig}: any) => {
         }}
       >
         <ContentWrapper>
-              {pageModel == "Main" && (
-                <Fragment>
-                  {isLoading && myCoursesList.length == 0 ? (
-                        <Grid item xs={12} sm={12} container justifyContent="space-around">
-                            <Box sx={{ mt: 6, mb: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                                <CircularProgress />
-                                <Typography sx={{pt:5, pb:5}}>加载中...</Typography>
-                            </Box>
-                        </Grid>
-                    ) : (
-                    <Grid container spacing={0}>
 
-                      {chatApp && chatApp.length > 0 && chatApp.map((item: any, index: number) => {
-
-                        return (
-                          <Card key={index} sx={{ width: '100%', mb: 2}}>
-                            <Box my={2} key={index} sx={{ width: '100%'}}>
-                              <Typography variant="h6" sx={{ py: 0.5, pl: 2, borderRadius: '5px', mb: 2, fontSize: '16px' }}>
-                                {item.title}
-                              </Typography>
-                              <Grid container spacing={2}>
-                                {item.children && item.children.map((childItem: any, index: number) => (
-                                  <Grid item xs={3} key={index}>
-                                    <Box textAlign="center" sx={{my: 0}} onClick={()=>handleSetChatWithApp(childItem)}>
-                                      <IconButton aria-label='capture screenshot' color='info'>
-                                        <Icon icon={childItem.AppAvatar} fontSize='inherit' style={{ width: '42px', height: '42px' }}/>
-                                      </IconButton>
-                                      <Typography variant="body2"
-                                        sx={{
-                                          my: 0,
-                                          whiteSpace: 'nowrap',
-                                          overflow: 'hidden',
-                                          textOverflow: 'ellipsis'
-                                        }}
-                                      >{childItem.AppName}</Typography>
-                                    </Box>
-                                  </Grid>
-                                ))}
-                              </Grid>
-                            </Box>
-                          </Card>
-                        )
-                      })}
-
-                      {myCoursesList && myCoursesList.length > 0 && myCoursesList.map((item: any, index: number) => {
-
-                        return (
-                          <Grid item xs={12} sx={{ mb: 2, }} key={index}>
-                            <Card>
-                              <CardContent onClick={()=>handleSetChatWithCourse(item)} sx={{m: 1, p: 1, pl: 3, mb: 0, pb: 0}}>
-                                  <Grid item xs={12} mt={2}>
-                                    <Typography variant='body2' sx={{ fontWeight: 'bold', color: 'text.primary', display: 'flex', alignItems: 'center' }}>
-                                    {item['班级名称']}
-                                    </Typography>
-                                  </Grid>
-                                  <Grid item xs={12} mt={1}>
-                                    <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'left' }}>
-                                      课程:{item['课程名称']}
-                                    </Typography>
-                                  </Grid>
-                                  <Grid item xs={12} mt={1}>
-                                    <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'left' }}>
-                                      教师:{item['教师姓名']}
-                                    </Typography>
-                                  </Grid>
-                              </CardContent>
-                            </Card>
-                          </Grid>
-                        )
-                      })}
+          {pageModel == "Main" && (
+            <Fragment>
+              {isLoading && myCoursesList.length == 0 ? (
+                    <Grid item xs={12} sm={12} container justifyContent="space-around">
+                        <Box sx={{ mt: 6, mb: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                            <CircularProgress />
+                            <Typography sx={{pt:5, pb:5}}>加载中...</Typography>
+                        </Box>
                     </Grid>
-                  )}
-                </Fragment>
-              )}
+                ) : (
+                <Grid container spacing={0}>
 
-              {pageModel == "ChatWithCourse" && (
-                <Fragment>
-                  <ChatIndex authConfig={authConfig} app={app}/>
-                </Fragment>
-              )}
+                  {chatApp && chatApp.length > 0 && chatApp.map((item: any, index: number) => {
 
-              {pageModel == "ChatWithApp" && (
-                <Fragment>
-                  <ChatIndex authConfig={authConfig} app={app}/>
-                </Fragment>
+                    return (
+                      <Card key={index} sx={{ width: '100%', mb: 2}}>
+                        <Box my={2} key={index} sx={{ width: '100%'}}>
+                          <Typography variant="h6" sx={{ py: 0.5, pl: 2, borderRadius: '5px', mb: 2, fontSize: '16px' }}>
+                            {item.title}
+                          </Typography>
+                          <Grid container spacing={2}>
+                            {item.children && item.children.map((childItem: any, index: number) => (
+                              <Grid item xs={3} key={index}>
+                                <Box textAlign="center" sx={{my: 0}} onClick={()=>handleSetChatWithApp(childItem)}>
+                                  <IconButton aria-label='capture screenshot' color='info'>
+                                    <Icon icon={childItem.AppAvatar} fontSize='inherit' style={{ width: '42px', height: '42px' }}/>
+                                  </IconButton>
+                                  <Typography variant="body2"
+                                    sx={{
+                                      my: 0,
+                                      whiteSpace: 'nowrap',
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis'
+                                    }}
+                                  >{childItem.AppName}</Typography>
+                                </Box>
+                              </Grid>
+                            ))}
+                          </Grid>
+                        </Box>
+                      </Card>
+                    )
+
+                  })}
+
+                  {myCoursesList && myCoursesList.length > 0 && myCoursesList.map((item: any, index: number) => {
+
+                    return (
+                      <Grid item xs={12} sx={{ mb: 2, }} key={index}>
+                        <Card>
+                          <CardContent onClick={()=>handleSetChatWithCourse(item)} sx={{m: 1, p: 1, pl: 3, mb: 0, pb: 0}}>
+                              <Grid item xs={12} mt={2}>
+                                <Typography variant='body2' sx={{ fontWeight: 'bold', color: 'text.primary', display: 'flex', alignItems: 'center' }}>
+                                {item['班级名称']}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12} mt={1}>
+                                <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'left' }}>
+                                  课程:{item['课程名称']}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={12} mt={1}>
+                                <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'left' }}>
+                                  教师:{item['教师姓名']}
+                                </Typography>
+                              </Grid>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    )
+                  })}
+                </Grid>
               )}
+            </Fragment>
+          )}
+
+          {pageModel == "ChatWithCourse" && (
+            <Fragment>
+              <ChatIndex authConfig={authConfig} app={app}/>
+            </Fragment>
+          )}
+
+          {pageModel == "ChatWithApp" && (
+            <Fragment>
+              <ChatIndex authConfig={authConfig} app={app}/>
+            </Fragment>
+          )}
+
         </ContentWrapper>
       </Box>
     </Fragment>

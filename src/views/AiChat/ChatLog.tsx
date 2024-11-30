@@ -8,6 +8,7 @@ import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import ReactMarkdown from 'react-markdown'
+import remarkBreaks from 'remark-breaks'
 import CardMedia from '@mui/material/CardMedia'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
@@ -18,7 +19,7 @@ import Tooltip from '@mui/material/Tooltip'
 import { useTranslation } from 'react-i18next'
 import CircularProgress from '@mui/material/CircularProgress'
 
-import ChatContextPreview from 'src/views/App/Chat/ChatContextPreview'
+import ChatContextPreview from 'src/views/AiChat/ChatContextPreview'
 
 import { AppAvatar } from 'src/functions/ChatBook'
 
@@ -40,7 +41,7 @@ import {
 } from 'src/types/apps/chatTypes'
 
 const PerfectScrollbar = styled(PerfectScrollbarComponent)<ScrollBarProps & { ref: Ref<unknown> }>(({ theme }) => ({
-  padding: theme.spacing(3, 5, 3, 3)
+  padding: theme.spacing(3, 3, 3, 3)
 }))
 
 const LinkStyled = styled(Link)(({ theme }) => ({
@@ -89,7 +90,7 @@ const SystemPromptTemplate = ({text, handleSendMsg}: any) => {
 const ChatLog = (props: any) => {
   // ** Props
   const { t } = useTranslation()
-  const { authConfig, data, hidden, chatName, app, rowInMsg, maxRows, sendButtonDisable, handleDeleteOneChatLogById, sendMsg, store, questionGuide } = props
+  const { authConfig, data, chatName, app, rowInMsg, maxRows, sendButtonDisable, handleDeleteOneChatLogById, sendMsg, store, questionGuide } = props
 
   const handleSendMsg = (msg: string) => {
     if (store && store.selectedChat && msg.trim().length) {
@@ -106,13 +107,10 @@ const ChatLog = (props: any) => {
   // ** Scroll to chat bottom
   const scrollToBottom = () => {
     if (chatArea.current) {
-      if (hidden) {
-        // @ts-ignore
-        chatArea.current.scrollTop = Number.MAX_SAFE_INTEGER
-      } else {
-        // @ts-ignore
-        chatArea.current._container.scrollTop = Number.MAX_SAFE_INTEGER
-      }
+      // @ts-ignore
+      chatArea.current._container.scrollTop = Number.MAX_SAFE_INTEGER
+
+      //chatArea.current.scrollTop = Number.MAX_SAFE_INTEGER
     }
   }
 
@@ -339,7 +337,7 @@ const ChatLog = (props: any) => {
                           { ChatIndex == 0 ?
                             <SystemPromptTemplate text={chat.msg} handleSendMsg={handleSendMsg}/>
                           :
-                            <ReactMarkdown>{chat.msg}</ReactMarkdown>
+                            <ReactMarkdown remarkPlugins={[remarkBreaks]}>{chat.msg}</ReactMarkdown>
                           }
                           {!isSender && index == ChatItemMsgList.length - 1 && index>0 && questionGuide ?
                             <Box>
@@ -474,8 +472,8 @@ const ChatLog = (props: any) => {
     })
   }
 
-  const ScrollWrapper = ({ children, hidden }: { children: ReactNode; hidden: boolean }) => {
-    if (hidden) {
+  const ScrollWrapper = ({ children }: { children: ReactNode }) => {
+    if (false) {
       return (
         <Box ref={chatArea} sx={{ p: 5, height: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
           {children}
@@ -491,12 +489,11 @@ const ChatLog = (props: any) => {
   }
 
   const inputMsgHeight = rowInMsg <= maxRows? rowInMsg * 1.25 : maxRows * 1.25
+  console.log("inputMsgHeight", inputMsgHeight)
 
   return (
     <Fragment>
-      <Box sx={{ height: `calc(100% - 6.2rem - ${inputMsgHeight}rem)` }}>
-        <ScrollWrapper hidden={hidden}>{renderChats()}</ScrollWrapper>
-      </Box>
+      <ScrollWrapper >{renderChats()}</ScrollWrapper>
       <ChatContextPreview contextPreviewOpen={contextPreviewOpen} setContextPreviewOpen={setContextPreviewOpen} contextPreviewData={contextPreviewData} app={app}/>
     </Fragment>
   )

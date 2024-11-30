@@ -71,48 +71,58 @@ const SendMsgForm = (props: any) => {
   };
 
   return (
-    <Form onSubmit={handleSendMsg} sx={{mb: 3, p: 1}}>
-      <ChatFormWrapper>
-        <Box sx={{
-              position: 'relative',
-              flexGrow: 1,
-              width: '100%'
-        }}>
-          <TextareaAutosize
-            minRows={rowInMsg}
-            maxRows={maxRows}
-            value={msg}
-            placeholder={sendInputText}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            disabled={sendButtonDisable}
-            style={{
-                width: 'calc(100% - 100px)', // 减去按钮宽度
-                marginRight: '2px', // 为按钮留出空间
-                resize: 'none',
-                border: 'none', // 移除边框
-                padding: '0.5rem 0.1rem 0.5rem 0.5rem',
-                fontFamily: 'inherit', // 使用默认字体
-                fontWeight: '1000', // 使用默认字体粗细
-                color: 'inherit', // 使用默认字体颜色
-                fontSize: '1rem', // 使用默认字体大小
-                outline: 'none', // 默认状态下无边框
-                boxShadow: 'none', // 默认状态下无阴影
-            }}
-          />
-          {sendButtonDisable ?
-          <Box sx={{ bottom: 6, right: 0, position: 'absolute', whiteSpace: 'nowrap' }} >
-            <CircularProgress size={20} color="inherit"/>
-          </Box>
-          :
-          <Button type='submit' variant='contained' disabled={sendButtonDisable}  sx={{ bottom: 0, right: 0, position: 'absolute', mt: 0.6, whiteSpace: 'nowrap' }} >
-            {sendButtonText}
-          </Button>
-          }
+    <Box
+        component='footer'
+        sx={{
+          width: '100%',
+          zIndex: 10,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          bottom: 47,
+          position: 'fixed',
+          overflow: 'visible',
+        }}
+      >
+      <Form onSubmit={handleSendMsg} sx={{width: '100%', mb: 3, pl: 0, pr: 8, pb: 0}}>
+        <ChatFormWrapper>
+          <Box sx={{ position: 'relative', flexGrow: 1, width: '100%' }}>
+            <TextareaAutosize
+              minRows={rowInMsg}
+              maxRows={maxRows}
+              value={msg}
+              placeholder={sendInputText}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              disabled={sendButtonDisable}
+              style={{
+                  width: 'calc(100% - 100px)', // 减去按钮宽度
+                  marginRight: '2px', // 为按钮留出空间
+                  resize: 'none',
+                  border: 'none', // 移除边框
+                  padding: '0.5rem 0.1rem 0.5rem 0.5rem',
+                  fontFamily: 'inherit', // 使用默认字体
+                  fontWeight: '1000', // 使用默认字体粗细
+                  color: 'inherit', // 使用默认字体颜色
+                  fontSize: '1rem', // 使用默认字体大小
+                  outline: 'none', // 默认状态下无边框
+                  boxShadow: 'none', // 默认状态下无阴影
+              }}
+            />
+            {sendButtonDisable ?
+            <Box sx={{ bottom: 6, right: 0, position: 'absolute', whiteSpace: 'nowrap' }} >
+              <CircularProgress size={20} color="inherit"/>
+            </Box>
+            :
+            <Button type='submit' variant='contained' disabled={sendButtonDisable}  sx={{ bottom: 0, right: 0, position: 'absolute', mt: 0.6, whiteSpace: 'nowrap' }} >
+              {sendButtonText}
+            </Button>
+            }
 
-        </Box>
-      </ChatFormWrapper>
-    </Form>
+          </Box>
+        </ChatFormWrapper>
+      </Form>
+    </Box>
   )
 }
 
