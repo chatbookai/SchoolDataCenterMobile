@@ -17,7 +17,8 @@ const ChatFormWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   justifyContent: 'space-between',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: theme.palette.background.paper,
-  marginTop: 3
+  marginTop: 3,
+  width: '100%'
 }))
 
 const Form = styled('form')(({ theme }) => ({
@@ -72,21 +73,20 @@ const SendMsgForm = (props: any) => {
 
   return (
     <Box
-        component='footer'
         sx={{
           width: '100%',
           zIndex: 10,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          bottom: 47,
-          position: 'fixed',
+          bottom: 0,
+          position: 'absolute',
           overflow: 'visible',
         }}
       >
-      <Form onSubmit={handleSendMsg} sx={{width: '100%', mb: 3, pl: 0, pr: 8, pb: 0}}>
+      <Form onSubmit={handleSendMsg} sx={{width: '100%', mb: 0, pb: 0, mx: 0, px: 0}}>
         <ChatFormWrapper>
-          <Box sx={{ position: 'relative', flexGrow: 1, width: '100%' }}>
+          <Box sx={{ display: 'flex',position: 'relative', flexGrow: 1, width: '100%' }}>
             <TextareaAutosize
               minRows={rowInMsg}
               maxRows={maxRows}

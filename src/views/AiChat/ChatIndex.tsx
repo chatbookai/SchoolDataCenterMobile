@@ -287,7 +287,7 @@ const ChatIndex = (props: any) => {
         className='app-chat'
         sx={{
           width: '100%',
-          height: `calc(100% - 2.2rem)`,
+          height: `calc(100%)`,
           display: 'flex',
           borderRadius: 1,
           overflow: 'hidden',
