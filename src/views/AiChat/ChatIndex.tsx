@@ -31,12 +31,9 @@ const ChatIndex = (props: any) => {
   const [historyCounter, setHistoryCounter] = useState<number>(0)
   const [stopMsg, setStopMsg] = useState<boolean>(false)
 
-  const userType = authConfig.type
-
   const getChatLogList = async function (appId: string, appTemplate: string) {
     const userId = auth?.user?.username
     const authorization = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
-    console.log("getChatLogList",userType)
     try {
       if(userId && authorization) {
         const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog.php', {appId, pageId: 0, action: 'getChatList'}, {
@@ -46,7 +43,7 @@ const ChatIndex = (props: any) => {
           }
         }).then(res=>res.data)
         if(RS['data'])  {
-          const ChatChatInitList = ChatChatInit(RS['data'].reverse(), appTemplate)
+          const ChatChatInitList = ChatChatInit(appId, RS['data'].reverse(), appTemplate)
           setHistoryCounter(ChatChatInitList.length)
           const selectedChat = {
             "chat": {
@@ -78,7 +75,7 @@ const ChatIndex = (props: any) => {
     const userId = auth?.user?.username
     const authorization = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
     if(userId) {
-      DeleteChatChat()
+      DeleteChatChat(app.id)
       DeleteChatChatHistory(userId, chatId, app.id)
       const selectedChat = {
         "chat": {
@@ -100,7 +97,7 @@ const ChatIndex = (props: any) => {
       setStore(storeInit)
 
       //Set system prompt
-      ChatChatInit([], app.WelcomeText)
+      ChatChatInit(app.id, [], app.WelcomeText)
       setHistoryCounter(0)
       setRefreshChatCounter(0)
 
@@ -125,10 +122,10 @@ const ChatIndex = (props: any) => {
     if (auth && auth.user && app) {
       const userId = auth?.user?.username
       const authorization = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
-      DeleteChatChatByChatlogId(chatlogId)
+      DeleteChatChatByChatlogId(app.id, chatlogId)
       DeleteChatChatHistoryByChatlogId(userId, chatId, app.id, chatlogId)
 
-      const data: any = {chatlogId: chatlogId, appId: app.id, userType: userType, action: 'deleteByChatId'}
+      const data: any = {chatlogId: chatlogId, appId: app.id, action: 'deleteByChatId'}
       const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog.php', data, {
                           headers: {
                             Authorization: authorization,
@@ -176,7 +173,7 @@ const ChatIndex = (props: any) => {
   useEffect(() => {
     const userId = auth?.user?.username
     if(userId) {
-      const ChatChatListValue = ChatChatList()
+      const ChatChatListValue = ChatChatList(app.id)
       if(processingMessage && processingMessage!="") {
 
         //流式输出的时候,进来显示
@@ -247,7 +244,7 @@ const ChatIndex = (props: any) => {
       setSendButtonText(t("Sending") as string)
       setSendInputText(t("Answering...") as string)
       const _id = getNanoid(32)
-      ChatChatInput(_id, Obj.send, Obj.message, userId, 0, [])
+      ChatChatInput(app.id, _id, Obj.send, Obj.message, userId, 0, [])
       setRefreshChatCounter(refreshChatCounter + 1)
       const startTime = performance.now()
       const ChatAiOutputV1Status = await ChatAiOutputV1(authConfig, _id, Obj.message, authorization, userId, chatId, app.id, setProcessingMessage, app.SystemPrompt, setFinishedMessage, true, setQuestionGuide, app.QuestionGuideTemplate, stopMsg, setStopMsg, GetModelFromAppValue)
@@ -295,7 +292,7 @@ const ChatIndex = (props: any) => {
           backgroundColor: 'background.paper'
         }}
       >
-      <ChatLog authConfig={authConfig} data={{ ...store?.selectedChat, userContact: store?.userProfile }} chatId={chatId} chatName={chatName} app={app} rowInMsg={rowInMsg} maxRows={maxRows} sendButtonDisable={sendButtonDisable} handleDeleteOneChatLogById={handleDeleteOneChatLogById} sendMsg={sendMsg} store={store} userType={userType} questionGuide={questionGuide} GetTTSFromAppValue={GetTTSFromAppValue}/>
+      <ChatLog authConfig={authConfig} data={{ ...store?.selectedChat, userContact: store?.userProfile }} chatId={chatId} chatName={chatName} app={app} rowInMsg={rowInMsg} maxRows={maxRows} sendButtonDisable={sendButtonDisable} handleDeleteOneChatLogById={handleDeleteOneChatLogById} sendMsg={sendMsg} store={store} questionGuide={questionGuide} GetTTSFromAppValue={GetTTSFromAppValue}/>
       <SendMsgForm authConfig={authConfig} store={store} sendMsg={sendMsg} sendButtonDisable={sendButtonDisable} sendButtonLoading={sendButtonLoading} sendButtonText={sendButtonText} sendInputText={sendInputText} rowInMsg={rowInMsg} handleSetRowInMsg={handleSetRowInMsg} maxRows={maxRows} setStopMsg={setStopMsg}/>
       </Box>
     </Box>

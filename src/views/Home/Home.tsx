@@ -14,6 +14,7 @@ import Index from '../Index/Index'
 import Application from '../Application/Application'
 import Login from '../Login/Login'
 import MyCourses from '../AiChat/MyCourses'
+import AllAiApp from '../AiChat/AllAiApp'
 
 import { useTranslation } from 'react-i18next'
 import { getConfig, defaultConfig } from 'src/configs/auth'
@@ -99,7 +100,8 @@ const Home = () => {
         </Grid>
       )}
       {currentTab == "Login" && (<Login setCurrentTab={setCurrentTab} authConfig={authConfig} setAuthConfig={setAuthConfig} />)}
-      {currentTab == "AiChat" && (<MyCourses setCurrentTab={setCurrentTab} authConfig={authConfig} setAuthConfig={setAuthConfig} />)}
+      {currentTab == "MyCourse" && (<MyCourses setCurrentTab={setCurrentTab} authConfig={authConfig} setAuthConfig={setAuthConfig} />)}
+      {currentTab == "AiChat" && (<AllAiApp setCurrentTab={setCurrentTab} authConfig={authConfig} setAuthConfig={setAuthConfig} />)}
       {currentTab == "Setting" && (<Setting handleLogout={handleLogout} menuArray={menuArray} authConfig={authConfig} />)}
       {currentTab == "Index" && (<Index menuArray={menuArray} setMenuArray={setMenuArray} authConfig={authConfig} />)}
       {currentTab == "Application" && (<Application menuArray={menuArray} setMenuArray={setMenuArray} authConfig={authConfig} />)}

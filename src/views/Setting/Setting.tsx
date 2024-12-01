@@ -533,7 +533,7 @@ const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
                                     whiteSpace: 'nowrap',
                                     flex: 1
                                   }}>
-                                    {defaultConfig.AppVersion}
+                                    {defaultConfig.AppVersion} {defaultConfig.AppVersionType}
                                   </Typography>
                                 </Box>
                               </Box>

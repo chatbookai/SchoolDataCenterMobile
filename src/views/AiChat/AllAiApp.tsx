@@ -7,7 +7,6 @@ import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
-import CardContent from '@mui/material/CardContent'
 import CircularProgress from '@mui/material/CircularProgress'
 
 // ** Third Party Components
@@ -21,6 +20,9 @@ import { useTranslation } from 'react-i18next'
 
 import { DecryptDataAES256GCM } from 'src/configs/functions'
 import ChatIndex from 'src/views/AiChat/ChatIndex'
+import IconButton from '@mui/material/IconButton'
+
+import Icon from 'src/@core/components/icon'
 
 const ContentWrapper = styled('main')(({ theme }) => ({
   flexGrow: 1,
@@ -33,7 +35,7 @@ const ContentWrapper = styled('main')(({ theme }) => ({
   }
 }))
 
-const MyCourses = ({authConfig}: any) => {
+const AllAiApp = ({authConfig}: any) => {
   const { t } = useTranslation()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [myCoursesList, setMyCoursesList] = useState<any[]>([])
@@ -49,10 +51,10 @@ const MyCourses = ({authConfig}: any) => {
 
   const QuestionGuideTemplate = '你是一个AI智能助手，可以回答和解决我的问题。请结合前面的对话记录，帮我生成 3 个问题，引导我继续提问。问题的长度应小于20个字符，要求使用UTF-8编码，按 JSON 格式返回: ["问题1", "问题2", "问题3"]'
 
-  const handleSetChatWithCourse = async (item: any) => {
+  const handleSetChatWithApp = async (item: any) => {
     setLeftIcon('ic:twotone-keyboard-arrow-left')
-    setPageModel("ChatWithCourse")
-    setApp({...item, id: 'ididididid', AppName: item['课程名称'], AppName2: item['班级名称'], avatar: '1.png', SystemPrompt: '每次输出200-500字左右.', Model: {}, WelcomeText: '您好, 你是一个数学课程的老师,您有任何问题,都可以在此输入问题, 然后使用AI模型来得到答案.', QuestionGuideTemplate })
+    setPageModel("ChatWithApp")
+    setApp({...item, id: "ChatApp-" + item.id, AppName2: item.AppModel, avatar: '1.png', Model: {}, QuestionGuideTemplate })
   }
 
   const handelGetMyCoursesList = async () => {
@@ -234,31 +236,37 @@ const MyCourses = ({authConfig}: any) => {
                 ) : (
                 <Grid container spacing={0}>
 
-                  {myCoursesList && myCoursesList.length > 0 && myCoursesList.map((item: any, index: number) => {
+                  {chatApp && chatApp.length > 0 && chatApp.map((item: any, index: number) => {
 
                     return (
-                      <Grid item xs={12} sx={{ mb: 2, }} key={index}>
-                        <Card>
-                          <CardContent onClick={()=>handleSetChatWithCourse(item)} sx={{m: 1, p: 1, pl: 3, mb: 0, pb: 0}}>
-                              <Grid item xs={12} mt={2}>
-                                <Typography variant='body2' sx={{ fontWeight: 'bold', color: 'text.primary', display: 'flex', alignItems: 'center' }}>
-                                {item['班级名称']}
-                                </Typography>
+                      <Card key={index} sx={{ width: '100%', mb: 2}}>
+                        <Box my={2} key={index} sx={{ width: '100%'}}>
+                          <Typography variant="h6" sx={{ py: 0.5, pl: 2, borderRadius: '5px', mb: 2, fontSize: '16px' }}>
+                            {item.title}
+                          </Typography>
+                          <Grid container spacing={2}>
+                            {item.children && item.children.map((childItem: any, index: number) => (
+                              <Grid item xs={3} key={index}>
+                                <Box textAlign="center" sx={{my: 0}} onClick={()=>handleSetChatWithApp(childItem)}>
+                                  <IconButton aria-label='capture screenshot' color='info'>
+                                    <Icon icon={childItem.AppAvatar} fontSize='inherit' style={{ width: '42px', height: '42px' }}/>
+                                  </IconButton>
+                                  <Typography variant="body2"
+                                    sx={{
+                                      my: 0,
+                                      whiteSpace: 'nowrap',
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis'
+                                    }}
+                                  >{childItem.AppName}</Typography>
+                                </Box>
                               </Grid>
-                              <Grid item xs={12} mt={1}>
-                                <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'left' }}>
-                                  课程:{item['课程名称']}
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={12} mt={1}>
-                                <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'left' }}>
-                                  教师:{item['教师姓名']}
-                                </Typography>
-                              </Grid>
-                          </CardContent>
-                        </Card>
-                      </Grid>
+                            ))}
+                          </Grid>
+                        </Box>
+                      </Card>
                     )
+
                   })}
                 </Grid>
               )}
@@ -284,4 +292,4 @@ const MyCourses = ({authConfig}: any) => {
   );
 };
 
-export default MyCourses;
+export default AllAiApp;

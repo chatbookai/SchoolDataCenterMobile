@@ -45,13 +45,13 @@ const Footer = (props: any) => {
                 setCurrentTab('Index')
                 break;
               case 1:
-                setCurrentTab('AiChat')
+                setCurrentTab('MyCourse')
                 break;
               case 2:
                 setCurrentTab('Application')
                 break;
               case 3:
-                setCurrentTab('Message')
+                setCurrentTab('AiChat')
                 break;
               case 4:
                 setCurrentTab('Setting')
@@ -61,7 +61,7 @@ const Footer = (props: any) => {
           sx={{width: '100%'}}
         >
           <BottomNavigationAction label={t("Index") as string} icon={<Icon icon='material-symbols:home-work-outline' />} />
-          <BottomNavigationAction label={t("AI教学") as string} icon={<Icon icon='ph:open-ai-logo-light' />} />
+          <BottomNavigationAction label={t("Course") as string} icon={<Icon icon='material-symbols:table' />} />
           <BottomNavigationAction
             label={t("Apps") as string}
             icon={
@@ -80,7 +80,7 @@ const Footer = (props: any) => {
               bottom: '1rem',
             }}
           />
-          <BottomNavigationAction label={t("Message") as string} icon={<Icon icon='mdi:message-processing-outline' />} />
+          <BottomNavigationAction label={t("AI") as string} icon={<Icon icon='ph:open-ai-logo-light' />} />
           <BottomNavigationAction label={t("Setting") as string} icon={<Icon icon='mdi:settings-outline' />} />
         </BottomNavigation>
       </Box>

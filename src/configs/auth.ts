@@ -32,6 +32,7 @@ export function getConfig(Username: string) {
 export const defaultConfig = {
   Github: 'https://github.com/chatbookai/SchoolDataCenterMobile',
   AppVersion: '20241125',
+  AppVersionType: '试用版本',
   defaultLanguage: 'zh-CN',
   storageTokenKeyName: 'accessToken',
   storageAccessKeyName: 'accessKey',

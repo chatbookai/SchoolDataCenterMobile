@@ -11,8 +11,8 @@ export const getNanoid = (size = 12) => {
   return customAlphabet('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890', size)();
 };
 
-export function ChatChatList() {
-    const ChatChatText = window.localStorage.getItem(ChatChat)
+export function ChatChatList(appId: string) {
+    const ChatChatText = window.localStorage.getItem(ChatChat + "_" + appId)
     const ChatChatList = ChatChatText ? JSON.parse(ChatChatText) : []
 
     return ChatChatList
@@ -48,15 +48,15 @@ export function DeleteChatChatName(Id: number) {
     window.localStorage.setItem(ChatChatName, JSON.stringify(ChatChatList))
 }
 
-export function DeleteChatChat() {
-    window.localStorage.setItem(ChatChat, JSON.stringify([]))
+export function DeleteChatChat(appId: string) {
+    window.localStorage.setItem(ChatChat + "_" + appId, JSON.stringify([]))
 }
 
-export function DeleteChatChatByChatlogId(chatlogId: string) {
-    const ChatChatText = window.localStorage.getItem(ChatChat)
+export function DeleteChatChatByChatlogId(appId: string, chatlogId: string) {
+    const ChatChatText = window.localStorage.getItem(ChatChat + "_" + appId)
     const ChatChatList = ChatChatText ? JSON.parse(ChatChatText) : []
     const ChatChatListFilter = ChatChatList.filter((item: any)=>item.chatlogId!=chatlogId)
-    window.localStorage.setItem(ChatChat, JSON.stringify(ChatChatListFilter))
+    window.localStorage.setItem(ChatChat + "_" + appId, JSON.stringify(ChatChatListFilter))
 }
 
 export function DeleteChatChatHistory(UserId: number | string, knowledgeId: number | string, appId: string) {
@@ -79,7 +79,7 @@ export function DeleteChatChatHistoryByChatlogId(UserId: number | string, knowle
     }
 }
 
-export function ChatChatInit(MsgList: any, PromptTemplate: string) {
+export function ChatChatInit(appId: string, MsgList: any, PromptTemplate: string) {
     const ChatLogList: any = []
     if(PromptTemplate && PromptTemplate!= "") {
         ChatLogList.push({
@@ -126,13 +126,13 @@ export function ChatChatInit(MsgList: any, PromptTemplate: string) {
           })
     })
 
-    window.localStorage.setItem(ChatChat, JSON.stringify(ChatLogList))
+    window.localStorage.setItem(ChatChat + "_" + appId, JSON.stringify(ChatLogList))
 
     return ChatLogList
 }
 
-export function ChatChatInput(chatlogId: string, Question: string, Message: string, UserId: number | string, responseTime: number, History: any[]) {
-	const ChatChatText = window.localStorage.getItem(ChatChat)
+export function ChatChatInput(appId: string, chatlogId: string, Question: string, Message: string, UserId: number | string, responseTime: number, History: any[]) {
+	const ChatChatText = window.localStorage.getItem(ChatChat + "_" + appId)
     const ChatChatList = ChatChatText ? JSON.parse(ChatChatText) : []
     ChatChatList.push({
       "message": Message,
@@ -148,7 +148,7 @@ export function ChatChatInput(chatlogId: string, Question: string, Message: stri
           "isSeen": true
       }
     })
-    window.localStorage.setItem(ChatChat, JSON.stringify(ChatChatList))
+    window.localStorage.setItem(ChatChat + "_" + appId, JSON.stringify(ChatChatList))
 }
 
 export async function ChatAiOutputV1(authConfig: any, _id: string, Message: string, Token: string, UserId: number | string, chatId: number | string, appId: string, setProcessingMessage: any, template: string, setFinishedMessage: any, allowQuestionGuide: boolean, setQuestionGuide: any, questionGuideTemplate: string, stopMsg: boolean, setStopMsg: any, GetModelFromAppValue: any) {
@@ -207,7 +207,7 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
                 console.log("OpenAI Response:", UserId, responseText)
                 const endTime = performance.now()
                 const responseTime = Math.round((endTime - startTime) * 100 / 1000) / 100
-                ChatChatInput(_id, Message, responseText, 999999, responseTime, History)
+                ChatChatInput(appId, _id, Message, responseText, 999999, responseTime, History)
                 ChatChatHistoryInput(_id, Message, responseText, UserId, chatId, appId, responseTime, History)
                 setFinishedMessage(responseText);
 
