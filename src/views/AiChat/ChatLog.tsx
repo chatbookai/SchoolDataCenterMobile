@@ -343,47 +343,7 @@ const ChatLog = (props: any) => {
                           { ChatIndex == 0 ?
                             <SystemPromptTemplate text={chat.msg} handleSendMsg={handleSendMsg}/>
                           :
-                            <ReactMarkdown
-                              remarkPlugins={[RemarkMath, RemarkGfm, RemarkBreaks]}
-                              rehypePlugins={[
-                                //@ts-ignore
-                                RehypeKatex,
-                                [
-                                  //@ts-ignore
-                                  RehypeHighlight,
-                                  {
-                                    detect: false,
-                                    ignoreMissing: true,
-                                  },
-                                ],
-                              ]}
-                              components={{
-                                p: (pProps) => <p {...pProps} dir="auto" />,
-                                a: (aProps) => {
-                                  const href = aProps.href || "";
-                                  if (/\.(aac|mp3|opus|wav)$/.test(href)) {
-                                    return (
-                                      <figure>
-                                        <audio controls src={href}></audio>
-                                      </figure>
-                                    );
-                                  }
-                                  if (/\.(3gp|3g2|webm|ogv|mpeg|mp4|avi)$/.test(href)) {
-                                    return (
-                                      <video controls width="99.9%">
-                                        <source src={href} />
-                                      </video>
-                                    );
-                                  }
-                                  const isInternal = /^\/#/i.test(href);
-                                  const target = isInternal ? "_self" : aProps.target ?? "_blank";
-
-                                  return <a {...aProps} target={target} />;
-                                },
-                              }}
-                            >
-                              {chat.msg}
-                            </ReactMarkdown>
+                            <ReactMarkdown remarkPlugins={[remarkBreaks]}>{chat.msg}</ReactMarkdown>
                           }
                           {!isSender && index == ChatItemMsgList.length - 1 && index>0 && questionGuide ?
                             <Box>
