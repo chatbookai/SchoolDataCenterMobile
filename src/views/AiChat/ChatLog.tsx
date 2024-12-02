@@ -7,8 +7,6 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
-import ReactMarkdown from 'react-markdown'
-import remarkBreaks from 'remark-breaks'
 import CardMedia from '@mui/material/CardMedia'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
@@ -31,6 +29,14 @@ import PerfectScrollbarComponent, { ScrollBarProps } from 'react-perfect-scrollb
 
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
+
+import ReactMarkdown from 'react-markdown'
+import "katex/dist/katex.min.css";
+import RemarkMath from "remark-math";
+import RemarkBreaks from "remark-breaks";
+import RehypeKatex from "rehype-katex";
+import RemarkGfm from "remark-gfm";
+import RehypeHighlight from "rehype-highlight";
 
 // ** Types Imports
 import {
@@ -108,9 +114,9 @@ const ChatLog = (props: any) => {
   const scrollToBottom = () => {
     if (chatArea.current) {
       // @ts-ignore
-      chatArea.current._container.scrollTop = Number.MAX_SAFE_INTEGER
+      //chatArea.current._container.scrollTop = Number.MAX_SAFE_INTEGER
 
-      //chatArea.current.scrollTop = Number.MAX_SAFE_INTEGER
+      chatArea.current.scrollTop = Number.MAX_SAFE_INTEGER
     }
   }
 
@@ -337,7 +343,47 @@ const ChatLog = (props: any) => {
                           { ChatIndex == 0 ?
                             <SystemPromptTemplate text={chat.msg} handleSendMsg={handleSendMsg}/>
                           :
-                            <ReactMarkdown remarkPlugins={[remarkBreaks]}>{chat.msg}</ReactMarkdown>
+                            <ReactMarkdown
+                              remarkPlugins={[RemarkMath, RemarkGfm, RemarkBreaks]}
+                              rehypePlugins={[
+                                //@ts-ignore
+                                RehypeKatex,
+                                [
+                                  //@ts-ignore
+                                  RehypeHighlight,
+                                  {
+                                    detect: false,
+                                    ignoreMissing: true,
+                                  },
+                                ],
+                              ]}
+                              components={{
+                                p: (pProps) => <p {...pProps} dir="auto" />,
+                                a: (aProps) => {
+                                  const href = aProps.href || "";
+                                  if (/\.(aac|mp3|opus|wav)$/.test(href)) {
+                                    return (
+                                      <figure>
+                                        <audio controls src={href}></audio>
+                                      </figure>
+                                    );
+                                  }
+                                  if (/\.(3gp|3g2|webm|ogv|mpeg|mp4|avi)$/.test(href)) {
+                                    return (
+                                      <video controls width="99.9%">
+                                        <source src={href} />
+                                      </video>
+                                    );
+                                  }
+                                  const isInternal = /^\/#/i.test(href);
+                                  const target = isInternal ? "_self" : aProps.target ?? "_blank";
+
+                                  return <a {...aProps} target={target} />;
+                                },
+                              }}
+                            >
+                              {chat.msg}
+                            </ReactMarkdown>
                           }
                           {!isSender && index == ChatItemMsgList.length - 1 && index>0 && questionGuide ?
                             <Box>
@@ -473,9 +519,9 @@ const ChatLog = (props: any) => {
   }
 
   const ScrollWrapper = ({ children }: { children: ReactNode }) => {
-    if (false) {
+    if (true) {
       return (
-        <Box ref={chatArea} sx={{ p: 5, height: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
+        <Box ref={chatArea} sx={{ p: 5, height: `calc(100% - 30px)`, overflowY: 'auto', overflowX: 'hidden' }}>
           {children}
         </Box>
       )
