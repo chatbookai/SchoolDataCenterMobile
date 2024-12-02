@@ -31,12 +31,7 @@ import PerfectScrollbarComponent, { ScrollBarProps } from 'react-perfect-scrollb
 import CustomAvatar from 'src/@core/components/mui/avatar'
 
 import ReactMarkdown from 'react-markdown'
-import "katex/dist/katex.min.css";
-import RemarkMath from "remark-math";
 import RemarkBreaks from "remark-breaks";
-import RehypeKatex from "rehype-katex";
-import RemarkGfm from "remark-gfm";
-import RehypeHighlight from "rehype-highlight";
 
 // ** Types Imports
 import {
@@ -343,7 +338,7 @@ const ChatLog = (props: any) => {
                           { ChatIndex == 0 ?
                             <SystemPromptTemplate text={chat.msg} handleSendMsg={handleSendMsg}/>
                           :
-                            <ReactMarkdown remarkPlugins={[remarkBreaks]}>{chat.msg}</ReactMarkdown>
+                            <ReactMarkdown remarkPlugins={[RemarkBreaks]}>{chat.msg}</ReactMarkdown>
                           }
                           {!isSender && index == ChatItemMsgList.length - 1 && index>0 && questionGuide ?
                             <Box>

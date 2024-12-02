@@ -131,7 +131,7 @@ const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
     const usernameArray = username.split('@')
     const pureUsername  = usernameArray[0]
     const AppMarkId = usernameArray[1]
-    if(AppMarkId && AppSchoolConfigMap && AppSchoolConfigMap[AppMarkId] && AppSchoolConfigMap[AppMarkId].length == 3)  {
+    if(AppMarkId && AppSchoolConfigMap && AppSchoolConfigMap[AppMarkId] && AppSchoolConfigMap[AppMarkId].length == 4)  {
       setAuthConfig(getConfig('@'+AppMarkId));
       window.localStorage.setItem('AppMarkId', AppMarkId)
       auth.login({Data: base58Encode(base58Encode(JSON.stringify({ username: pureUsername, password, rememberMe: true }))), username, handleGoIndex, handleGoLogin}, () => {
