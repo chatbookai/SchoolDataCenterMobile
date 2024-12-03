@@ -107,12 +107,19 @@ const ChatLog = (props: any) => {
 
   // ** Scroll to chat bottom
   const scrollToBottom = () => {
-    if (chatArea.current) {
-      // @ts-ignore
-      //chatArea.current._container.scrollTop = Number.MAX_SAFE_INTEGER
 
+    // @ts-ignore
+    if (chatArea.current && chatArea.current._container && chatArea.current._container.scrollTop) {
+      // @ts-ignore
+      chatArea.current._container.scrollTop = Number.MAX_SAFE_INTEGER
+    }
+
+    // @ts-ignore
+    if (chatArea.current && chatArea.current.scrollTop) {
+      // @ts-ignore
       chatArea.current.scrollTop = Number.MAX_SAFE_INTEGER
     }
+
   }
 
   const handleDownload = (DownloadUrl: string, FileName: string) => {
@@ -474,7 +481,7 @@ const ChatLog = (props: any) => {
   }
 
   const ScrollWrapper = ({ children }: { children: ReactNode }) => {
-    if (true) {
+    if (false) {
       return (
         <Box ref={chatArea} sx={{ p: 5, height: `calc(100% - 30px)`, overflowY: 'auto', overflowX: 'hidden' }}>
           {children}

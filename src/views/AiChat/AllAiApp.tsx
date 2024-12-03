@@ -27,7 +27,7 @@ import Icon from 'src/@core/components/icon'
 const ContentWrapper = styled('main')(({ theme }) => ({
   flexGrow: 1,
   width: '100%',
-  padding: theme.spacing(6, 6, 0, 6),
+  padding: theme.spacing(4),
   transition: 'padding .25s ease-in-out',
   [theme.breakpoints.down('sm')]: {
     paddingLeft: theme.spacing(4),
@@ -217,7 +217,7 @@ const AllAiApp = ({authConfig}: any) => {
           flex: 1,
           overflowY: 'hidden',
           overflowX: 'hidden',
-          marginTop: '35px', // Adjust according to the height of the AppBar
+          marginTop: '48px', // Adjust according to the height of the AppBar
           marginBottom: '56px', // Adjust according to the height of the Footer
           paddingTop: 'env(safe-area-inset-top)'
         }}

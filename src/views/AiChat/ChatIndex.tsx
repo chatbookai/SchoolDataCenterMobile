@@ -260,7 +260,7 @@ const ChatIndex = (props: any) => {
     }
   }
 
-  const [innerHeight, setInnerHeight] = useState<number | string>(window.innerHeight)
+  const [innerHeight, setInnerHeight] = useState<number | string>(window.innerHeight - 48 - 56 - 50)
   console.log("innerHeight innerHeight",innerHeight)
 
   useEffect(() => {
@@ -284,7 +284,6 @@ const ChatIndex = (props: any) => {
         className='app-chat'
         sx={{
           width: '100%',
-          height: `calc(100%)`,
           display: 'flex',
           borderRadius: 1,
           overflow: 'hidden',
