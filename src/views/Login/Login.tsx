@@ -134,7 +134,9 @@ const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
     if(AppMarkId && AppSchoolConfigMap && AppSchoolConfigMap[AppMarkId] && AppSchoolConfigMap[AppMarkId].length == 4)  {
       setAuthConfig(getConfig('@'+AppMarkId));
       window.localStorage.setItem('AppMarkId', AppMarkId)
+      setIsLoading(true)
       auth.login({Data: base58Encode(base58Encode(JSON.stringify({ username: pureUsername, password, rememberMe: true }))), username, handleGoIndex, handleGoLogin}, () => {
+        setIsLoading(false)
         setError('username', {
           type: 'manual',
           message: '用户名或密码错误'
@@ -142,6 +144,7 @@ const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
       })
     }
     else {
+      setIsLoading(false)
       toast.error('用户名格式错误,要求格式: username@domail.com', { duration: 2500 })
     }
   }
@@ -152,6 +155,7 @@ const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
   const [Title, setTitle] = useState<string>('Setting')
   const [RightButtonText, setRightButtonText] = useState<string>('')
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleClickTermsOfUseButton = () => {
     setHeaderHidden(false)
@@ -343,7 +347,7 @@ const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
                     {errors.termsofUse && <FormHelperText sx={{ color: 'error.main' }}>{errors.termsofUse.message}</FormHelperText>}
                   </FormControl>
                 </Box>
-                <Button fullWidth size='medium' type='submit' variant='contained' sx={{ mb: 7 }}>
+                <Button fullWidth disabled={isLoading} size='medium' type='submit' variant='contained' sx={{ mb: 7 }}>
                 {t('Login')}
                 </Button>
               </form>
@@ -364,7 +368,7 @@ const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
         paddingTop: 'env(safe-area-inset-top)'
       }}>
         <Grid item xs={12}>
-          <PrivacyPolicy />
+          <PrivacyPolicy authConfig={authConfig} />
         </Grid>
       </Grid>
     )}
@@ -380,7 +384,7 @@ const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
         paddingTop: 'env(safe-area-inset-top)'
       }}>
         <Grid item xs={12}>
-          <TermsofUse />
+          <TermsofUse authConfig={authConfig} />
         </Grid>
       </Grid>
     )}
