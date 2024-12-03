@@ -263,7 +263,7 @@ const ChatLog = (props: any) => {
                 color: 'text.primary',
               }}
               >
-                {t('AI Assistant')}
+                {chatName}
             </Typography>
             {sendButtonDisable == true && index == ChatItemMsgList.length - 1  ?
             <Fragment>
@@ -327,7 +327,7 @@ const ChatLog = (props: any) => {
                                       borderRadius: 1,
                                       width: isSender ? 'fit-content' : '100%',
                                       fontSize: '0.875rem',
-                                      p: theme => theme.spacing(0, 2, 1, 2),
+                                      p: theme => theme.spacing(0.1, 2, 0.1, 2),
                                       ml: isSender ? 'auto' : undefined,
                                       borderTopLeftRadius: !isSender ? 0 : undefined,
                                       borderTopRightRadius: isSender ? 0 : undefined,
@@ -335,10 +335,10 @@ const ChatLog = (props: any) => {
                                       backgroundColor: isSender ? 'primary.main' : 'background.paper'
                                     }}
                         >
-                          { ChatIndex == 0 ?
+                          { index == 0 ?
                             <SystemPromptTemplate text={chat.msg} handleSendMsg={handleSendMsg}/>
                           :
-                            <ReactMarkdown remarkPlugins={[RemarkBreaks]}>{chat.msg}</ReactMarkdown>
+                            <ReactMarkdown remarkPlugins={[RemarkBreaks]}>{chat.msg.replaceAll('\\n', '\n')}</ReactMarkdown>
                           }
                           {!isSender && index == ChatItemMsgList.length - 1 && index>0 && questionGuide ?
                             <Box>

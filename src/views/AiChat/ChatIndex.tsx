@@ -265,7 +265,7 @@ const ChatIndex = (props: any) => {
 
   useEffect(() => {
     const handleResize = () => {
-        setInnerHeight(window.innerHeight - 48 - 56 - 40);
+        setInnerHeight(window.innerHeight - 48 - 56 - 50);
     };
     handleResize();
   }, []);

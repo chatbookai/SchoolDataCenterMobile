@@ -45,7 +45,7 @@ const AllAiApp = ({authConfig}: any) => {
 
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
-  const [Title, setTitle] = useState<string>(t('AI教学') as string)
+  const [Title, setTitle] = useState<string>(t('AiChat') as string)
   const [RightButtonText, setRightButtonText] = useState<string>('')
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
 
