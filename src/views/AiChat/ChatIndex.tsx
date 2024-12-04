@@ -280,20 +280,8 @@ const ChatIndex = (props: any) => {
 
   return (
     <Box sx={{ width: '100%', height: innerHeight, overflow: 'hidden', display: 'flex' }}>
-      <Box
-        className='app-chat'
-        sx={{
-          width: '100%',
-          display: 'flex',
-          borderRadius: 1,
-          overflow: 'hidden',
-          position: 'relative',
-          backgroundColor: 'background.paper'
-        }}
-      >
       <ChatLog authConfig={authConfig} data={{ ...store?.selectedChat, userContact: store?.userProfile }} chatId={chatId} chatName={chatName} app={app} rowInMsg={rowInMsg} maxRows={maxRows} sendButtonDisable={sendButtonDisable} handleDeleteOneChatLogById={handleDeleteOneChatLogById} sendMsg={sendMsg} store={store} questionGuide={questionGuide} GetTTSFromAppValue={GetTTSFromAppValue}/>
       <SendMsgForm authConfig={authConfig} store={store} sendMsg={sendMsg} sendButtonDisable={sendButtonDisable} sendButtonLoading={sendButtonLoading} sendButtonText={sendButtonText} sendInputText={sendInputText} rowInMsg={rowInMsg} handleSetRowInMsg={handleSetRowInMsg} maxRows={maxRows} setStopMsg={setStopMsg}/>
-      </Box>
     </Box>
   )
 }

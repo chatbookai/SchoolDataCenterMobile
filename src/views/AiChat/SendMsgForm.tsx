@@ -74,13 +74,15 @@ const SendMsgForm = (props: any) => {
   return (
     <Box
         sx={{
-          width: '100%',
+          width: `calc(100% - 30)`,
           zIndex: 10,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          bottom: 0,
-          position: 'absolute',
+          bottom: 60,
+          left: 15,
+          right: 15,
+          position: 'fixed',
           overflow: 'visible',
         }}
       >

@@ -1,5 +1,5 @@
 // ** React Imports
-import { useRef, useEffect, Ref, ReactNode, Fragment, useState, memo } from 'react'
+import { useRef, useEffect, Fragment, useState } from 'react'
 import { saveAs } from 'file-saver';
 
 // ** MUI Imports
@@ -24,9 +24,6 @@ import { AppAvatar } from 'src/functions/ChatBook'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-// ** Third Party Components
-import PerfectScrollbarComponent, { ScrollBarProps } from 'react-perfect-scrollbar'
-
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
 
@@ -40,10 +37,6 @@ import {
   MessageGroupType,
   FormattedChatsType
 } from 'src/types/apps/chatTypes'
-
-const PerfectScrollbar = styled(PerfectScrollbarComponent)<ScrollBarProps & { ref: Ref<unknown> }>(({ theme }) => ({
-  padding: theme.spacing(3, 3, 3, 3)
-}))
 
 const LinkStyled = styled(Link)(({ theme }) => ({
   textDecoration: 'none',
@@ -105,22 +98,17 @@ const ChatLog = (props: any) => {
   // ** Ref
   const chatArea = useRef(null)
 
+
   // ** Scroll to chat bottom
   const scrollToBottom = () => {
 
-    // @ts-ignore
-    if (chatArea.current && chatArea.current._container && chatArea.current._container.scrollTop) {
+    if (chatArea.current) {
       // @ts-ignore
-      chatArea.current._container.scrollTop = Number.MAX_SAFE_INTEGER
-    }
-
-    // @ts-ignore
-    if (chatArea.current && chatArea.current.scrollTop) {
-      // @ts-ignore
-      chatArea.current.scrollTop = Number.MAX_SAFE_INTEGER
+      chatArea.current.scrollTop = Number.MAX_SAFE_INTEGER;
     }
 
   }
+
 
   const handleDownload = (DownloadUrl: string, FileName: string) => {
     fetch(DownloadUrl)
@@ -184,7 +172,20 @@ const ChatLog = (props: any) => {
   }
 
   useEffect(() => {
-    if (data && data.chat && data.chat.chat.length) {
+
+    // 使用 requestAnimationFrame 延迟执行滚动操作
+    const scroll = () => {
+      if (chatArea.current) {
+
+        // @ts-ignore
+        chatArea.current.scrollTop = chatArea.current.scrollHeight;
+      }
+    };
+    requestAnimationFrame(scroll);
+  }, [formattedChatData()]);
+
+  useEffect(() => {
+    if (data) {
       scrollToBottom()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -480,31 +481,28 @@ const ChatLog = (props: any) => {
     })
   }
 
-  const ScrollWrapper = ({ children }: { children: ReactNode }) => {
-    if (false) {
-      return (
-        <Box ref={chatArea} sx={{ p: 5, height: `calc(100% - 30px)`, overflowY: 'auto', overflowX: 'hidden' }}>
-          {children}
-        </Box>
-      )
-    } else {
-      return (
-        <PerfectScrollbar ref={chatArea} options={{ wheelPropagation: false, suppressScrollX: true }}>
-          {children}
-        </PerfectScrollbar>
-      )
-    }
-  }
-
   const inputMsgHeight = rowInMsg <= maxRows? rowInMsg * 1.25 : maxRows * 1.25
   console.log("inputMsgHeight", inputMsgHeight)
 
   return (
-    <Fragment>
-      <ScrollWrapper >{renderChats()}</ScrollWrapper>
+    <Box
+        className='app-chat'
+        sx={{
+          width: '100%',
+          display: 'flex',
+          borderRadius: 1,
+          overflowX: 'hidden',
+          overflowY: 'auto',
+          position: 'relative',
+          backgroundColor: 'background.paper'
+        }}
+      >
+      <Box ref={chatArea} sx={{ p: 3, pb: 6, overflowY: 'auto', overflowX: 'hidden' }}>
+        {renderChats()}
+      </Box>
       <ChatContextPreview contextPreviewOpen={contextPreviewOpen} setContextPreviewOpen={setContextPreviewOpen} contextPreviewData={contextPreviewData} app={app}/>
-    </Fragment>
+    </Box>
   )
 }
 
-export default memo(ChatLog)
+export default ChatLog
