@@ -43,7 +43,7 @@ const MyCourses = ({authConfig}: any) => {
 
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
-  const [Title, setTitle] = useState<string>(t('AI教学') as string)
+  const [Title, setTitle] = useState<string>(t('AI教学辅助') as string)
   const [RightButtonText, setRightButtonText] = useState<string>('')
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
 
@@ -52,6 +52,7 @@ const MyCourses = ({authConfig}: any) => {
   const handleSetChatWithCourse = async (item: any) => {
     setLeftIcon('ic:twotone-keyboard-arrow-left')
     setPageModel("ChatWithCourse")
+    setTitle(item['课程名称'] + " - " + item['班级名称'])
     setApp({...item, id: 'ididididid', AppName: item['课程名称'], AppName2: item['班级名称'], avatar: '1.png', SystemPrompt: '每次输出200-500字左右.', Model: {}, WelcomeText: '您好, 你是一个数学课程的老师,您有任何问题,都可以在此输入问题, 然后使用AI模型来得到答案.', QuestionGuideTemplate })
   }
 
@@ -180,7 +181,7 @@ const MyCourses = ({authConfig}: any) => {
   const handleWalletGoHome = () => {
     setPageModel("Main")
     setLeftIcon('')
-    setTitle('应用')
+    setTitle(t('AI教学辅助') as string)
     setRightButtonText('')
   }
 

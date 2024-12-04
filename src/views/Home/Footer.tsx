@@ -80,7 +80,7 @@ const Footer = (props: any) => {
               bottom: '1rem',
             }}
           />
-          <BottomNavigationAction label={t("AI") as string} icon={<Icon icon='ph:open-ai-logo-light' />} />
+          <BottomNavigationAction label={t("AiChat") as string} icon={<Icon icon='ph:open-ai-logo-light' />} />
           <BottomNavigationAction label={t("Setting") as string} icon={<Icon icon='mdi:settings-outline' />} />
         </BottomNavigation>
       </Box>

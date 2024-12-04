@@ -271,7 +271,7 @@ const ChatLog = (props: any) => {
                 color: 'text.primary',
               }}
               >
-                {chatName}
+                {t('AI Assistant')}
             </Typography>
             {sendButtonDisable == true && index == ChatItemMsgList.length - 1  ?
             <Fragment>

@@ -54,6 +54,7 @@ const AllAiApp = ({authConfig}: any) => {
   const handleSetChatWithApp = async (item: any) => {
     setLeftIcon('ic:twotone-keyboard-arrow-left')
     setPageModel("ChatWithApp")
+    setTitle(item.AppName)
     setApp({...item, id: "ChatApp-" + item.id, AppName2: item.AppModel, avatar: '1.png', Model: {}, QuestionGuideTemplate })
   }
 
@@ -182,7 +183,7 @@ const AllAiApp = ({authConfig}: any) => {
   const handleWalletGoHome = () => {
     setPageModel("Main")
     setLeftIcon('')
-    setTitle('应用')
+    setTitle(t('AiChat') as string)
     setRightButtonText('')
   }
 

@@ -29,7 +29,13 @@ const Header = (props: any) => {
             </IconButton>
           )}
         </Box>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+        <Typography variant="h6" component="div" sx={{
+                                                      flexGrow: 1,
+                                                      textAlign: 'center',
+                                                      whiteSpace: 'nowrap',
+                                                      overflow: 'hidden',
+                                                      textOverflow: 'ellipsis'
+                                                    }}>
           {Title}
         </Typography>
         <Box display="flex" justifyContent="flex-end" width="100px">
