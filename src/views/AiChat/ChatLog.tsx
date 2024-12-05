@@ -84,7 +84,7 @@ const SystemPromptTemplate = ({text, handleSendMsg}: any) => {
 const ChatLog = (props: any) => {
   // ** Props
   const { t } = useTranslation()
-  const { authConfig, data, chatName, app, rowInMsg, maxRows, sendButtonDisable, handleDeleteOneChatLogById, sendMsg, store, questionGuide } = props
+  const { authConfig, data, chatName, app, sendButtonDisable, handleDeleteOneChatLogById, sendMsg, store, questionGuide } = props
 
   const handleSendMsg = (msg: string) => {
     if (store && store.selectedChat && msg.trim().length) {
@@ -480,9 +480,6 @@ const ChatLog = (props: any) => {
       )
     })
   }
-
-  const inputMsgHeight = rowInMsg <= maxRows? rowInMsg * 1.25 : maxRows * 1.25
-  console.log("inputMsgHeight", inputMsgHeight)
 
   return (
     <Box

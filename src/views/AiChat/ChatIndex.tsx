@@ -251,12 +251,12 @@ const ChatIndex = (props: any) => {
     }
   }
 
-  const [innerHeight, setInnerHeight] = useState<number | string>(window.innerHeight - 48 - 56 - 50)
+  const [innerHeight, setInnerHeight] = useState<number | string>(window.innerHeight - 48 - 56 - 60)
   console.log("innerHeight innerHeight",innerHeight)
 
   useEffect(() => {
     const handleResize = () => {
-        setInnerHeight(window.innerHeight - 48 - 56 - 50);
+        setInnerHeight(window.innerHeight - 48 - 56 - 60);
     };
     handleResize();
   }, []);
@@ -271,7 +271,7 @@ const ChatIndex = (props: any) => {
 
   return (
     <Box sx={{ width: '100%', height: innerHeight, overflow: 'hidden', display: 'flex' }}>
-      <ChatLog authConfig={authConfig} data={{ ...store?.selectedChat, userContact: store?.userProfile }} chatId={chatId} chatName={chatName} app={app} rowInMsg={rowInMsg} maxRows={maxRows} sendButtonDisable={sendButtonDisable} handleDeleteOneChatLogById={handleDeleteOneChatLogById} sendMsg={sendMsg} store={store} questionGuide={questionGuide} GetTTSFromAppValue={GetTTSFromAppValue}/>
+      <ChatLog authConfig={authConfig} data={{ ...store?.selectedChat, userContact: store?.userProfile }} chatId={chatId} chatName={chatName} app={app} sendButtonDisable={sendButtonDisable} handleDeleteOneChatLogById={handleDeleteOneChatLogById} sendMsg={sendMsg} store={store} questionGuide={questionGuide} GetTTSFromAppValue={GetTTSFromAppValue}/>
       <SendMsgForm authConfig={authConfig} store={store} sendMsg={sendMsg} sendButtonDisable={sendButtonDisable} sendButtonLoading={sendButtonLoading} sendButtonText={sendButtonText} sendInputText={sendInputText} rowInMsg={rowInMsg} handleSetRowInMsg={handleSetRowInMsg} maxRows={maxRows} setStopMsg={setStopMsg}/>
     </Box>
   )
