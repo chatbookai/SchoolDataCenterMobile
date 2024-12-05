@@ -251,12 +251,12 @@ const ChatIndex = (props: any) => {
     }
   }
 
-  const [innerHeight, setInnerHeight] = useState<number | string>(window.innerHeight - 48 - 56 - 66)
+  const [innerHeight, setInnerHeight] = useState<number | string>(window.innerHeight - 48 - 56 - 72)
   console.log("innerHeight innerHeight",innerHeight)
 
   useEffect(() => {
     const handleResize = () => {
-        setInnerHeight(window.innerHeight - 48 - 56 - 66);
+        setInnerHeight(window.innerHeight - 48 - 56 - 72);
     };
     handleResize();
   }, []);
