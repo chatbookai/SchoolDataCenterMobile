@@ -151,7 +151,9 @@ export function ChatChatInput(appId: string, chatlogId: string, Question: string
     window.localStorage.setItem(ChatChat + "_" + appId, JSON.stringify(ChatChatList))
 }
 
-export async function ChatAiOutputV1(authConfig: any, _id: string, Message: string, Token: string, UserId: number | string, chatId: number | string, appId: string, setProcessingMessage: any, template: string, setFinishedMessage: any, allowQuestionGuide: boolean, setQuestionGuide: any, questionGuideTemplate: string, stopMsg: boolean, setStopMsg: any, GetModelFromAppValue: any) {
+export async function ChatAiOutputV1(authConfig: any, app: any, _id: string, Message: string, Token: string, UserId: number | string, chatId: number | string, setProcessingMessage: any, setFinishedMessage: any, setQuestionGuide: any, questionGuideTemplate: string, stopMsg: boolean, setStopMsg: any, temperature: number) {
+    const appId = app.id
+    const MaxHistory = Number(app.HistoryRecords)
     setStopMsg(false)
     const ChatChatHistoryText = window.localStorage.getItem(ChatChatHistory)
     const ChatChatList = ChatChatHistoryText ? JSON.parse(ChatChatHistoryText) : []
@@ -177,12 +179,11 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
                 },
                 body: JSON.stringify({
                     question: Message,
-                    history: History,
+                    history: MaxHistory == 0 ? [] : History.slice(0-MaxHistory),
                     appId: appId,
-                    template: template,
                     _id,
                     allowChatLog: 1,
-                    temperature: GetModelFromAppValue?.LLMModel?.temperature || 0.6
+                    temperature: temperature
                 }),
             });
             if (!response.body) {
@@ -211,8 +212,7 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
                 ChatChatHistoryInput(_id, Message, responseText, UserId, chatId, appId, responseTime, History)
                 setFinishedMessage(responseText);
 
-                //allowQuestionGuide
-                if(allowQuestionGuide) {
+                if(app.SimilarQuestions > 0) {
                     const url = authConfig.backEndApiAiBaseUrl + 'aichat/chataijson.php';
                     const headers = {
                         Authorization: Token,
@@ -225,10 +225,9 @@ export async function ChatAiOutputV1(authConfig: any, _id: string, Message: stri
                     setQuestionGuide(['Generating, please wait...'])
                     const data = {
                                 question: questionGuideTemplate,
-                                history: History,
+                                history: MaxHistory == 0 ? [] : History.slice(0-MaxHistory),
                                 appId: appId,
-                                template: template,
-                                temperature: 0.1,
+                                temperature: 0.2,
                                 _id: _id,
                                 allowChatLog: 0
                             };

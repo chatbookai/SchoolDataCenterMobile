@@ -30,6 +30,7 @@ const ChatIndex = (props: any) => {
   const [chatName, setChatName] = useState<string>("")
   const [historyCounter, setHistoryCounter] = useState<number>(0)
   const [stopMsg, setStopMsg] = useState<boolean>(false)
+  const [temperature, setTemperature] = useState<number>(Number(app.Temperature) / 10)
 
   const getChatLogList = async function (appId: string, appTemplate: string) {
     const userId = auth?.user?.username
@@ -151,7 +152,6 @@ const ChatIndex = (props: any) => {
   const [processingMessage, setProcessingMessage] = useState("")
   const [finishedMessage, setFinishedMessage] = useState("")
   const [responseTime, setResponseTime] = useState<number | null>(null);
-  const [GetModelFromAppValue, setGetModelFromAppValue] = useState<any>();
   const [questionGuide, setQuestionGuide] = useState<any>()
   const [GetTTSFromAppValue, setGetTTSFromAppValue] = useState<any>();
 
@@ -167,8 +167,6 @@ const ChatIndex = (props: any) => {
         "isSeen": false
     }
   }
-
-  console.log("finishedMessage", finishedMessage)
 
   useEffect(() => {
     const userId = auth?.user?.username
@@ -196,12 +194,12 @@ const ChatIndex = (props: any) => {
         },
         "selectedChat": selectedChat
       }
+      console.log("temperature", setTemperature)
+      console.log("finishedMessage", finishedMessage)
       setStore(storeInit)
       setHistoryCounter(ChatChatListValue.length)
     }
   }, [refreshChatCounter, processingMessage, auth])
-
-  console.log("app.WelcomeText", app.WelcomeText)
 
   useEffect(() => {
     if(t && app)   {
@@ -212,8 +210,6 @@ const ChatIndex = (props: any) => {
       setSendButtonText(t("Send") as string)
       setSendInputText(t("Your input...") as string)
 
-      setGetModelFromAppValue(GetModelFromApp(app))
-
       getChatLogList(app.id, app.WelcomeText)
 
       setGetTTSFromAppValue(GetTTSFromApp())
@@ -223,11 +219,6 @@ const ChatIndex = (props: any) => {
 
     }
   }, [t, app])
-
-  const GetModelFromApp = (app: any) => {
-
-    return app.Model
-  }
 
   const GetTTSFromApp = () => {
 
@@ -247,7 +238,7 @@ const ChatIndex = (props: any) => {
       ChatChatInput(app.id, _id, Obj.send, Obj.message, userId, 0, [])
       setRefreshChatCounter(refreshChatCounter + 1)
       const startTime = performance.now()
-      const ChatAiOutputV1Status = await ChatAiOutputV1(authConfig, _id, Obj.message, authorization, userId, chatId, app.id, setProcessingMessage, app.SystemPrompt, setFinishedMessage, true, setQuestionGuide, app.QuestionGuideTemplate, stopMsg, setStopMsg, GetModelFromAppValue)
+      const ChatAiOutputV1Status = await ChatAiOutputV1(authConfig, app, _id, Obj.message, authorization, userId, chatId, setProcessingMessage, setFinishedMessage, setQuestionGuide, app.QuestionGuideTemplate, stopMsg, setStopMsg, temperature)
       const endTime = performance.now();
       setResponseTime(endTime - startTime);
       if(ChatAiOutputV1Status)      {
