@@ -8,7 +8,6 @@ import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { useRouter } from 'next/router'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -33,10 +32,8 @@ interface DataType {
 }
 
 const AnalyticsTransactionsCard = (props: DataType) => {
-  
+
   const { data, handleOptionsMenuItemClick } = props
-  const router = useRouter();
-  console.log("router",router)
   const [selectedItem, setSelectedItem] = useState<string>("")
 
   useEffect(() => {
