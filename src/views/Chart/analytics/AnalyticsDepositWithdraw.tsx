@@ -7,7 +7,6 @@ import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import MuiDivider, { DividerProps } from '@mui/material/Divider'
-import { useRouter } from 'next/router'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -41,9 +40,8 @@ interface DataType {
 }
 
 const AnalyticsDepositWithdraw = (props: DataType) => {
-  
+
   const { data, handleOptionsMenuItemClick } = props
-  const router = useRouter();
   console.log("handleOptionsMenuItemClick",handleOptionsMenuItemClick)
 
   return (
@@ -52,7 +50,7 @@ const AnalyticsDepositWithdraw = (props: DataType) => {
         <CardHeader
           title={data['加分']['Title']}
           sx={{ pt: 5.5, alignItems: 'center', '& .MuiCardHeader-action': { mt: 0.6 } }}
-          action={<Typography variant='caption' onClick={() => router.push(data['加分']['TopRightButton']['url'])} style={{ cursor: 'pointer' }}>{data['加分']['TopRightButton']['name']}</Typography>}
+          action={<Typography variant='caption' onClick={() => console.log(data['加分']['TopRightButton']['url'])} style={{ cursor: 'pointer' }}>{data['加分']['TopRightButton']['name']}</Typography>}
           titleTypographyProps={{
             variant: 'h6',
             sx: { lineHeight: '1.6 !important', letterSpacing: '0.15px !important' }
@@ -104,7 +102,7 @@ const AnalyticsDepositWithdraw = (props: DataType) => {
         <CardHeader
           title={data['扣分']['Title']}
           sx={{ pt: 5.5, alignItems: 'center', '& .MuiCardHeader-action': { mt: 0.6 } }}
-          action={<Typography variant='caption' onClick={() => router.push(data['扣分']['TopRightButton']['url'])} style={{ cursor: 'pointer' }}>{data['扣分']['TopRightButton']['name']}</Typography>}
+          action={<Typography variant='caption' onClick={() => console.log(data['扣分']['TopRightButton']['url'])} style={{ cursor: 'pointer' }}>{data['扣分']['TopRightButton']['name']}</Typography>}
           titleTypographyProps={{
             variant: 'h6',
             sx: { lineHeight: '1.6 !important', letterSpacing: '0.15px !important' }

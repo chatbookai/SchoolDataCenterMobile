@@ -299,25 +299,25 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
     console.log("RightButtonOnClick: 163", pageModel)
     console.log("RightButtonOnClick: 163", actionInMobileApp)
     switch(pageModel) {
-        case 'AnalyticsStudent':
-        case 'AnalyticsClass':
-        case 'StatisticsStudentsbyClass':
-        case 'StatisticsStudentsbyIndividual':
-        case 'EngineeModelApp':
-          if(RightButtonIcon == 'ic:sharp-add-circle-outline')   {
-            setActionInMobileApp('add_default')
-            setPreviousPageModel((preV: any)=>[...preV, 'add_default']) //行为栈,新增加一个新建页面
-            setRightButtonIcon('') //当点击右上角的新建按钮,进行新建页面时,需要暂时不显示右上角的新建按钮. 当回到列表页面时,需要显示出来.
-          }
-          else if(RightButtonIcon == 'material-symbols:ios-share')   {
-            setViewPageShareStatus(true)
+      case 'AnalyticsStudent':
+      case 'AnalyticsClass':
+      case 'StatisticsStudentsbyClass':
+      case 'StatisticsStudentsbyIndividual':
+      case 'EngineeModelApp':
+        if(RightButtonIcon == 'ic:sharp-add-circle-outline')   {
+          setActionInMobileApp('add_default')
+          setPreviousPageModel((preV: any)=>[...preV, 'add_default']) //行为栈,新增加一个新建页面
+          setRightButtonIcon('') //当点击右上角的新建按钮,进行新建页面时,需要暂时不显示右上角的新建按钮. 当回到列表页面时,需要显示出来.
+        }
+        else if(RightButtonIcon == 'material-symbols:ios-share')   {
+          setViewPageShareStatus(true)
 
-            //setActionInMobileApp('add_default')
-            //setPreviousPageModel((preV: any)=>[...preV, 'add_default']) //行为栈,新增加一个新建页面
-            //setRightButtonIcon('') //当点击右上角的新建按钮,进行新建页面时,需要暂时不显示右上角的新建按钮. 当回到列表页面时,需要显示出来.
-          }
-          break
-      }
+          //setActionInMobileApp('add_default')
+          //setPreviousPageModel((preV: any)=>[...preV, 'add_default']) //行为栈,新增加一个新建页面
+          //setRightButtonIcon('') //当点击右上角的新建按钮,进行新建页面时,需要暂时不显示右上角的新建按钮. 当回到列表页面时,需要显示出来.
+        }
+        break
+    }
   }
 
   const handSetViewPageShareStatus = (NewStatus: boolean) => {

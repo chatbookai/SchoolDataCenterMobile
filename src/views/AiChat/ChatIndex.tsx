@@ -23,12 +23,11 @@ const ChatIndex = (props: any) => {
   // ** Hook
   const { t } = useTranslation()
   const auth = useAuth()
-  const { app, authConfig } = props
+  const { app, authConfig, setHistoryCounter, clearButtonClickEvent } = props
 
   const [refreshChatCounter, setRefreshChatCounter] = useState<number>(1)
   const [chatId, setChatId] = useState<number | string>(-1)
   const [chatName, setChatName] = useState<string>("")
-  const [historyCounter, setHistoryCounter] = useState<number>(0)
   const [stopMsg, setStopMsg] = useState<boolean>(false)
   const [temperature, setTemperature] = useState<number>(Number(app.Temperature) / 10)
 
@@ -74,7 +73,6 @@ const ChatIndex = (props: any) => {
 
   const ClearButtonClick = async function () {
     const userId = auth?.user?.username
-    const authorization = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
     if(userId) {
       DeleteChatChat(app.id)
       DeleteChatChatHistory(userId, chatId, app.id)
@@ -102,6 +100,8 @@ const ChatIndex = (props: any) => {
       setHistoryCounter(0)
       setRefreshChatCounter(0)
 
+      /*
+      const authorization = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
       const data: any = {appId: app.id, action: 'deleteByChatApp'}
       const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog.php', data, {
         headers: {
@@ -115,9 +115,15 @@ const ChatIndex = (props: any) => {
       else {
         toast.error(t(RS.msg) as string, { duration: 2500, position: 'top-center' })
       }
+      */
     }
   }
-  console.log("ClearButtonClick", ClearButtonClick, historyCounter)
+
+  useEffect(() => {
+    if(clearButtonClickEvent) {
+      ClearButtonClick()
+    }
+  }, [clearButtonClickEvent]);
 
   const handleDeleteOneChatLogById = async function (chatlogId: string) {
     if (auth && auth.user && app) {

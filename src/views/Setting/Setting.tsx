@@ -139,7 +139,7 @@ const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
     setRefreshWalletData(refreshWalletData+1)
     setPageModel('Setting')
     setLeftIcon('')
-    setTitle('Setting')
+    setTitle(t('Setting') as string)
     setRightButtonText('QR')
     setRightButtonIcon(RightButtonIconOriginal)
   }
@@ -236,7 +236,7 @@ const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
     setCounter(counter + 1)
     setPageModel('SecurityPrivacy')
     setLeftIcon('ic:twotone-keyboard-arrow-left')
-    setTitle('Security & Privacy')
+    setTitle(t('Security & Privacy') as string)
     setRightButtonText('')
     setRightButtonIcon('')
   }
@@ -289,14 +289,14 @@ const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
     setCounter(counter + 1)
     setPageModel('Theme')
     setLeftIcon('ic:twotone-keyboard-arrow-left')
-    setTitle('Theme')
+    setTitle(t('Theme') as string)
     setRightButtonText('')
     setRightButtonIcon('')
   }
 
   const handleSelectLanguage = (Language: 'en' | 'zh-CN' | 'Ru' | 'Kr') => {
     setLanguageValue(Language)
-    setTitle(Language)
+    setTitle(t(Language) as string)
     i18n.changeLanguage(Language)
     setUserLanguage(Language)
   }
@@ -304,7 +304,7 @@ const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
   const handleSelectTheme = (Theme: string) => {
     console.log("Theme", Theme)
     setThemeValue(Theme)
-    setTitle(Theme)
+    setTitle(t(Theme) as string)
 
     //@ts-ignore
     saveSettings({ ...settings, ['mode']: Theme })
@@ -313,7 +313,7 @@ const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
   const handleClickTermsOfUseButton = () => {
     setPageModel('TermsOfUse')
     setLeftIcon('ic:twotone-keyboard-arrow-left')
-    setTitle('Terms of Use')
+    setTitle(t('Terms of Use') as string)
     setRightButtonText('')
     setRightButtonIcon('')
   }
@@ -321,7 +321,7 @@ const Setting = ({ handleLogout, menuArray, authConfig }: any) => {
   const handleClickPrivacyPolicyButton = () => {
     setPageModel('PrivacyPolicy')
     setLeftIcon('ic:twotone-keyboard-arrow-left')
-    setTitle('Privacy Policy')
+    setTitle(t('Privacy Policy') as string)
     setRightButtonText('')
     setRightButtonIcon('')
   }

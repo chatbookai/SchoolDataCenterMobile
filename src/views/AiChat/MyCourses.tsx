@@ -4,10 +4,10 @@ import { useState, useEffect, Fragment } from 'react'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
-import CardContent from '@mui/material/CardContent'
 import CircularProgress from '@mui/material/CircularProgress'
 
 // ** Third Party Components
@@ -33,7 +33,7 @@ const ContentWrapper = styled('main')(({ theme }) => ({
   }
 }))
 
-const MyCourses = ({authConfig}: any) => {
+const AllAiApp = ({authConfig}: any) => {
   const { t } = useTranslation()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [myCoursesList, setMyCoursesList] = useState<any[]>([])
@@ -43,17 +43,21 @@ const MyCourses = ({authConfig}: any) => {
 
   const [HeaderHidden, setHeaderHidden] = useState<boolean>(false)
   const [LeftIcon, setLeftIcon] = useState<string>('')
-  const [Title, setTitle] = useState<string>(t('AI教学辅助') as string)
+  const [Title, setTitle] = useState<string>(t('Course') as string)
   const [RightButtonText, setRightButtonText] = useState<string>('')
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
+  const [historyCounter, setHistoryCounter] = useState<number>(0)
+  const [clearButtonClickEvent, setClearButtonClickEvent] = useState<boolean>(false)
 
   const QuestionGuideTemplate = '你是一个AI智能助手，可以回答和解决我的问题。请结合前面的对话记录，帮我生成 3 个问题，引导我继续提问。问题的长度应小于20个字符，要求使用UTF-8编码，按 JSON 格式返回: ["问题1", "问题2", "问题3"]'
 
-  const handleSetChatWithCourse = async (item: any) => {
-    setLeftIcon('ic:twotone-keyboard-arrow-left')
-    setPageModel("ChatWithCourse")
-    setTitle(item['课程名称'] + " - " + item['班级名称'])
-    setApp({...item, id: 'ididididid', AppName: item['课程名称'], AppName2: item['班级名称'], avatar: '1.png', SystemPrompt: '每次输出200-500字左右.', Model: {}, WelcomeText: '您好, 你是一个数学课程的老师,您有任何问题,都可以在此输入问题, 然后使用AI模型来得到答案.', QuestionGuideTemplate })
+  const handleSetChatWithApp = async (item: any) => {
+    if(false) {
+      setLeftIcon('ic:twotone-keyboard-arrow-left')
+      setPageModel("ChatWithApp")
+      setTitle(item.AppName)
+      setApp({...item, id: "ChatApp-" + item.id, AppName2: item.AppModel, avatar: '1.png', Model: {}, QuestionGuideTemplate })
+    }
   }
 
   const handelGetMyCoursesList = async () => {
@@ -181,7 +185,7 @@ const MyCourses = ({authConfig}: any) => {
   const handleWalletGoHome = () => {
     setPageModel("Main")
     setLeftIcon('')
-    setTitle(t('AI教学辅助') as string)
+    setTitle(t('AiChat') as string)
     setRightButtonText('')
   }
 
@@ -195,16 +199,29 @@ const MyCourses = ({authConfig}: any) => {
   }
 
   const RightButtonOnClick = () => {
-    handleWalletGoHome()
+    switch(RightButtonIcon) {
+      case 'lineicons:trash-3':
+        setClearButtonClickEvent(true)
+        break
+    }
   }
 
   useEffect(() => {
     setHeaderHidden(false)
-    setRightButtonIcon('')
     handelGetMyCoursesList()
     handelGetChatAppList()
-
   }, []);
+
+  useEffect(() => {
+    if(historyCounter>1) {
+      setRightButtonIcon('lineicons:trash-3')
+      setClearButtonClickEvent(false)
+    }
+    else {
+      setRightButtonIcon('')
+      setClearButtonClickEvent(false)
+    }
+  }, [historyCounter]);
 
   return (
     <Fragment>
@@ -237,29 +254,29 @@ const MyCourses = ({authConfig}: any) => {
 
                   {myCoursesList && myCoursesList.length > 0 && myCoursesList.map((item: any, index: number) => {
 
-                    return (
-                      <Grid item xs={12} sx={{ mb: 2, }} key={index}>
-                        <Card>
-                          <CardContent onClick={()=>handleSetChatWithCourse(item)} sx={{m: 1, p: 1, pl: 3, mb: 0, pb: 0}}>
-                              <Grid item xs={12} mt={2}>
-                                <Typography variant='body2' sx={{ fontWeight: 'bold', color: 'text.primary', display: 'flex', alignItems: 'center' }}>
-                                {item['班级名称']}
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={12} mt={1}>
-                                <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'left' }}>
-                                  课程:{item['课程名称']}
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={12} mt={1}>
-                                <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'left' }}>
-                                  教师:{item['教师姓名']}
-                                </Typography>
-                              </Grid>
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    )
+                  return (
+                    <Grid item xs={12} sx={{ mb: 2, }} key={index}>
+                      <Card>
+                        <CardContent onClick={()=>handleSetChatWithApp(item)} sx={{m: 1, p: 1, pl: 3, mb: 0, pb: 0}}>
+                            <Grid item xs={12} mt={2}>
+                              <Typography variant='body2' sx={{ fontWeight: 'bold', color: 'text.primary', display: 'flex', alignItems: 'center' }}>
+                              {item['班级名称']}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={12} mt={1}>
+                              <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'left' }}>
+                                课程:{item['课程名称']}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={12} mt={1}>
+                              <Typography variant='body2' sx={{ color: 'text.primary', display: 'flex', alignItems: 'left' }}>
+                                教师:{item['教师姓名']}
+                              </Typography>
+                            </Grid>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  )
                   })}
                 </Grid>
               )}
@@ -268,13 +285,13 @@ const MyCourses = ({authConfig}: any) => {
 
           {pageModel == "ChatWithCourse" && (
             <Fragment>
-              <ChatIndex authConfig={authConfig} app={app}/>
+              <ChatIndex authConfig={authConfig} app={app} historyCounter={historyCounter} setHistoryCounter={setHistoryCounter} clearButtonClickEvent={clearButtonClickEvent} />
             </Fragment>
           )}
 
           {pageModel == "ChatWithApp" && (
             <Fragment>
-              <ChatIndex authConfig={authConfig} app={app}/>
+              <ChatIndex authConfig={authConfig} app={app} historyCounter={historyCounter} setHistoryCounter={setHistoryCounter} clearButtonClickEvent={clearButtonClickEvent} />
             </Fragment>
           )}
 
@@ -285,4 +302,4 @@ const MyCourses = ({authConfig}: any) => {
   );
 };
 
-export default MyCourses;
+export default AllAiApp;

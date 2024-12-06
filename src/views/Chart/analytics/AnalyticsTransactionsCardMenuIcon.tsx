@@ -7,7 +7,6 @@ import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { useRouter } from 'next/router'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -31,10 +30,8 @@ interface DataType {
 }
 
 const AnalyticsTransactionsCardMenuIcon = (props: DataType) => {
-  
+
   const { data } = props
-  const router = useRouter();
-  console.log("router",router)
 
   return (
     <Card>
@@ -60,7 +57,7 @@ const AnalyticsTransactionsCardMenuIcon = (props: DataType) => {
           {
             data.data.map((item: DataType2, index: number) => (
               <Grid item xs={12} sm={2} key={index}>
-                <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 3 }} onClick={() => router.push(item.url)}>
+                <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 3 }} onClick={() => console.log(item.url)}>
                   <CustomAvatar
                       variant='rounded'
                       color={item.color}

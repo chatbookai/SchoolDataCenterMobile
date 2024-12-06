@@ -1,18 +1,16 @@
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
-import { useRouter } from 'next/router'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 
 // Styled component for the trophy image
 const TrophyImg = styled('img')({
   right: 36,
-  bottom: 20,
-  height: 98,
+  bottom: 18,
+  height: 70,
   position: 'absolute'
 })
 
@@ -26,8 +24,6 @@ const AnalyticsTrophy = (props: DataType) => {
 
   const { className, data, toggleSetClassName } = props
 
-  const router = useRouter();
-
   return (
     <Card sx={{ position: 'relative' }}>
       <CardContent style={{ overflow: 'auto' }}>
@@ -38,7 +34,7 @@ const AnalyticsTrophy = (props: DataType) => {
         <Typography variant='h5' sx={{ my: 3.5, color: 'primary.main' }}>
           {data.TotalScore}
         </Typography>
-        {data.TopRightOptions ?
+        {data.TopRightOptions &&
           <Autocomplete
             autoSelect
             size="small"
@@ -55,10 +51,6 @@ const AnalyticsTrophy = (props: DataType) => {
             isOptionEqualToValue={(option, value) => option.code === value.code}
             value={data.TopRightOptions.find((option: { code: string }) => option.code == className)}
           />
-        :
-          <Button size='small' variant='contained' onClick={() => router.push(data.ViewButton.url)}>
-            {data.ViewButton.name}
-          </Button>
         }
         <TrophyImg alt='trophy' src='/images/misc/trophy.png' />
       </CardContent>

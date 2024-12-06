@@ -48,6 +48,8 @@ const AllAiApp = ({authConfig}: any) => {
   const [Title, setTitle] = useState<string>(t('AiChat') as string)
   const [RightButtonText, setRightButtonText] = useState<string>('')
   const [RightButtonIcon, setRightButtonIcon] = useState<string>('')
+  const [historyCounter, setHistoryCounter] = useState<number>(0)
+  const [clearButtonClickEvent, setClearButtonClickEvent] = useState<boolean>(false)
 
   const QuestionGuideTemplate = '你是一个AI智能助手，可以回答和解决我的问题。请结合前面的对话记录，帮我生成 3 个问题，引导我继续提问。问题的长度应小于20个字符，要求使用UTF-8编码，按 JSON 格式返回: ["问题1", "问题2", "问题3"]'
 
@@ -185,6 +187,7 @@ const AllAiApp = ({authConfig}: any) => {
     setLeftIcon('')
     setTitle(t('AiChat') as string)
     setRightButtonText('')
+    setRightButtonIcon('')
   }
 
   const LeftIconOnClick = () => {
@@ -197,16 +200,29 @@ const AllAiApp = ({authConfig}: any) => {
   }
 
   const RightButtonOnClick = () => {
-    handleWalletGoHome()
+    switch(RightButtonIcon) {
+      case 'lineicons:trash-3':
+        setClearButtonClickEvent(true)
+        break
+    }
   }
 
   useEffect(() => {
     setHeaderHidden(false)
-    setRightButtonIcon('')
     handelGetMyCoursesList()
     handelGetChatAppList()
-
   }, []);
+
+  useEffect(() => {
+    if(historyCounter>1) {
+      setRightButtonIcon('lineicons:trash-3')
+      setClearButtonClickEvent(false)
+    }
+    else {
+      setRightButtonIcon('')
+      setClearButtonClickEvent(false)
+    }
+  }, [historyCounter]);
 
   return (
     <Fragment>
@@ -276,13 +292,13 @@ const AllAiApp = ({authConfig}: any) => {
 
           {pageModel == "ChatWithCourse" && (
             <Fragment>
-              <ChatIndex authConfig={authConfig} app={app}/>
+              <ChatIndex authConfig={authConfig} app={app} historyCounter={historyCounter} setHistoryCounter={setHistoryCounter} clearButtonClickEvent={clearButtonClickEvent} />
             </Fragment>
           )}
 
           {pageModel == "ChatWithApp" && (
             <Fragment>
-              <ChatIndex authConfig={authConfig} app={app}/>
+              <ChatIndex authConfig={authConfig} app={app} historyCounter={historyCounter} setHistoryCounter={setHistoryCounter} clearButtonClickEvent={clearButtonClickEvent} />
             </Fragment>
           )}
 

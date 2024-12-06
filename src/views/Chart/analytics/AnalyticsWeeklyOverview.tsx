@@ -9,7 +9,6 @@ import { useTheme } from '@mui/material/styles'
 import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { useRouter } from 'next/router'
 
 // ** Third Party Imports
 import { ApexOptions } from 'apexcharts'
@@ -35,8 +34,6 @@ const AnalyticsWeeklyOverview = (props: DataType) => {
       }
     })
   }, [data.TopRightOptions])
-
-  const router = useRouter();
 
   // ** Hook
   const theme = useTheme()
@@ -139,7 +136,7 @@ const AnalyticsWeeklyOverview = (props: DataType) => {
           </Typography>
           <Typography variant='body2'>{data.BottomText.Right}</Typography>
         </Box>
-        <Button fullWidth variant='contained' onClick={() => router.push(data.ViewButton.url)}>
+        <Button fullWidth variant='contained' onClick={() => console.log(data.ViewButton.url)}>
         {data.ViewButton.name}
         </Button>
       </CardContent>
