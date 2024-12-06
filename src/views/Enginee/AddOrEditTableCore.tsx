@@ -217,8 +217,6 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
     const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
     const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
 
-    console.log("AddtionalParams======================================",action)
-
     const [fieldIdValue, setFieldIdValue] = useState<number>(0)
     const [singleModelCounter, setSingleModelCounter] = useState<number>(0)
 
@@ -2460,19 +2458,23 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                                                                                         const loopModelDataStorageTemp:{[key:string]:any} = { ...loopModelDataStorage }
                                                                                         loopModelDataStorageTemp[FieldArray.name] = e.target.value
                                                                                         setLoopModelDataStorage(loopModelDataStorageTemp)
-                                                                                        setFieldIdValue(fieldIdValue + 1)
-
-                                                                                        //console.log("loopModelDataStorageTemp1", loopModelDataStorageTemp)
+                                                                                        setTimeout(function() {
+                                                                                          setFieldIdValue(fieldIdValue + 1);
+                                                                                        }, 200);
+                                                                                        console.log("loopModelDataStorageTemp1", loopModelDataStorageTemp)
                                                                                     }
                                                                                 }}
                                                                                 onClick={(e: any) => {
+
+                                                                                    //当点击事件不在文字本身,而是同一行右侧的空白区域点击时,会触发此事件.
                                                                                     if((fieldIdValue + 1) < singleModelCounter && e.target && e.target.innerText) {
                                                                                         const loopModelDataStorageTemp:{[key:string]:any} = { ...loopModelDataStorage }
                                                                                         loopModelDataStorageTemp[FieldArray.name] = e.target.innerText
                                                                                         setLoopModelDataStorage(loopModelDataStorageTemp)
-                                                                                        setFieldIdValue(fieldIdValue + 1)
-
-                                                                                        //console.log("loopModelDataStorageTemp2", loopModelDataStorageTemp)
+                                                                                        setTimeout(function() {
+                                                                                          setFieldIdValue(fieldIdValue + 1);
+                                                                                        }, 200);
+                                                                                        console.log("loopModelDataStorageTemp2", loopModelDataStorageTemp)
                                                                                     }
                                                                                 }}
                                                                             >

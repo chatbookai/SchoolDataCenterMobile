@@ -36,7 +36,7 @@ const ChatIndex = (props: any) => {
     const userId = auth?.user?.username
     const authorization = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
     try {
-      if(userId && authorization) {
+      if(userId && authorization && false) { //暂时不需要从服务器端下载用户的AI聊天对话, 聊天对话只使用本地保存的那份
         const RS = await axios.post(authConfig.backEndApiHost + 'aichat/chatlog.php', {appId, pageId: 0, action: 'getChatList'}, {
           headers: {
             Authorization: authorization,
@@ -251,12 +251,12 @@ const ChatIndex = (props: any) => {
     }
   }
 
-  const [innerHeight, setInnerHeight] = useState<number | string>(window.innerHeight - 48 - 56 - 75)
+  const [innerHeight, setInnerHeight] = useState<number | string>(window.innerHeight - 48 - 56 - 78)
   console.log("innerHeight innerHeight",innerHeight)
 
   useEffect(() => {
     const handleResize = () => {
-        setInnerHeight(window.innerHeight - 48 - 56 - 75);
+        setInnerHeight(window.innerHeight - 48 - 56 - 78);
     };
     handleResize();
   }, []);
