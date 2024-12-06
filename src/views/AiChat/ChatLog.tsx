@@ -51,18 +51,23 @@ const SystemPromptTemplate = ({text, handleSendMsg}: any) => {
   };
 
   const replaceKeywordsWithLinks = (text: string) => {
-    const replacedText = text.split(/(\[.*?\])/).map((part, index) => {
+    let ListItemStatus = false //当开始处理[问题]以后,就不需要做换行操作了
+    const replacedText = text.split(/(\[.*?\]|\n)/).map((part, index) => {
       if (part.startsWith('[') && part.endsWith(']')) {
+        ListItemStatus = true
         const keyword = part.slice(1, -1);
 
         return (
-          <ListItem key={index} sx={{m: 0, p: 0, pt: 0}}>
-            <Typography sx={{mr: 3, my: 0.5  }}>•</Typography>
+          <ListItem key={index} sx={{ m: 0, p: 0, pt: 0 }}>
+            <Typography sx={{ mr: 3, my: 0.5 }}>•</Typography>
             <LinkStyled href="#" onClick={(event: any) => handleClick(event, keyword)}>
               {keyword}
             </LinkStyled>
           </ListItem>
         );
+      }
+      else if (part === '\n' && ListItemStatus == false) {
+        return <br key={index} />;
       }
 
       return part;
