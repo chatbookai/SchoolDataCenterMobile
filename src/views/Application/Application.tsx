@@ -324,7 +324,7 @@ const Application = ({ menuArray, setMenuArray, authConfig }: any) => {
     setViewPageShareStatus(NewStatus)
   }
 
-  console.log("pageModel-----", pageModel, previousPageModel)
+  console.log("pageModel-----", pageModel, previousPageModel, menuArray)
 
   return (
     <Fragment>
