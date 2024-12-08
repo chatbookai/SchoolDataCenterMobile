@@ -34,13 +34,20 @@ const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<UserDataType | null>(defaultProvider.user)
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
 
-  const [authConfig, setAuthConfig] = useState<any>(getConfig('@dandian'))
+  const [authConfig, setAuthConfig] = useState<any>(null)
+
+  console.log("authConfig", authConfig)
 
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
+      const AppMarkId = window.localStorage.getItem('AppMarkId')
+      if(AppMarkId)  {
+        setAuthConfig(getConfig('@'+AppMarkId))
+      }
+
       const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
       const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
-      if (storedToken && storedToken!=undefined) {
+      if (authConfig && storedToken && storedToken!=undefined) {
         setLoading(true)
         await axios
           .get(authConfig.meEndpoint, {
@@ -153,7 +160,7 @@ const AuthProvider = ({ children }: Props) => {
 
   const handleRefreshToken = () => {
     const token = window.localStorage.getItem(defaultConfig.storageTokenKeyName)
-    if(window && token)  {
+    if(window && token && authConfig)  {
       axios
         .post(authConfig.refreshEndpoint, {}, { headers: { Authorization: token, 'Content-Type': 'application/json'} })
         .then(async (response: any) => {
