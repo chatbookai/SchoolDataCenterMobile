@@ -36,8 +36,6 @@ const AuthProvider = ({ children }: Props) => {
 
   const [authConfig, setAuthConfig] = useState<any>(null)
 
-  console.log("authConfig", authConfig)
-
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
       const AppMarkId = window.localStorage.getItem('AppMarkId')
@@ -47,6 +45,11 @@ const AuthProvider = ({ children }: Props) => {
 
       const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
       const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
+      const userData = window.localStorage.getItem('userData')!
+      if(userData) {
+        setUser(JSON.parse(userData))
+      }
+
       if (authConfig && storedToken && storedToken!=undefined) {
         setLoading(true)
         await axios
@@ -88,7 +91,8 @@ const AuthProvider = ({ children }: Props) => {
             setUser(null)
             setLoading(false)
           })
-      } else {
+      }
+      else {
         setLoading(false)
       }
     }

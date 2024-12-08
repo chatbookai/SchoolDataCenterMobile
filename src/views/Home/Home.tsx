@@ -53,9 +53,11 @@ const Home = () => {
     refreshUserToken();
 
     const loadingFirstTime = async () => {
+      const storedToken = window.localStorage.getItem(defaultConfig.storageTokenKeyName)!
+      const AccessKey = window.localStorage.getItem(defaultConfig.storageAccessKeyName)!
       setLoadingText(t('Login Tip') as string)
       setTimeout(() => {
-        if (user) {
+        if (user && storedToken && AccessKey) {
           setCurrentTab("Application")
         }
         else {
