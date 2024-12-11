@@ -11,9 +11,9 @@ export const getNanoid = (size = 12) => {
   return customAlphabet('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890', size)();
 };
 
-export function ChatChatList(appId: string) {
+export function ChatChatList(appId: string, WelcomeText: string) {
     const ChatChatText = window.localStorage.getItem(ChatChat + "_" + appId)
-    const ChatChatList = ChatChatText ? JSON.parse(ChatChatText) : []
+    const ChatChatList = ChatChatText ? JSON.parse(ChatChatText) : ChatChatInit(appId, [], WelcomeText)
 
     return ChatChatList
 }

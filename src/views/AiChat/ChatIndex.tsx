@@ -177,7 +177,7 @@ const ChatIndex = (props: any) => {
   useEffect(() => {
     const userId = auth?.user?.username
     if(userId) {
-      const ChatChatListValue = ChatChatList(app.id)
+      const ChatChatListValue = ChatChatList(app.id, app.WelcomeText)
       if(processingMessage && processingMessage!="") {
 
         //流式输出的时候,进来显示
