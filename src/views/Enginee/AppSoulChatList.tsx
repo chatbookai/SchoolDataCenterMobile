@@ -44,23 +44,22 @@ const AppSoulChatList = (props: any) => {
 
   const renderContent = () => {
       return (
-        <Grid container spacing={2}>
+        <Grid container>
           <Grid item xs={12} sx={{ height: '100%', overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#ffffff' }}>
-            <Card sx={{ px: 2}}>
               <Fragment>
                 {isMobileData == false && (
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <Box p={2} pb={0}>
+                      <Box px={2} pb={0}>
                         <Typography variant="h6">心理健康测评</Typography>
                       </Box>
                     </Grid>
                   </Grid>
                 )}
-                <Grid container spacing={2} sx={{ mt: 0, mb: 1}}>
+                <Grid container spacing={2} sx={{ my: 0}}>
                   {store.init_default.data && store.init_default.data.map((item: any, index: number) => (
                     <Grid item key={index} xs={12} sm={6} md={4} lg={4}>
-                      <Box position="relative" sx={{mb: 2}}>
+                      <Box position="relative">
                         <CardMedia image={`/images/cardmedia/cardmedia-${theme.palette.mode}.png`} sx={{ height: '14rem', objectFit: 'contain', borderRadius: 1 }}/>
                         <Box position="absolute" top={10} left={3} m={1} px={0.8} borderRadius={1} >
                           <Box display="flex" alignItems="center">
@@ -140,7 +139,6 @@ const AppSoulChatList = (props: any) => {
                   null}
                 </Grid>
               </Fragment>
-            </Card>
             {loading ?
             <Dialog
               open={show}
