@@ -7,7 +7,7 @@ import { getConfig } from 'src/configs/auth'
 
 const TermsofUse = () => {
 
-  const authConfig = getConfig('@dandian')
+  const authConfig = getConfig('@dandian.net')
 
   return <TermsofUseModel authConfig={authConfig} />
 }

@@ -1,12 +1,12 @@
 
 export const AppSchoolConfigMap: any    = {}
-AppSchoolConfigMap['dandian']    = ["https://fdzz.dandian.net/api/", '单点数据中心', "auth/menusMobile.php", "https://fdzz.dandian.net/api/"]
+AppSchoolConfigMap['dandian.net']    = ["https://fdzz.dandian.net/api/", '单点数据中心', "auth/menusMobile.php", "https://fdzz.dandian.net/api/"]
 AppSchoolConfigMap['fdzyzz.com'] = ["https://fdzz.dandian.net/api/", '福鼎职业中专', "auth/menusMobile.php", "https://fdzz.dandian.net/api/"]
 AppSchoolConfigMap['fjsmnx.com'] = ["https://dsj.fjsmlyxx.com:1443/api/", '三明林业学校', "auth/menusMobile.php", "https://dsj.fjsmlyxx.com:1443/api/"]
 
 export function getConfig(Username: string) {
   const UsernameArray = Username.split('@')
-  const AppMarkId = UsernameArray[1] && AppSchoolConfigMap[UsernameArray[1]] ? UsernameArray[1] : 'dandian'
+  const AppMarkId = UsernameArray[1] && AppSchoolConfigMap[UsernameArray[1]] ? UsernameArray[1] : 'dandian.net'
   const APP_URL = AppSchoolConfigMap[AppMarkId][0]
   const AppName = AppSchoolConfigMap[AppMarkId][1]
   const indexMenuspath = AppSchoolConfigMap[AppMarkId][2]

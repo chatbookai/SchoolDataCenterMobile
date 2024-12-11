@@ -100,7 +100,7 @@ const Login = ({ setCurrentTab, authConfig, setAuthConfig }: any) => {
       setAuthConfig(getConfig('@'+AppMarkId))
     }
     else {
-      setAuthConfig(getConfig('@dandian'))
+      setAuthConfig(getConfig('@dandian.net'))
     }
     console.log("authConfig", AppMarkId, authConfig)
   }, []);

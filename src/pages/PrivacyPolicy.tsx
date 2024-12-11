@@ -7,7 +7,7 @@ import { getConfig } from 'src/configs/auth'
 
 const PrivacyPolicy = () => {
 
-  const authConfig = getConfig('@dandian')
+  const authConfig = getConfig('@dandian.net')
 
   return <PrivacyPolicyModel authConfig={authConfig} />
 }
