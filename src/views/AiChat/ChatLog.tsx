@@ -495,8 +495,7 @@ const ChatLog = (props: any) => {
           borderRadius: 1,
           overflowX: 'hidden',
           overflowY: 'auto',
-          position: 'relative',
-          backgroundColor: 'background.paper'
+          position: 'relative'
         }}
       >
       <Box ref={chatArea} sx={{ p: 3, pb: 6, overflowY: 'auto', overflowX: 'hidden' }}>
