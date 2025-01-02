@@ -53,7 +53,7 @@ const AuthProvider = ({ children }: Props) => {
       if (authConfig && storedToken && storedToken!=undefined) {
         setLoading(true)
         await axios
-          .get(authConfig.meEndpoint, {
+          .get(authConfig.refreshEndpoint, {
             headers: {
               Authorization: storedToken
             }
@@ -81,14 +81,13 @@ const AuthProvider = ({ children }: Props) => {
                 dataJson = data
             }
             setLoading(false)
-            setUser({ ...dataJson.userData })
+            dataJson.userData && setUser({ ...dataJson.userData })
+            if(dataJson.status == "ERROR") {
+              handleLogout()
+            }
           })
           .catch(() => {
-            localStorage.removeItem('userData')
-            localStorage.removeItem('refreshToken')
-            localStorage.removeItem(defaultConfig.storageTokenKeyName)
-            localStorage.removeItem('GO_SYSTEM')
-            setUser(null)
+            handleLogout()
             setLoading(false)
           })
       }
@@ -150,10 +149,7 @@ const AuthProvider = ({ children }: Props) => {
           //router.replace(redirectURL as string)
         }
         else {
-          setUser(null)
-          window.localStorage.removeItem('userData')
-          window.localStorage.removeItem('GO_SYSTEM')
-          window.localStorage.removeItem(defaultConfig.storageTokenKeyName)
+          handleLogout()
           if (errorCallback) errorCallback({})
         }
       })
@@ -202,6 +198,10 @@ const AuthProvider = ({ children }: Props) => {
             setUser({ ...dataJson.userData })
           }
 
+          if(dataJson.status == 'ERROR') {
+            handleLogout()
+          }
+
         })
     }
   }
@@ -209,8 +209,20 @@ const AuthProvider = ({ children }: Props) => {
   const handleLogout = () => {
     setUser(null)
     window.localStorage.removeItem('userData')
-    window.localStorage.removeItem('GO_SYSTEM')
+    window.localStorage.removeItem('refreshToken')
+    window.localStorage.removeItem(defaultConfig.storageAccessKeyName)
     window.localStorage.removeItem(defaultConfig.storageTokenKeyName)
+    window.localStorage.removeItem('GO_SYSTEM')
+    const keysToRemove = Object.keys(window.localStorage).filter((key) =>
+      key.startsWith('ChatChat_ChatApp-')
+    );
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+    window.localStorage.removeItem('ChatChatHistory')
+    window.localStorage.removeItem('storageChatApp')
+    window.localStorage.removeItem('storageMainMenus')
+    window.localStorage.removeItem('storageMyCoursesList')
   }
 
   const handleRegister = (params: RegisterParams, errorCallback?: ErrCallbackType) => {
