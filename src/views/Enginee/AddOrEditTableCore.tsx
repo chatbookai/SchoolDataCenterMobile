@@ -267,10 +267,15 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                             setFieldArrayShow(fieldArrayShowTemp)
                         }
                         if (dataJson.data)              {
+                            if(dataJson.forceuse) {
+                              setAaddEditStructInfo2(dataJson.edit_default)
+                              setAllFields(dataJson.edit_default.allFields)
+                            }
                             const allEditorValuesTemp = { ...allEditorValues }
                             const autoCompleteMultiTemp:{[key:string]:any} = {}
-                            const allFieldsMode = addEditStructInfo2.allFieldsMode;
-                            const allFieldsTemp:{[key:string]:any} = JSON.parse(JSON.stringify(addEditStructInfo2.allFields))
+                            const allFieldsMode = dataJson.forceuse ? dataJson.edit_default.allFieldsMode : addEditStructInfo.allFieldsMode;
+                            const allFields = dataJson.forceuse ? dataJson.edit_default.allFields : addEditStructInfo.allFields;
+                            const allFieldsTemp:{[key:string]:any} = JSON.parse(JSON.stringify(allFields))
                             allFieldsMode && allFieldsMode.map((allFieldsModeItem: any) => {
                                 allFields && allFields[allFieldsModeItem.value] && allFields[allFieldsModeItem.value].map((FieldArray: any, FieldArray_index: number) => {
                                     if (FieldArray.type == "autocompletemulti") {
@@ -348,10 +353,6 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                             setAllFields(allFieldsTemp)
                             setAllEditorValues(allEditorValuesTemp)
                             setAutoCompleteMulti(autoCompleteMultiTemp)
-                            if(dataJson.forceuse) {
-                                setAaddEditStructInfo2(dataJson.edit_default)
-                                setAllFields(dataJson.edit_default.allFields)
-                            }
                             if(dataJson.childtable && dataJson.childtable.ChildItemCounter) {
                                 setChildItemCounter(dataJson.childtable.ChildItemCounter)
                             }
@@ -1073,9 +1074,9 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
 
     useEffect(()=>{
         allFieldsMode && allFieldsMode.map((allFieldsModeItem: any) => {
-            if(allFieldsModeItem && allFieldsModeItem.value) {
-                setSingleModelCounter(allFields[allFieldsModeItem.value].length - 1)
-            }
+          if(allFieldsModeItem && allFieldsModeItem.value && allFields[allFieldsModeItem.value]) {
+            setSingleModelCounter(allFields[allFieldsModeItem.value].length - 1)
+          }
         })
     }, [allFieldsMode])
 
