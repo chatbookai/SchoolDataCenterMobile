@@ -2487,7 +2487,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                                                                                             label={ItemArray.label}
                                                                                             key={ItemArray_index}
                                                                                             sx={errors[FieldArray.name] ? { color: 'error.main' } : null}
-                                                                                            control={<Radio size={componentsize} sx={errors[FieldArray.name] ? { color: 'error.main' } : null} />}
+                                                                                            control={<Radio disabled={FieldArray.rules.disabled} size={componentsize} sx={errors[FieldArray.name] ? { color: 'error.main' } : null} />}
                                                                                         />
                                                                                     )
                                                                                 })}
@@ -2547,6 +2547,7 @@ const AddOrEditTableCore = (props: AddOrEditTableType) => {
                                                                                             control={
                                                                                                 <Checkbox
                                                                                                     size={componentsize}
+                                                                                                    disabled={FieldArray.rules.disabled}
                                                                                                     sx={errors[FieldArray.name] ? { color: 'error.main' } : null}
                                                                                                     checked={TempValueArray.indexOf(ItemArray.value) == -1 ? false : true}
                                                                                                     onChange={(e) => {
