@@ -107,7 +107,6 @@ const SendMsgForm = (props: any) => {
                   padding: '0.5rem 0.1rem 0.5rem 0.5rem',
                   fontFamily: 'inherit', // 使用默认字体
                   fontWeight: '1000', // 使用默认字体粗细
-                  color: 'inherit', // 使用默认字体颜色
                   fontSize: '1rem', // 使用默认字体大小
                   outline: 'none', // 默认状态下无边框
                   boxShadow: 'none', // 默认状态下无阴影
