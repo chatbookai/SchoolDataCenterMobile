@@ -1,7 +1,7 @@
 
 export const AppSchoolConfigMap: any    = {}
-AppSchoolConfigMap['dandian.net']    = ["https://fdzz.dandian.net/api/", '单点数据中心', "auth/menusMobile.php", "https://fdzz.dandian.net/api/"]
-AppSchoolConfigMap['fdzyzz.com'] = ["https://fdzz.dandian.net/api/", '福鼎职业中专', "auth/menusMobile.php", "https://fdzz.dandian.net/api/"]
+AppSchoolConfigMap['dandian.net']    = ["https://fdzz.dandian.net:8443/api/", '单点数据中心', "auth/menusMobile.php", "https://fdzz.dandian.net:8443/api/"]
+AppSchoolConfigMap['fdzyzz.com'] = ["https://fdzz.dandian.net:8443/api/", '福鼎职业中专', "auth/menusMobile.php", "https://fdzz.dandian.net:8443/api/"]
 AppSchoolConfigMap['fjsmnx.com'] = ["https://dsj.fjsmlyxx.com:1443/api/", '三明林业学校', "auth/menusMobile.php", "https://dsj.fjsmlyxx.com:1443/api/"]
 
 export function getConfig(Username: string) {
