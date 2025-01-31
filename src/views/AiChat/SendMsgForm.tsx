@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles'
 import Box, { BoxProps } from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
+import { useTheme } from '@mui/material/styles'
 
 // ** Styled Components
 const ChatFormWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -32,6 +33,8 @@ const SendMsgForm = (props: any) => {
   // ** State
   const [msg, setMsg] = useState<string>('')
 
+  const theme = useTheme();
+
   const handleSendMsg = (e: SyntheticEvent) => {
     e.preventDefault()
     if (store && store.selectedChat && msg.trim().length) {
@@ -40,7 +43,6 @@ const SendMsgForm = (props: any) => {
     setMsg('')
     handleSetRowInMsg(1)
   }
-
 
   const handleKeyDown = (e: any) => {
     if (e.key === 'Enter') {
@@ -109,6 +111,8 @@ const SendMsgForm = (props: any) => {
                   fontSize: '1rem', // 使用默认字体大小
                   outline: 'none', // 默认状态下无边框
                   boxShadow: 'none', // 默认状态下无阴影
+                  color: theme.palette.text.primary, // 使用主题的主文本颜色
+                  backgroundColor: theme.palette.background.paper, // 使用主题的背景颜色
               }}
             />
             {sendButtonDisable ?
